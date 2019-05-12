@@ -2,10 +2,12 @@
 // ofxGuiPresetSelector.h
 // Nicola Pisanti, MIT License, 2016
 
+// added by moebiussurfing:
+// + switched from ofxGui to ofxGuiExtended
+
 #pragma once
 
 #include "ofMain.h"
-//#include "ofxGui.h"
 #include "ofxGuiExtended.h"
 
 class ofxGuiPresetSelector {
@@ -14,11 +16,9 @@ public:
     ofxGuiPresetSelector();
 
     // add a gui for preset saving
-//    void add( ofxPanel & gui, int numPresets=8 );
     void add( ofxGuiPanel & gui, int numPresets=8 );
 
     // adds and activate key switch
-//    void add( ofxPanel & gui, initializer_list<int> keysList );
     void add( ofxGuiPanel & gui, initializer_list<int> keysList );
 
     // save to a preset
@@ -59,7 +59,6 @@ private:
     int getGuiIndex(string name ) const;
     string presetName( string guiName, int presetIndex );
 
-//    vector<ofxPanel*>   guis;
     vector<ofxGuiPanel*>   guis;
     vector<int>         lastIndices;
     vector<int>         presets;

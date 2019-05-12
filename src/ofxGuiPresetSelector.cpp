@@ -37,8 +37,6 @@ string ofxGuiPresetSelector::presetName( string guiName, int presetIndex ) {
     return (guiName + "_preset_" + ofToString(presetIndex) + ".xml" );
 }
 
-
-//void ofxGuiPresetSelector::add( ofxPanel & gui, int numPresets ) {
 void ofxGuiPresetSelector::add( ofxGuiPanel & gui, int numPresets ) {
     guis.push_back( &gui );
     lastIndices.push_back( 0 );
@@ -46,8 +44,6 @@ void ofxGuiPresetSelector::add( ofxGuiPanel & gui, int numPresets ) {
     presets.push_back(numPresets);
 }
 
-
-//void ofxGuiPresetSelector::add( ofxPanel & gui, initializer_list<int> keysList ) {
 void ofxGuiPresetSelector::add( ofxGuiPanel & gui, initializer_list<int> keysList ) {
 
     add( gui, keysList.size() );
