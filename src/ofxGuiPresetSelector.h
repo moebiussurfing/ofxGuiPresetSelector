@@ -5,7 +5,8 @@
 #pragma once
 
 #include "ofMain.h"
-#include "ofxGui.h"
+//#include "ofxGui.h"
+#include "ofxGuiExtended.h"
 
 class ofxGuiPresetSelector {
     
@@ -13,10 +14,12 @@ public:
     ofxGuiPresetSelector();
 
     // add a gui for preset saving
-    void add( ofxPanel & gui, int numPresets=8 );
+//    void add( ofxPanel & gui, int numPresets=8 );
+    void add( ofxGuiPanel & gui, int numPresets=8 );
 
     // adds and activate key switch
-    void add( ofxPanel & gui, initializer_list<int> keysList );
+//    void add( ofxPanel & gui, initializer_list<int> keysList );
+    void add( ofxGuiPanel & gui, initializer_list<int> keysList );
 
     // save to a preset
     void save( int presetIndex, int guiIndex=0 ); 
@@ -56,7 +59,8 @@ private:
     int getGuiIndex(string name ) const;
     string presetName( string guiName, int presetIndex );
 
-    vector<ofxPanel*>   guis;
+//    vector<ofxPanel*>   guis;
+    vector<ofxGuiPanel*>   guis;
     vector<int>         lastIndices;
     vector<int>         presets;
 
