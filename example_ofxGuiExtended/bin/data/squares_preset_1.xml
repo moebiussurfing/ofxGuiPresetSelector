@@ -1,6 +1,7 @@
+<?xml version="1.0"?>
 <squares>
-	<num_squares>5</num_squares>
-	<separation>5</separation>
-	<square_side>93</square_side>
-<squares/>
+	<num_squares>12</num_squares>
+	<separation>10</separation>
+	<square_side>127</square_side>
+	<squares />
 </squares>

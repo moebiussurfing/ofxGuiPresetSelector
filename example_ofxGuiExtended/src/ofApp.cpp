@@ -2,14 +2,13 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-
+    ofSetFrameRate(60);
     ofSetWindowTitle("ofxGuiSelector example");
-    ofDisableAntiAliasing();
+
+//    ofDisableAntiAliasing();
 
     panel = gui.addPanel();
-
-
-    //    panel->setup("", "squares.xml", 10, 10);
+    //panel->setup("", "squares.xml", 10, 10);
 
     panel->setName("squares"); // it is really important to set the name as it will be used as base for the .xml preset files
                                // remember to give each ofxPanel an unique name
@@ -40,8 +39,7 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-
-
+    ofSetWindowTitle(ofToString( ofGetFrameRate() ) );
 }
 
 //--------------------------------------------------------------
@@ -53,8 +51,6 @@ void ofApp::exit(){
 void ofApp::draw(){
 
     ofBackground(0);
-    
-    //    panel->draw();
 
     ofSetColor(255, 95, 95);
     ofNoFill();
