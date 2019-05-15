@@ -1,6 +1,11 @@
 
-// ofxGuiPresetSelector.cpp
+// ofxGuiPresetSelector.h
 // Nicola Pisanti, MIT License, 2016
+//
+// changes by moebiussurfing:
+// + switched from ofxGui to ofxGuiExtended
+// + switched preset mangement from ofxGuiPanel to ofParametersGroup
+// TODO: add vectors, structs, json utils..
 
 #include "ofxGuiPresetSelector.h"
 
@@ -10,8 +15,9 @@ ofxGuiPresetSelector::ofxGuiPresetSelector(){
     bKeys = false;
     keysNotActivated = true;
     bKeySave = false;
-    
-    guis.reserve(32);
+
+    groups.reserve(32);
+
     lastIndices.reserve(32);
     keys.reserve(32);
     
@@ -22,95 +28,120 @@ ofxGuiPresetSelector::ofxGuiPresetSelector(){
 
 
 int ofxGuiPresetSelector::getGuiIndex( string name ) const {
-    
-    for( size_t i = 0; i<guis.size(); ++i ){
-        if( guis[i]->getName() == name ){
+
+    for( size_t i = 0; i<groups.size(); ++i ){
+        if( groups[i].getName() == name ){
             return i;
         }
+        return -1;
     }
-    
-    return -1;
 }
-
 
 string ofxGuiPresetSelector::presetName( string guiName, int presetIndex ) {
     return (guiName + "_preset_" + ofToString(presetIndex) + ".xml" );
 }
 
-void ofxGuiPresetSelector::add( ofxGuiPanel & gui, int numPresets ) {
-    guis.push_back( &gui );
-    lastIndices.push_back( 0 );
-    newIndices.push_back( 0 );
+
+void ofxGuiPresetSelector::add( ofParameterGroup group, int numPresets ) {
+
+    groups.push_back(group);
+
+    lastIndices.push_back(0);
+    newIndices.push_back(0);
     presets.push_back(numPresets);
 }
 
-void ofxGuiPresetSelector::add( ofxGuiPanel & gui, initializer_list<int> keysList ) {
 
-    add( gui, keysList.size() );
-    keys.resize(guis.size());
-    int i = guis.size() - 1;
-    
+void ofxGuiPresetSelector::add( ofParameterGroup group, initializer_list<int> keysList ) {
+
+    add( group, keysList.size() );
+
+    keys.resize(groups.size());
+    int i = groups.size() - 1;
+
     keys[i].reserve(keysList.size());
-    
+
     for (const int & key : keysList) keys[i].push_back( key );
 
     if(keysNotActivated) addKeysListeners();
-    
+
 }
-    
-    
+
+//-
+
+// groups
+
 void ofxGuiPresetSelector::save( int presetIndex, int guiIndex ) {
-    if(guiIndex>=0 && guiIndex<(int)guis.size()){
-        guis[guiIndex]->saveToFile( presetName( guis[guiIndex]->getName(), presetIndex) );
+    if(guiIndex>=0 && guiIndex<(int)groups.size()){
+
+        ofXml settings;
+        std::string n = presetName( groups[guiIndex].getName(), presetIndex);
+        ofSerialize( settings, groups[guiIndex] );
+        settings.save( n );
     }
 }
 
 void ofxGuiPresetSelector::load( int presetIndex, int guiIndex ) {
-    if(guiIndex>=0 && guiIndex<(int)guis.size()){
-        guis[guiIndex]->loadFromFile( presetName( guis[guiIndex]->getName(), presetIndex) );
+    if(guiIndex>=0 && guiIndex<(int)groups.size()){
+
+        ofXml settings;
+        settings.load(  presetName( groups[guiIndex].getName(), presetIndex) );
+        ofDeserialize(settings, groups[guiIndex] );
+
         lastIndices[guiIndex] = presetIndex;
     }
 }
-    
-    
+
+
 void ofxGuiPresetSelector::save( int presetIndex, string guiName ) {
     int guiIndex = getGuiIndex(guiName);
-    
-    if(guiIndex>=0 && guiIndex<(int)guis.size()){
-        guis[guiIndex]->saveToFile( presetName( guiName, presetIndex) );
+
+    if(guiIndex>=0 && guiIndex<(int)groups.size()){
+        ofXml settings;
+        string n = presetName( guiName, presetIndex);
+        ofSerialize( settings, groups[guiIndex] );
+        settings.save( n );
     }
 }
 
 
 void ofxGuiPresetSelector::load( int presetIndex, string guiName ) {
     int guiIndex = getGuiIndex(guiName);
-    
-    if(guiIndex>=0 && guiIndex<(int)guis.size()){
-        guis[guiIndex]->loadFromFile( presetName( guiName, presetIndex) );
+
+    if(guiIndex>=0 && guiIndex<(int)groups.size()){
+
+        ofXml settings;
+        settings.load( presetName( guiName, presetIndex) );
+        ofDeserialize(settings, groups[guiIndex]);
+
         lastIndices[guiIndex] = presetIndex;
     }
 }
 
+//-
+
+// group
 
 int ofxGuiPresetSelector::getPresetIndex( int guiIndex ) const {
-    if(guiIndex>0 && guiIndex<(int)guis.size()){
+    if(guiIndex>0 && guiIndex<(int)groups.size()){
         return lastIndices[guiIndex];
     }else{
         return -1;
-    }    
+    }
 }
 
 
 int ofxGuiPresetSelector::getPresetIndex( string guiName )const {
     int guiIndex = getGuiIndex(guiName);
-    
-    if(guiIndex>0 && guiIndex<(int)guis.size()){
+
+    if(guiIndex>0 && guiIndex<(int)groups.size()){
         return lastIndices[guiIndex];
     }else{
         return -1;
-    }    
+    }
 }
 
+//-
 
 void ofxGuiPresetSelector::setModeKey( int key ){
     modeKey = key;
@@ -205,7 +236,7 @@ void ofxGuiPresetSelector::draw( ) {
             
             
             k++;
-            ofDrawBitmapString( guis[i]->getName(), cellSize*k+8, cellSize*i+18 );
+            ofDrawBitmapString( groups[i].getName(), cellSize*k+8, cellSize*i+18 );
         }
     ofPopStyle();
     ofPopMatrix();
@@ -223,7 +254,7 @@ void ofxGuiPresetSelector::mousePressed( int x, int y ) {
     xIndex = (x>0) ? xIndex : -1;
     yIndex = (y>0) ? yIndex : -1;
     
-    if( yIndex >=0 &&  yIndex < (int)guis.size() ){
+    if( yIndex >=0 &&  yIndex < (int)groups.size() ){
         if(xIndex>=0 && xIndex< presets[yIndex] ){
             //load
             if(bDelayedLoading){
@@ -245,7 +276,7 @@ void ofxGuiPresetSelector::setDelayedLoading( bool active ) {
 
 
 void ofxGuiPresetSelector::delayedLoad( int presetIndex, int guiIndex ) {
-    if(guiIndex>=0 && guiIndex<(int)guis.size()){
+    if(guiIndex>=0 && guiIndex<(int)groups.size()){
         newIndices[guiIndex] = presetIndex;
     }
 }
@@ -253,14 +284,14 @@ void ofxGuiPresetSelector::delayedLoad( int presetIndex, int guiIndex ) {
 
 void ofxGuiPresetSelector::delayedLoad( int presetIndex, string guiName ) {
     int guiIndex = getGuiIndex(guiName);
-    if(guiIndex>=0 && guiIndex<(int)guis.size()){
+    if(guiIndex>=0 && guiIndex<(int)groups.size()){
         newIndices[guiIndex] = presetIndex;
     } 
 }
 
 
 void ofxGuiPresetSelector::delayedUpdate() {
-    for(size_t i=0; i<guis.size(); ++i){
+    for(size_t i=0; i<groups.size(); ++i){
         if(newIndices[i]!=lastIndices[i]){
             load( newIndices[i], i);
         }
