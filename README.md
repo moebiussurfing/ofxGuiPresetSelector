@@ -3,7 +3,7 @@ ofxGuiPresetSelector
 
 --
 
-changes by moebiussurfing:
+changes by moebiussurfing fork:
 
 + switched from ofxGui/ofxGuiPanel to ofxGuiExtended.
 + switched preset mangement from ofxGuiExtended to ofParametersGroup.
