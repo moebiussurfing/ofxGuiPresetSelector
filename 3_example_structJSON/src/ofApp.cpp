@@ -32,25 +32,26 @@ void ofApp::setup(){
 
     //--
 
-    // setup 'ofParameterGroup params'
+    // setup DATA
+
     setup_group();
 
     //-
 
-    // GUI
-    
-    panel = gui.addPanel();
-    group = panel->addGroup(params);
-    panel->setPosition(10, 10);
+//    // GUI
+//
+//    panel = gui.addPanel();
+//    group = panel->addGroup(params);
+//    panel->setPosition(10, 10);
 
     //-
 
     // PRESET MANAGER
 
-//    selector.add( *panel, { '1', '2', '3', '4', '5'} );
-//    // selector.add( gui, 6 ); // add without activating key switch, 6 presets
-//    // selector.add( anotherGui, {'q', 'w', 'e', 'r', 't', 'y'} ); // add another gui with other keys
-//    // selector.setModeKey( OF_KEY_TAB ); // change the key you have to hold for saving
+//    PRESETS_manager.add( *panel, { '1', '2', '3', '4', '5'} );
+//    // PRESETS_manager.add( gui, 6 ); // add without activating key switch, 6 presets
+//    // PRESETS_manager.add( anotherGui, {'q', 'w', 'e', 'r', 't', 'y'} ); // add another gui with other keys
+//    // PRESETS_manager.setModeKey( OF_KEY_TAB ); // change the key you have to hold for saving
 //    // remember that the switch key change the keycodes
 //    // so it shouldn't work
 //
@@ -59,16 +60,19 @@ void ofApp::setup(){
 
     //-
 
-//    selector.add( params, { '1', '2', '3', '4', '5'} );
-    selector.add( myDataGrid, { '1', '2', '3', '4', '5'} );
+    // ofParameterGroup params
+//    PRESETS_manager.add( params, { '1', '2', '3', '4', '5'} );
+
+    // custom DATA
+    PRESETS_manager.add( myDataGrid, { '1', '2', '3', '4', '5'} );
 
     //-
 
     // x, y, button size
-    selector.setPosition( 20, 360, 50 );
+    PRESETS_manager.setPosition( 20, 360, 50 );
 
-    selector.load( 1 ); // load the second preset of the first added gui
-    //selector.load( 0, 1 ); // load the first preset of the second added gui
+    PRESETS_manager.load( 1 ); // load the second preset of the first added gui
+    //PRESETS_manager.load( 0, 1 ); // load the first preset of the second added gui
 
     // remember to have a bin/data folder in your app directories
     // there are already 3 saved presets in the bin/data folder of this example
@@ -93,14 +97,15 @@ void ofApp::setup_group(){
 
     //-
 
-    // int parameters
-
-    params.setName("squares");
-    // it is really important to set the name as it will be used as base for the .xml preset files
-    // remember to give each ofxPanel an unique name
-    params.add( numSquares.set("num squares", 1, 1, 24) );
-    params.add( separation.set("separation", 5, 1, 100) );
-    params.add( squareSide.set("square side", 50, 5, 200) );
+// setup 'ofParameterGroup params'
+//    // int parameters
+//
+//    params.setName("squares");
+//    // it is really important to set the name as it will be used as base for the .xml preset files
+//    // remember to give each ofxPanel an unique name
+//    params.add( numSquares.set("num squares", 1, 1, 24) );
+//    params.add( separation.set("separation", 5, 1, 100) );
+//    params.add( squareSide.set("square side", 50, 5, 200) );
 
     //-
 
@@ -126,22 +131,22 @@ void ofApp::draw(){
 
     ofBackground(0);
 
-    ofSetColor(255, 95, 95);
-    ofNoFill();
-    ofPushMatrix();
-    ofTranslate( 320, 50 );
-    for( int i=0; i<numSquares; ++i){
-        ofDrawRectangle(0, 0, squareSide, squareSide);
-        ofTranslate( separation, separation );
-    }
-    ofPopMatrix();
+//    ofSetColor(255, 95, 95);
+//    ofNoFill();
+//    ofPushMatrix();
+//    ofTranslate( 320, 50 );
+//    for( int i=0; i<numSquares; ++i){
+//        ofDrawRectangle(0, 0, squareSide, squareSide);
+//        ofTranslate( separation, separation );
+//    }
+//    ofPopMatrix();
 
-    selector.draw();
+    PRESETS_manager.draw();
     // draws some minimalistic graphics to monitor the active preset
     // when graphics are drawn you can also click on them for saving/loading
 
     string info = "press 1-5 for loading a preset, press CTRL+1-5 for saving presets\n";
-    info += "or click on the selector buttons above\n";
+    info += "or click on the PRESETS_manager buttons above\n";
     info += "the last button save the currently selected preset";
     ofDrawBitmapString( info , 20, ofGetHeight() - 40 );
     
