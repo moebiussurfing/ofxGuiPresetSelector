@@ -4,6 +4,11 @@
 
 #include "ofxGuiPresetSelector.h"
 
+#include "DataGrid.h"
+
+
+//--
+
 class ofApp : public ofBaseApp{
 
 public:
@@ -62,7 +67,8 @@ public:
 
     //--
 
+    DataGrid myDataGrid;
 
-    //-
+    //--
 
     };

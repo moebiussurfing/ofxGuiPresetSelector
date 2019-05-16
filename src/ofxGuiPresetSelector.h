@@ -11,6 +11,7 @@
 
 #include "ofMain.h"
 #include "ofxGuiExtended.h"
+#include "DataGrid.h"
 
 class ofxGuiPresetSelector {
     
