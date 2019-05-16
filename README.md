@@ -3,7 +3,7 @@ ofxGuiPresetSelector
 
 --
 
-changes by this moebiussurfing fork:
+Changes by this moebiussurfing fork:
 
 Changes log:
 + switched from ofxGui/ofxGuiPanel to ofxGuiExtended.
