@@ -13,16 +13,46 @@
 #include "ofxGuiExtended.h"
 #include "DataGrid.h"
 
+//-
+
+#define USE_DATAGRID //un-comment to use ofParameterGroup. can't use both together
+
+#ifndef USE_DATA_GRID
+#define USE_OF_PARAMETER_GROUP
+#endif
+
+//-
+
 class ofxGuiPresetSelector {
     
 public:
     ofxGuiPresetSelector();
 
+    //-
+
+//    // ofParameterGroup
+//
+//#ifdef USE_OF_PARAMETER_GROUP
+//    // add a gui for preset saving
+//    void add( ofParameterGroup group, int numPresets=8 );
+//
+//    // adds and activate key switch
+//    void add( ofParameterGroup group, initializer_list<int> keysList );
+//#endif
+
+    //-
+
+    // custom DataGrid class
+
+#ifdef USE_DATAGRID
     // add a gui for preset saving
-    void add( ofParameterGroup group, int numPresets=8 );
+    void add( DataGrid grid, int numPresets=8 );
 
     // adds and activate key switch
-    void add( ofParameterGroup group, initializer_list<int> keysList );
+    void add( DataGrid grid, initializer_list<int> keysList );
+#endif
+
+    //-
 
     // save to a preset
     void save( int presetIndex, int guiIndex=0 );
@@ -64,7 +94,17 @@ private:
 
     //-
 
-    vector<ofParameterGroup> groups;
+    // DATA
+
+//    // ofParameterGroup
+//#ifdef USE_OF_PARAMETER_GROUP
+//    vector<ofParameterGroup> groups;
+//#endif
+
+    // custom DataGrid class
+#ifdef USE_DATAGRID
+    vector<DataGrid> grids;
+#endif
 
     //-
 

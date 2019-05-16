@@ -6,46 +6,46 @@ void ofApp::setup(){
     ofDisableAntiAliasing();
     ofSetWindowTitle("ofxGuiSelector example");
 
-    //-
-
-    myDataGrid.id = 1;
-    myDataGrid.name = "grid_" + ofToString(myDataGrid.id) + ".json";
-
-    //-
-
-    // initiate
-
-    for( size_t n = 0; n < NUM_SEQ_NOTES; n++ )
-    {
-        cout << "rowNote_" << n << " -- ";
-
-        for( size_t b = 0; b < NUM_SEQ_BEATS; b++ )
-        {
-            int iState = (int) ofRandom(0, 2);
-            cout << "b" << b << ":" <<iState << " ";
-
-            myDataGrid.grid[n][b] = iState;
-        }
-        cout << endl;
-    }
-
-    //-
-
-    // save
-
-    myDataGrid.save_JSON( myDataGrid.name );
-
-    //-
-
-    // load json
-
-    myDataGrid.load_JSON( myDataGrid.name );
-
-    //-
-
-    // dump grid
-
-    myDataGrid.dump_grid( myDataGrid.name );
+//    //-
+//
+//    myDataGrid.id = 1;
+//    myDataGrid.name = "grid_" + ofToString(myDataGrid.id) + ".json";
+//
+//    //-
+//
+//    // initiate
+//
+//    for( size_t n = 0; n < NUM_SEQ_NOTES; n++ )
+//    {
+//        cout << "rowNote_" << n << " -- ";
+//
+//        for( size_t b = 0; b < NUM_SEQ_BEATS; b++ )
+//        {
+//            int iState = (int) ofRandom(0, 2);
+//            cout << "b" << b << ":" <<iState << " ";
+//
+//            myDataGrid.grid[n][b] = iState;
+//        }
+//        cout << endl;
+//    }
+//
+//    //-
+//
+//    // save
+//
+//    myDataGrid.save_JSON( myDataGrid.name );
+//
+//    //-
+//
+//    // load json
+//
+//    myDataGrid.load_JSON( myDataGrid.name );
+//
+//    //-
+//
+//    // dump grid
+//
+//    myDataGrid.dump_grid();
 
     //--
 
@@ -62,6 +62,8 @@ void ofApp::setup(){
 
     //-
 
+    // PRESET MANAGER
+
 //    selector.add( *panel, { '1', '2', '3', '4', '5'} );
 //    // selector.add( gui, 6 ); // add without activating key switch, 6 presets
 //    // selector.add( anotherGui, {'q', 'w', 'e', 'r', 't', 'y'} ); // add another gui with other keys
@@ -72,7 +74,12 @@ void ofApp::setup(){
 //    // remember to have a bin/data folder in your app directories
 //    // the first time you save you probably have to press the key twices, the first it just create the .xml file
 
-    selector.add( params, { '1', '2', '3', '4', '5'} );
+    //-
+
+//    selector.add( params, { '1', '2', '3', '4', '5'} );
+    selector.add( myDataGrid, { '1', '2', '3', '4', '5'} );
+
+    //-
 
     // x, y, button size
     selector.setPosition( 20, 360, 50 );
@@ -112,6 +119,11 @@ void ofApp::setup_group(){
     params.add( separation.set("separation", 5, 1, 100) );
     params.add( squareSide.set("square side", 50, 5, 200) );
 
+    //-
+
+    myDataGrid.setName("stepSequencer");
+
+    //-
 }
 
 //--------------------------------------------------------------

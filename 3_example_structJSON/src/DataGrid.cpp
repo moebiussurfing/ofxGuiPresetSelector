@@ -14,6 +14,24 @@ DataGrid::DataGrid()
     //    grid.resize(32);
 }
 
+//string ofxGuiElement::getName(){
+//    return getParameter().getName();
+//}
+//
+//void ofxGuiElement::setName(const std::string& _name){
+
+//------------------------------------------------
+//void DataGrid::setName(const std::string& _name){
+void DataGrid::setName(const std::string _name){
+//void DataGrid::setName(string _name) {
+    name = _name;
+}
+
+//------------------------------------------------
+string DataGrid::getName(){
+    return name;
+}
+
 //------------------------------------------------
 void DataGrid::save_JSON(string path)
 {
@@ -57,7 +75,7 @@ void DataGrid::save_JSON(string path)
 
 
 //------------------------------------------------
-void DataGrid::dump_grid(string path)
+void DataGrid::dump_grid()
 {
     ofLogNotice("DataGrid") << "dump_grid";
 
