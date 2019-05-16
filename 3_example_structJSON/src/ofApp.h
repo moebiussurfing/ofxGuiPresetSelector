@@ -52,14 +52,14 @@ public:
     // NOTES:
 
     // pointer
-    // ofParameterGroup * params;
+    // A. ofParameterGroup * params;
     // void add( ofParameterGroup & group, initializer_list<int> keysList );
     // void ofxGuiPresetSelector::add( ofParameterGroup & group, int numPresets ) {
     // vector<ofParameterGroup*> groups;
     // groups.push_back( &group );
 
     // no-pointer
-    // ofParameterGroup params;
+    // A. ofParameterGroup params;
     // void add( ofParameterGroup group, initializer_list<int> keysList );
     // void ofxGuiPresetSelector::add( ofParameterGroup group, int numPresets ) {
     // vector<ofParameterGroup> groups;

@@ -96,18 +96,25 @@ void DataGrid::randomize_grid() {
 
     // random initiate
 
+    string str;
+
     for( size_t n = 0; n < NUM_SEQ_NOTES; n++ )
     {
-        cout << subTag << n << " -- ";
+        ofLogNotice("DataGrid") << subTag + ofToString(n ) + " -- ";
+        //        cout << subTag << n << " -- ";
 
         for( size_t b = 0; b < NUM_SEQ_BEATS; b++ )
         {
             int iState = (int) ofRandom(0, 2);
-            cout << "b" << b << ":" <<iState << " ";
+
+            //            cout << "b" << b << ":" <<iState << " ";
+            str +=  "b" + ofToString(b) + ":" + ofToString(iState) + " ";
 
             grid[n][b] = iState;
         }
-        cout << endl;
+        //        cout << endl;
+
+        ofLogNotice("DataGrid") << str;
     }
 
     //-
@@ -154,7 +161,7 @@ void DataGrid::load_JSON(string path)
 
     //-
 
-//    // re init randomize when no json files are present
+//    // testing: re init randomize when no json files are present
 //
 //    randomize_grid();
 

@@ -16,13 +16,13 @@ ofxGuiPresetSelector::ofxGuiPresetSelector(){
     keysNotActivated = true;
     bKeySave = false;
 
-//    // groups
-//#ifdef USE_OF_PARAMETER_GROUP
-//    groups.reserve(32);
-//#endif
+    // groups
+#ifdef USE_OF_PARAMETER_GROUP
+    groups.reserve(32);
+#endif
 
-    // custom DataGrid class
-#ifdef USE_DATAGRID
+    // B. custom DataGrid class
+#ifdef USE_CUSTOM_DATAGRID
     grids.reserve(32);
 #endif
 
@@ -34,21 +34,21 @@ ofxGuiPresetSelector::ofxGuiPresetSelector(){
     bDelayedLoading = false;
 }
 
-//// ofParameterGroup
-//#ifdef USE_OF_PARAMETER_GROUP
-//int ofxGuiPresetSelector::getGuiIndex( string name ) const {
-//
-//    for( size_t i = 0; i<groups.size(); ++i ){
-//        if( groups[i].getName() == name ){
-//            return i;
-//        }
-//        return -1;
-//    }
-//}
-//#endif
+// A. ofParameterGroup
+#ifdef USE_OF_PARAMETER_GROUP
+int ofxGuiPresetSelector::getGuiIndex( string name ) const {
 
-// custom DataGrid class
-#ifdef USE_DATAGRID
+    for( size_t i = 0; i<groups.size(); ++i ){
+        if( groups[i].getName() == name ){
+            return i;
+        }
+        return -1;
+    }
+}
+#endif
+
+// B. custom DataGrid class
+#ifdef USE_CUSTOM_DATAGRID
 int ofxGuiPresetSelector::getGuiIndex( string name ) const {
 
     for( size_t i = 0; i<grids.size(); ++i ){
@@ -56,7 +56,7 @@ int ofxGuiPresetSelector::getGuiIndex( string name ) const {
         string myName = grids[i].getName();
 
         if( myName == name ){
-//        if( grids[i].getName() == name ){
+        // if( grids[i].getName() == name ){
 
             return i;
         }
@@ -67,11 +67,12 @@ int ofxGuiPresetSelector::getGuiIndex( string name ) const {
 
 
 string ofxGuiPresetSelector::presetName( string guiName, int presetIndex ) {
-//#ifdef USE_OF_PARAMETER_GROUP
-//    return (guiName + "_preset_" + ofToString(presetIndex) + ".xml" );
-//#endif
 
-#ifdef USE_DATAGRID
+#ifdef USE_OF_PARAMETER_GROUP
+    return (guiName + "_preset_" + ofToString(presetIndex) + ".xml" );
+#endif
+
+#ifdef USE_CUSTOM_DATAGRID
     return (guiName + "_preset_" + ofToString(presetIndex) + ".json" );
 #endif
 
@@ -79,39 +80,39 @@ string ofxGuiPresetSelector::presetName( string guiName, int presetIndex ) {
 
 //-
 
-//// ofParameterGroup
-//
-//#ifdef USE_OF_PARAMETER_GROUP
-//void ofxGuiPresetSelector::add( ofParameterGroup group, int numPresets ) {
-//
-//    // add a gui for preset saving
-//
-//    groups.push_back(group);
-//
-//    lastIndices.push_back(0);
-//    newIndices.push_back(0);
-//    presets.push_back(numPresets);
-//}
-//void ofxGuiPresetSelector::add( ofParameterGroup group, initializer_list<int> keysList ) {
-//
-//    add( group, keysList.size() );
-//
-//    keys.resize(groups.size());
-//    int i = groups.size() - 1;
-//
-//    keys[i].reserve(keysList.size());
-//
-//    for (const int & key : keysList) keys[i].push_back( key );
-//
-//    if(keysNotActivated) addKeysListeners();
-//}
-//#endif
+// A. ofParameterGroup
+
+#ifdef USE_OF_PARAMETER_GROUP
+void ofxGuiPresetSelector::add( ofParameterGroup group, int numPresets ) {
+
+    // add a gui for preset saving
+
+    groups.push_back(group);
+
+    lastIndices.push_back(0);
+    newIndices.push_back(0);
+    presets.push_back(numPresets);
+}
+void ofxGuiPresetSelector::add( ofParameterGroup group, initializer_list<int> keysList ) {
+
+    add( group, keysList.size() );
+
+    keys.resize(groups.size());
+    int i = groups.size() - 1;
+
+    keys[i].reserve(keysList.size());
+
+    for (const int & key : keysList) keys[i].push_back( key );
+
+    if(keysNotActivated) addKeysListeners();
+}
+#endif
 
 //-
 
-// custom DataGrid class
+// B. custom DataGrid class
 
-#ifdef USE_DATAGRID
+#ifdef USE_CUSTOM_DATAGRID
 void ofxGuiPresetSelector::add( DataGrid grid, int numPresets ) {
 
     // add a gui for preset saving
@@ -139,57 +140,57 @@ void ofxGuiPresetSelector::add( DataGrid grid, initializer_list<int> keysList ) 
 
 //-
 
-//// ofParameterGroup
-//
-//#ifdef USE_OF_PARAMETER_GROUP
-//void ofxGuiPresetSelector::save( int presetIndex, int guiIndex ) {
-//    if(guiIndex>=0 && guiIndex<(int)groups.size()){
-//
-//        ofXml settings;
-//        std::string n = presetName( groups[guiIndex].getName(), presetIndex);
-//        ofSerialize( settings, groups[guiIndex] );
-//        settings.save( n );
-//    }
-//}
-//void ofxGuiPresetSelector::load( int presetIndex, int guiIndex ) {
-//    if(guiIndex>=0 && guiIndex<(int)groups.size()){
-//
-//        ofXml settings;
-//        settings.load(  presetName( groups[guiIndex].getName(), presetIndex) );
-//        ofDeserialize(settings, groups[guiIndex] );
-//
-//        lastIndices[guiIndex] = presetIndex;
-//    }
-//}
-//void ofxGuiPresetSelector::save( int presetIndex, string guiName ) {
-//    int guiIndex = getGuiIndex(guiName);
-//
-//    if(guiIndex>=0 && guiIndex<(int)groups.size()){
-//        ofXml settings;
-//        string n = presetName( guiName, presetIndex);
-//        ofSerialize( settings, groups[guiIndex] );
-//        settings.save( n );
-//    }
-//}
-//void ofxGuiPresetSelector::load( int presetIndex, string guiName ) {
-//    int guiIndex = getGuiIndex(guiName);
-//
-//    if(guiIndex>=0 && guiIndex<(int)groups.size()){
-//
-//        ofXml settings;
-//        settings.load( presetName( guiName, presetIndex) );
-//        ofDeserialize(settings, groups[guiIndex]);
-//
-//        lastIndices[guiIndex] = presetIndex;
-//    }
-//}
-//#endif
+// A. ofParameterGroup
+
+#ifdef USE_OF_PARAMETER_GROUP
+void ofxGuiPresetSelector::save( int presetIndex, int guiIndex ) {
+    if(guiIndex>=0 && guiIndex<(int)groups.size()){
+
+        ofXml settings;
+        std::string n = presetName( groups[guiIndex].getName(), presetIndex);
+        ofSerialize( settings, groups[guiIndex] );
+        settings.save( n );
+    }
+}
+void ofxGuiPresetSelector::load( int presetIndex, int guiIndex ) {
+    if(guiIndex>=0 && guiIndex<(int)groups.size()){
+
+        ofXml settings;
+        settings.load(  presetName( groups[guiIndex].getName(), presetIndex) );
+        ofDeserialize(settings, groups[guiIndex] );
+
+        lastIndices[guiIndex] = presetIndex;
+    }
+}
+void ofxGuiPresetSelector::save( int presetIndex, string guiName ) {
+    int guiIndex = getGuiIndex(guiName);
+
+    if(guiIndex>=0 && guiIndex<(int)groups.size()){
+        ofXml settings;
+        string n = presetName( guiName, presetIndex);
+        ofSerialize( settings, groups[guiIndex] );
+        settings.save( n );
+    }
+}
+void ofxGuiPresetSelector::load( int presetIndex, string guiName ) {
+    int guiIndex = getGuiIndex(guiName);
+
+    if(guiIndex>=0 && guiIndex<(int)groups.size()){
+
+        ofXml settings;
+        settings.load( presetName( guiName, presetIndex) );
+        ofDeserialize(settings, groups[guiIndex]);
+
+        lastIndices[guiIndex] = presetIndex;
+    }
+}
+#endif
 
 //-
 
-// custom DataGrid class
+// B. custom DataGrid class
 
-#ifdef USE_DATAGRID
+#ifdef USE_CUSTOM_DATAGRID
 void ofxGuiPresetSelector::save( int presetIndex, int guiIndex ) {
     if(guiIndex>=0 && guiIndex<(int)grids.size()){
 
@@ -234,28 +235,28 @@ void ofxGuiPresetSelector::load( int presetIndex, string guiName ) {
 
 //-
 
-//// ofParameterGroup
-//#ifdef USE_OF_PARAMETER_GROUP
-//int ofxGuiPresetSelector::getPresetIndex( int guiIndex ) const {
-//    if(guiIndex>0 && guiIndex<(int)groups.size()){
-//        return lastIndices[guiIndex];
-//    }else{
-//        return -1;
-//    }
-//}
-//int ofxGuiPresetSelector::getPresetIndex( string guiName )const {
-//    int guiIndex = getGuiIndex(guiName);
-//
-//    if(guiIndex>0 && guiIndex<(int)groups.size()){
-//        return lastIndices[guiIndex];
-//    }else{
-//        return -1;
-//    }
-//}
-//#endif
+// A. ofParameterGroup
+#ifdef USE_OF_PARAMETER_GROUP
+int ofxGuiPresetSelector::getPresetIndex( int guiIndex ) const {
+    if(guiIndex>0 && guiIndex<(int)groups.size()){
+        return lastIndices[guiIndex];
+    }else{
+        return -1;
+    }
+}
+int ofxGuiPresetSelector::getPresetIndex( string guiName )const {
+    int guiIndex = getGuiIndex(guiName);
 
-// custom DataGrid class
-#ifdef USE_DATAGRID
+    if(guiIndex>0 && guiIndex<(int)groups.size()){
+        return lastIndices[guiIndex];
+    }else{
+        return -1;
+    }
+}
+#endif
+
+// B. custom DataGrid class
+#ifdef USE_CUSTOM_DATAGRID
 int ofxGuiPresetSelector::getPresetIndex( int guiIndex ) const {
     if(guiIndex>0 && guiIndex<(int)grids.size()){
         return lastIndices[guiIndex];
@@ -370,13 +371,13 @@ void ofxGuiPresetSelector::draw( ) {
             
             k++;
 
-            //    // ofParameterGroup
-            //#ifdef USE_OF_PARAMETER_GROUP
-            //ofDrawBitmapString( groups[i].getName(), cellSize*k+8, cellSize*i+18 );
-            //#endif
+            // A. ofParameterGroup
+            #ifdef USE_OF_PARAMETER_GROUP
+            ofDrawBitmapString( groups[i].getName(), cellSize*k+8, cellSize*i+18 );
+            #endif
 
-            // custom DataGrid class
-            #ifdef USE_DATAGRID
+            // B. custom DataGrid class
+            #ifdef USE_CUSTOM_DATAGRID
             ofDrawBitmapString( grids[i].getName(), cellSize*k+8, cellSize*i+18 );
             #endif
 
@@ -399,25 +400,25 @@ void ofxGuiPresetSelector::mousePressed( int x, int y ) {
 
     //-
 
-//    // ofParameterGroup
-//#ifdef USE_OF_PARAMETER_GROUP
-//    if( yIndex >=0 &&  yIndex < (int)groups.size() ){
-//        if(xIndex>=0 && xIndex< presets[yIndex] ){
-//            //load
-//            if(bDelayedLoading){
-//                newIndices[yIndex] = xIndex;
-//            }else{
-//                load( xIndex, yIndex);
-//            }
-//        }else if( xIndex == presets[yIndex]){
-//            // save
-//            save( lastIndices[yIndex], yIndex );
-//        }
-//    }
-//#endif
+    // A. ofParameterGroup
+#ifdef USE_OF_PARAMETER_GROUP
+    if( yIndex >=0 &&  yIndex < (int)groups.size() ){
+        if(xIndex>=0 && xIndex< presets[yIndex] ){
+            //load
+            if(bDelayedLoading){
+                newIndices[yIndex] = xIndex;
+            }else{
+                load( xIndex, yIndex);
+            }
+        }else if( xIndex == presets[yIndex]){
+            // save
+            save( lastIndices[yIndex], yIndex );
+        }
+    }
+#endif
 
-    // custom DataGrid class
-#ifdef USE_DATAGRID
+    // B. custom DataGrid class
+#ifdef USE_CUSTOM_DATAGRID
     if( yIndex >=0 &&  yIndex < (int)grids.size() ){
         if(xIndex>=0 && xIndex< presets[yIndex] ){
             //load
@@ -445,15 +446,15 @@ void ofxGuiPresetSelector::setDelayedLoading( bool active ) {
 
 void ofxGuiPresetSelector::delayedLoad( int presetIndex, int guiIndex ) {
 
-//    // ofParameterGroup
-//#ifdef USE_OF_PARAMETER_GROUP
-//    if(guiIndex>=0 && guiIndex<(int)groups.size()){
-//        newIndices[guiIndex] = presetIndex;
-//    }
-//#endif
+    // A. ofParameterGroup
+#ifdef USE_OF_PARAMETER_GROUP
+    if(guiIndex>=0 && guiIndex<(int)groups.size()){
+        newIndices[guiIndex] = presetIndex;
+    }
+#endif
 
-    // custom DataGrid class
-#ifdef USE_DATAGRID
+    // B. custom DataGrid class
+#ifdef USE_CUSTOM_DATAGRID
     if(guiIndex>=0 && guiIndex<(int)grids.size()){
         newIndices[guiIndex] = presetIndex;
     }
@@ -463,15 +464,15 @@ void ofxGuiPresetSelector::delayedLoad( int presetIndex, int guiIndex ) {
 void ofxGuiPresetSelector::delayedLoad( int presetIndex, string guiName ) {
     int guiIndex = getGuiIndex(guiName);
 
-//    // ofParameterGroup
-//#ifdef USE_OF_PARAMETER_GROUP
-//    if(guiIndex>=0 && guiIndex<(int)groups.size()){
-//        newIndices[guiIndex] = presetIndex;
-//    }
-//#endif
+    // A. ofParameterGroup
+#ifdef USE_OF_PARAMETER_GROUP
+    if(guiIndex>=0 && guiIndex<(int)groups.size()){
+        newIndices[guiIndex] = presetIndex;
+    }
+#endif
 
-    // custom DataGrid class
-#ifdef USE_DATAGRID
+    // B. custom DataGrid class
+#ifdef USE_CUSTOM_DATAGRID
     if(guiIndex>=0 && guiIndex<(int)grids.size()){
         newIndices[guiIndex] = presetIndex;
     }
@@ -481,17 +482,17 @@ void ofxGuiPresetSelector::delayedLoad( int presetIndex, string guiName ) {
 
 void ofxGuiPresetSelector::delayedUpdate() {
 
-    //    // ofParameterGroup
-//#ifdef USE_OF_PARAMETER_GROUP
-//    for(size_t i=0; i<groups.size(); ++i){
-//        if(newIndices[i]!=lastIndices[i]){
-//            load( newIndices[i], i);
-//        }
-//    }
-//#endif
+    // A. ofParameterGroup
+#ifdef USE_OF_PARAMETER_GROUP
+    for(size_t i=0; i<groups.size(); ++i){
+        if(newIndices[i]!=lastIndices[i]){
+            load( newIndices[i], i);
+        }
+    }
+#endif
 
-    // custom DataGrid class
-#ifdef USE_DATAGRID
+    // B. custom DataGrid class
+#ifdef USE_CUSTOM_DATAGRID
     for(size_t i=0; i<grids.size(); ++i){
         if(newIndices[i]!=lastIndices[i]){
             load( newIndices[i], i);
