@@ -1,17 +1,26 @@
 ofxGuiPresetSelector
 ==============
 
-//-
+--
 
-// changes by moebiussurfing:
+Changes by this moebiussurfing fork:
 
-// (+ switched from ofxGui/ofxGuiPanel to ofxGuiExtended)
+Changes log:
++ switched from ofxGui/ofxGuiPanel to ofxGuiExtended.
++ switched preset management from ofxGuiExtended to more tiny ofParametersGroup.
++ can define choice to manager presets of 'ofParametersGroup' or a 'custom class data'. (vectors, structs, nested json utils..).
 
-// + switched preset mangement from ofxGuiExtended to ofParametersGroup
+Required addons: ofxJsonUtils, ofxGuiExtended.
 
-// TODO: add custom data: vectors, structs, json utils..
+Added a custom class: "DataGrid.h / .cpp". 
+It's a two dimentions int array grid matrix step sequencer like:
 
-//-
+int grid [NUM_SEQ_NOTES][NUM_SEQ_BEATS];
+
+It has the required setName/getName methods like ofxGuiPanel. 
+Contains parser and loader to JSON methods.
+
+--
 
 An addon for openFrameworks that let you easily save and load ofxPanel settings but pressing keyboard keys. It stores everything in different .xml files. Remember to use the .setName() method on ofxPanel befor adding it to the ofxGuiPresetSelector.
 
