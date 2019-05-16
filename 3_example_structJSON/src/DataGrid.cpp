@@ -11,24 +11,16 @@ DataGrid::DataGrid()
     id = 0;
     subTag = "row";//text tag for any row (aka subjson) into json file
 
-    //    grid.resize(32);
+    // grid.resize(32);
 }
 
-//string ofxGuiElement::getName(){
-//    return getParameter().getName();
-//}
-//
-//void ofxGuiElement::setName(const std::string& _name){
-
 //------------------------------------------------
-//void DataGrid::setName(const std::string& _name){
 void DataGrid::setName(const std::string _name){
-//void DataGrid::setName(string _name) {
     name = _name;
 }
 
 //------------------------------------------------
-string DataGrid::getName(){
+std::string DataGrid::getName() const {
     return name;
 }
 
@@ -90,6 +82,36 @@ void DataGrid::dump_grid()
     }
 }
 
+//------------------------------------------------
+void DataGrid::randomize_grid() {
+
+    ofLogNotice("DataGrid") << "randomize_grid";
+
+    //-
+
+//    id = 1;
+//    name = "grid_" + ofToString(id) + ".json";
+
+    //-
+
+    // random initiate
+
+    for( size_t n = 0; n < NUM_SEQ_NOTES; n++ )
+    {
+        cout << subTag << n << " -- ";
+
+        for( size_t b = 0; b < NUM_SEQ_BEATS; b++ )
+        {
+            int iState = (int) ofRandom(0, 2);
+            cout << "b" << b << ":" <<iState << " ";
+
+            grid[n][b] = iState;
+        }
+        cout << endl;
+    }
+
+    //-
+}
 
 //------------------------------------------------
 void DataGrid::load_JSON(string path)
@@ -129,4 +151,12 @@ void DataGrid::load_JSON(string path)
             }
         }
     }
+
+    //-
+
+//    // re init randomize when no json files are present
+//
+//    randomize_grid();
+
+    //-
 }

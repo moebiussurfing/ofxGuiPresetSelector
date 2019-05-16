@@ -6,28 +6,11 @@ void ofApp::setup(){
     ofDisableAntiAliasing();
     ofSetWindowTitle("ofxGuiSelector example");
 
-//    //-
+    //--
+
+//    //randomize
 //
-//    myDataGrid.id = 1;
-//    myDataGrid.name = "grid_" + ofToString(myDataGrid.id) + ".json";
-//
-//    //-
-//
-//    // initiate
-//
-//    for( size_t n = 0; n < NUM_SEQ_NOTES; n++ )
-//    {
-//        cout << "rowNote_" << n << " -- ";
-//
-//        for( size_t b = 0; b < NUM_SEQ_BEATS; b++ )
-//        {
-//            int iState = (int) ofRandom(0, 2);
-//            cout << "b" << b << ":" <<iState << " ";
-//
-//            myDataGrid.grid[n][b] = iState;
-//        }
-//        cout << endl;
-//    }
+//    myDataGrid.randomize_grid();
 //
 //    //-
 //
@@ -120,6 +103,8 @@ void ofApp::setup_group(){
     params.add( squareSide.set("square side", 50, 5, 200) );
 
     //-
+
+    // grid matrix
 
     myDataGrid.setName("stepSequencer");
 

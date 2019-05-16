@@ -54,8 +54,8 @@ int ofxGuiPresetSelector::getGuiIndex( string name ) const {
     for( size_t i = 0; i<grids.size(); ++i ){
 
         string myName = grids[i].getName();
-        if( myName == name ){
 
+        if( myName == name ){
 //        if( grids[i].getName() == name ){
 
             return i;
@@ -67,7 +67,14 @@ int ofxGuiPresetSelector::getGuiIndex( string name ) const {
 
 
 string ofxGuiPresetSelector::presetName( string guiName, int presetIndex ) {
-    return (guiName + "_preset_" + ofToString(presetIndex) + ".xml" );
+//#ifdef USE_OF_PARAMETER_GROUP
+//    return (guiName + "_preset_" + ofToString(presetIndex) + ".xml" );
+//#endif
+
+#ifdef USE_DATAGRID
+    return (guiName + "_preset_" + ofToString(presetIndex) + ".json" );
+#endif
+
 }
 
 //-
@@ -205,6 +212,7 @@ void ofxGuiPresetSelector::save( int presetIndex, string guiName ) {
     int guiIndex = getGuiIndex(guiName);
 
     if(guiIndex>=0 && guiIndex<(int)grids.size()){
+
         string n = presetName( guiName, presetIndex);
         grids[guiIndex].save_JSON(n);
     }

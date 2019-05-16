@@ -19,20 +19,19 @@ public:
     std::string name;
     int	id;
 
+    // vector < vector<int> > grid;
     int grid [NUM_SEQ_NOTES][NUM_SEQ_BEATS];
-    //    vector < vector<int> > grid;
+
+    void dump_grid();
+    void randomize_grid();
 
     void save_JSON(string path);
     void load_JSON(string path);
-    void dump_grid();
 
     string subTag;
 
-//    void setName(string n);
-    virtual std::string getName();
+    void setName(std::string name);
+    std::string getName() const;
 
-    virtual void setName(const std::string name);
-//    virtual void setName(const std::string& name);
-//    virtual std::string getName();
 };
 
