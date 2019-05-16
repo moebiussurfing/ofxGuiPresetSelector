@@ -14,8 +14,10 @@ Required addons: ofxJsonUtils, ofxGuiExtended.
 
 Added a custom class: "DataGrid.h / .cpp". 
 It's a two dimentions int array grid matrix step sequencer like:
-''int grid [NUM_SEQ_NOTES][NUM_SEQ_BEATS];''
-It has the required setName / getName methods. 
+
+int grid [NUM_SEQ_NOTES][NUM_SEQ_BEATS];
+
+It has the required setName/getName methods like ofxGuiPanel. 
 Contains parser and loader to JSON methods.
 
 --
