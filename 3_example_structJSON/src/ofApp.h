@@ -3,9 +3,7 @@
 #include "ofMain.h"
 
 #include "ofxGuiPresetSelector.h"
-
 #include "DataGrid.h"
-
 
 //--
 
@@ -29,8 +27,6 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
 
-    ofxGuiPresetSelector selector;
-
     ofxGui gui;
     ofxGuiPanel* panel;
     ofxGuiGroup* group;
@@ -39,36 +35,22 @@ public:
     // group
     ofParameterGroup params;
 
-    // int parameters
-    ofParameter<int> numSquares;
-    ofParameter<int> separation;
-    ofParameter<int> squareSide;
+    //    // int parameters
+    //    ofParameter<int> numSquares;
+    //    ofParameter<int> separation;
+    //    ofParameter<int> squareSide;
 
-    // array bool steps
-    ofParameter<bool> step[16];
-
-    //--
-
-    // NOTES:
-
-    // pointer
-    // A. ofParameterGroup * params;
-    // void add( ofParameterGroup & group, initializer_list<int> keysList );
-    // void ofxGuiPresetSelector::add( ofParameterGroup & group, int numPresets ) {
-    // vector<ofParameterGroup*> groups;
-    // groups.push_back( &group );
-
-    // no-pointer
-    // A. ofParameterGroup params;
-    // void add( ofParameterGroup group, initializer_list<int> keysList );
-    // void ofxGuiPresetSelector::add( ofParameterGroup group, int numPresets ) {
-    // vector<ofParameterGroup> groups;
-    // groups.push_back( group );
+    //    // array bool steps
+    //    ofParameter<bool> step[16];
 
     //--
 
+    // preset manager
+    ofxGuiPresetSelector PRESETS_manager;
+
+    // custom class
     DataGrid myDataGrid;
 
     //--
 
-    };
+};
