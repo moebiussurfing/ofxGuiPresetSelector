@@ -48,10 +48,15 @@ public:
     // B. custom DataGrid class
 
 #ifdef USE_CUSTOM_DATAGRID
+//    // add a gui for preset saving
+//    void add( DataGrid grid, int numPresets=8 );
+//    // adds and activate key switch
+//    void add( DataGrid grid, initializer_list<int> keysList );
+
     // add a gui for preset saving
-    void add( DataGrid grid, int numPresets=8 );
+    void add( DataGrid & grid, int numPresets=8 );
     // adds and activate key switch
-    void add( DataGrid grid, initializer_list<int> keysList );
+    void add( DataGrid & grid, initializer_list<int> keysList );
 #endif
 
     //-
@@ -105,7 +110,8 @@ private:
 
     // B. custom DataGrid class
 #ifdef USE_CUSTOM_DATAGRID
-    vector<DataGrid> grids;
+//    vector<DataGrid> grids;
+    vector<DataGrid*> grids;
 #endif
 
     //-

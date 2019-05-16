@@ -53,7 +53,8 @@ int ofxGuiPresetSelector::getGuiIndex( string name ) const {
 
     for( size_t i = 0; i<grids.size(); ++i ){
 
-        string myName = grids[i].getName();
+//        string myName = grids[i].getName();
+        string myName = grids[i]->getName();
 
         if( myName == name ){
         // if( grids[i].getName() == name ){
@@ -113,18 +114,22 @@ void ofxGuiPresetSelector::add( ofParameterGroup group, initializer_list<int> ke
 // B. custom DataGrid class
 
 #ifdef USE_CUSTOM_DATAGRID
-void ofxGuiPresetSelector::add( DataGrid grid, int numPresets ) {
+//void ofxGuiPresetSelector::add( DataGrid grid, int numPresets ) {
+void ofxGuiPresetSelector::add( DataGrid & grid, int numPresets ) {
 
     // add a gui for preset saving
 
-    grids.push_back(grid);
+//    grids.push_back(grid);
+    grids.push_back(&grid);
 
     lastIndices.push_back(0);
     newIndices.push_back(0);
     presets.push_back(numPresets);
 }
-void ofxGuiPresetSelector::add( DataGrid grid, initializer_list<int> keysList ) {
 
+//void ofxGuiPresetSelector::add( DataGrid grid, initializer_list<int> keysList ) {
+void ofxGuiPresetSelector::add( DataGrid & grid, initializer_list<int> keysList ) {
+//    add( grid, keysList.size() );
     add( grid, keysList.size() );
 
     keys.resize(grids.size());
@@ -194,19 +199,24 @@ void ofxGuiPresetSelector::load( int presetIndex, string guiName ) {
 void ofxGuiPresetSelector::save( int presetIndex, int guiIndex ) {
     if(guiIndex>=0 && guiIndex<(int)grids.size()){
 
-        std::string n = presetName( grids[guiIndex].getName(), presetIndex);
-        grids[guiIndex].save_JSON(n);
+//        std::string n = presetName( grids[guiIndex].getName(), presetIndex);
+        std::string n = presetName( grids[guiIndex]->getName(), presetIndex);
+//        grids[guiIndex].save_JSON(n);
+        grids[guiIndex]->save_JSON(n);
 
     }
 }
 void ofxGuiPresetSelector::load( int presetIndex, int guiIndex ) {
     if(guiIndex>=0 && guiIndex<(int)grids.size()){
-        string str = presetName( grids[guiIndex].getName(), presetIndex);
-        grids[guiIndex].load_JSON( str );
+//        string str = presetName( grids[guiIndex].getName(), presetIndex);
+        string str = presetName( grids[guiIndex]->getName(), presetIndex);
+//        grids[guiIndex].load_JSON( str );
+        grids[guiIndex]->load_JSON( str );
 
         lastIndices[guiIndex] = presetIndex;
 
-        grids[guiIndex].dump_grid();
+//        grids[guiIndex].dump_grid();
+        grids[guiIndex]->dump_grid();
     }
 }
 void ofxGuiPresetSelector::save( int presetIndex, string guiName ) {
@@ -215,7 +225,8 @@ void ofxGuiPresetSelector::save( int presetIndex, string guiName ) {
     if(guiIndex>=0 && guiIndex<(int)grids.size()){
 
         string n = presetName( guiName, presetIndex);
-        grids[guiIndex].save_JSON(n);
+//        grids[guiIndex].save_JSON(n);
+        grids[guiIndex]->save_JSON(n);
     }
 }
 void ofxGuiPresetSelector::load( int presetIndex, string guiName ) {
@@ -224,11 +235,13 @@ void ofxGuiPresetSelector::load( int presetIndex, string guiName ) {
     if(guiIndex>=0 && guiIndex<(int)grids.size()){
 
         string n = presetName( guiName, presetIndex);
-        grids[guiIndex].load_JSON(n);
+//        grids[guiIndex].load_JSON(n);
+        grids[guiIndex]->load_JSON(n);
 
         lastIndices[guiIndex] = presetIndex;
 
-        grids[guiIndex].dump_grid();
+//        grids[guiIndex].dump_grid();
+        grids[guiIndex]->dump_grid();
     }
 }
 #endif
@@ -378,8 +391,10 @@ void ofxGuiPresetSelector::draw( ) {
 
             // B. custom DataGrid class
             #ifdef USE_CUSTOM_DATAGRID
-            ofDrawBitmapString( grids[i].getName(), cellSize*k+8, cellSize*i+18 );
-            #endif
+//            ofDrawBitmapString( grids[i].getName(), cellSize*k+8, cellSize*i+18 );
+            ofDrawBitmapString( grids[i]->getName(), cellSize*k+8, cellSize*i+18 );
+
+#endif
 
         }
     ofPopStyle();
