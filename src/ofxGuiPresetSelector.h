@@ -95,7 +95,13 @@ public:
     // switch on or off the control with the keys
     void toggleKeysControl( bool active );
 
+    //-
+
+    // TODO: easy listener temp solution
     ofParameter<bool> DONE_load;
+    ofParameter<bool> DONE_save;
+
+    //-
 
 private:
     int getGuiIndex(string name ) const;
