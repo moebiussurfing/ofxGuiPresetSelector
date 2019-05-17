@@ -7,6 +7,8 @@
 #include "ofMain.h"
 #include "ofxJsonUtils.h"
 
+// TODO: should define data vector with open size..
+
 #define NUM_SEQ_NOTES 12//max & fixed size
 #define NUM_SEQ_BEATS 16//max & fixed size
 
@@ -19,14 +21,20 @@ public:
     std::string name;
     int	id;
 
-    // vector < vector<int> > grid;
-    int grid [NUM_SEQ_NOTES][NUM_SEQ_BEATS];
+    //-
 
-    void dump_grid();
-    void randomize_grid();
+    // DATA
+
+    vector < vector<int> > grid;
+    // int grid[NUM_SEQ_NOTES][NUM_SEQ_BEATS];
+
+    //-
 
     void save_JSON(string path);
     void load_JSON(string path);
+
+    void dump_grid();
+    void randomize_grid();
 
     string subTag;
 

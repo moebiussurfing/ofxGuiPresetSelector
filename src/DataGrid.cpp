@@ -11,7 +11,21 @@ DataGrid::DataGrid()
     id = 0;
     subTag = "row";//text tag for any row (aka subjson) into json file
 
-    // grid.resize(32);
+    //-
+
+    // init data vector
+
+    grid.resize(NUM_SEQ_NOTES);
+
+    for(int i=0 ; i < grid.size() ; i++)
+    {
+        grid[i].resize(NUM_SEQ_BEATS);
+
+        for(int j=0 ; j < grid[i].size() ; j++) //init
+        {
+            grid[i][j] = 0;
+        }
+    }
 }
 
 //------------------------------------------------
@@ -33,12 +47,14 @@ void DataGrid::save_JSON(string path)
     //    //    vector<int> steps;
     //    //    steps.resize(NUM_SEQ_BEATS);
 
-    ofJson JSON_row;//for the slow mode parser
+    ofJson JSON_row;//temp row(note) json for the slow mode parser
     ofJson JSON_grid;
 
     //-
 
-    // slow mode with tags
+    // A. slow mode with tags
+
+    // TODO: should define data vector with open size..
 
     // create one json for each row aka note:
     for (int note = 0;  note < NUM_SEQ_NOTES; note++)
@@ -57,7 +73,7 @@ void DataGrid::save_JSON(string path)
 
     //-
 
-    // fast mode without tags
+    // B. fast mode vector without tags
     //    JSON_grid = ofxJsonUtils::create( kv( grid ) );
 
     //-
@@ -69,16 +85,18 @@ void DataGrid::save_JSON(string path)
 //------------------------------------------------
 void DataGrid::dump_grid()
 {
-    ofLogNotice("DataGrid") << "dump_grid";
+    ofLogVerbose("DataGrid") << "dump_grid";
 
-    for (int note = 0;  note < NUM_SEQ_NOTES; note++) {
+    // TODO: should define data vector with open size..
+
+    for (int note = 0; note < NUM_SEQ_NOTES; note++) {
 
         string str;
         for (int s = 0; s < NUM_SEQ_BEATS ; s++)
         {
             str += ofToString( grid[note][s] ) + " ";
         }
-        ofLogNotice("DataGrid") << "NOTE: " << note << " BEATS: " + str;
+        ofLogVerbose("DataGrid") << "NOTE: " << note << " BEATS: " + str;
     }
 }
 
@@ -98,21 +116,23 @@ void DataGrid::randomize_grid() {
 
     string str;
 
+    // TODO: should define data vector with open size..
+
     for( size_t n = 0; n < NUM_SEQ_NOTES; n++ )
     {
         ofLogNotice("DataGrid") << subTag + ofToString(n ) + " -- ";
-        //        cout << subTag << n << " -- ";
+        // cout << subTag << n << " -- ";
 
         for( size_t b = 0; b < NUM_SEQ_BEATS; b++ )
         {
             int iState = (int) ofRandom(0, 2);
 
-            //            cout << "b" << b << ":" <<iState << " ";
+            // cout << "b" << b << ":" <<iState << " ";
             str +=  "b" + ofToString(b) + ":" + ofToString(iState) + " ";
 
             grid[n][b] = iState;
         }
-        //        cout << endl;
+        // cout << endl;
 
         ofLogNotice("DataGrid") << str;
     }
