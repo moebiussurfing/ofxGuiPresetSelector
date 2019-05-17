@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="61339c51-b05a-4583-845f-cc62d32f376d" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/ofxGuiPresetSelector.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../src/ofxGuiPresetSelector.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/ofxGuiPresetSelector.h" beforeDir="false" afterPath="$PROJECT_DIR$/../src/ofxGuiPresetSelector.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../ofxJsonUtils/AdvancedExample/AdvancedExample.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/../../ofxJsonUtils/AdvancedExample/AdvancedExample.xcodeproj/project.pbxproj" afterDir="false" />
@@ -19,10 +21,10 @@
     <splitter split-orientation="horizontal" split-proportion="0.5">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="ofApp.h" pinned="false" current-in-tab="true">
+          <file leaf-file-name="ofApp.h" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/ofApp.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="585">
+                <state relative-caret-position="345">
                   <caret line="45" selection-start-line="45" selection-end-line="53" selection-end-column="8" />
                   <folding>
                     <element signature="e#14#33#0" expanded="true" />
@@ -31,11 +33,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="ofxGuiPresetSelector.h" pinned="false" current-in-tab="false">
+          <file leaf-file-name="ofxGuiPresetSelector.h" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/../src/ofxGuiPresetSelector.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="806">
-                  <caret line="65" column="42" lean-forward="true" selection-start-line="64" selection-start-column="41" selection-end-line="65" selection-end-column="42" />
+                <state relative-caret-position="-352">
+                  <caret line="58" column="9" selection-start-line="58" selection-start-column="9" selection-end-line="58" selection-end-column="9" />
                   <folding>
                     <element signature="e#269#288#0" expanded="true" />
                   </folding>
@@ -59,20 +61,20 @@
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="ofApp.cpp" pinned="false" current-in-tab="true">
+          <file leaf-file-name="ofApp.cpp" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/ofApp.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="753">
+                <state relative-caret-position="979">
                   <caret line="112" selection-start-line="112" selection-end-line="112" />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="ofxGuiPresetSelector.cpp" pinned="false" current-in-tab="false">
+          <file leaf-file-name="ofxGuiPresetSelector.cpp" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/../src/ofxGuiPresetSelector.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-2431">
-                  <caret line="242" column="25" selection-start-line="242" selection-start-column="25" selection-end-line="242" selection-end-column="25" />
+                <state relative-caret-position="180">
+                  <caret line="123" column="21" selection-start-line="123" selection-start-column="21" selection-end-line="123" selection-end-column="21" />
                   <folding>
                     <element signature="e#494#513#0" expanded="true" />
                   </folding>
@@ -235,7 +237,7 @@
       <updated>1557950293436</updated>
       <workItem from="1557950295332" duration="24447000" />
       <workItem from="1558013712144" duration="35000" />
-      <workItem from="1558015144699" duration="2382000" />
+      <workItem from="1558015144699" duration="3232000" />
     </task>
     <task id="LOCAL-00001" summary="simplified disabling 'ofParameterGroup params' gui not used">
       <created>1558015825197</created>
@@ -248,20 +250,19 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="26864000" />
+    <option name="totallyTimeSpent" value="27714000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="896" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Designer" order="1" />
-      <window_info active="true" content_ui="combo" id="Project" order="2" sideWeight="0.33411488" visible="true" weight="0.13611111" />
+      <window_info content_ui="combo" id="Project" order="2" sideWeight="0.33411488" visible="true" weight="0.13611111" />
       <window_info anchor="bottom" id="TODO" order="10" />
       <window_info anchor="bottom" id="Messages" order="3" weight="0.28018758" />
       <window_info anchor="right" id="Palette&#9;" order="0" />
       <window_info anchor="bottom" id="Event Log" order="1" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="2" />
-      <window_info anchor="bottom" id="Run" order="6" weight="0.5521688" />
+      <window_info anchor="bottom" id="Run" order="6" weight="0.17350528" />
       <window_info id="Structure" order="3" sideWeight="0.6658851" side_tool="true" visible="true" weight="0.13611111" />
       <window_info anchor="bottom" id="Terminal" order="0" />
       <window_info id="Favorites" order="0" side_tool="true" />
@@ -484,10 +485,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/ofApp.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="979">
+          <caret line="112" selection-start-line="112" selection-end-line="112" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ofApp.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="45" selection-start-line="45" selection-end-line="53" selection-end-column="8" />
+          <folding>
+            <element signature="e#14#33#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/../src/ofxGuiPresetSelector.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="806">
-          <caret line="65" column="42" lean-forward="true" selection-start-line="64" selection-start-column="41" selection-end-line="65" selection-end-column="42" />
+        <state relative-caret-position="-352">
+          <caret line="58" column="9" selection-start-line="58" selection-start-column="9" selection-end-line="58" selection-end-column="9" />
           <folding>
             <element signature="e#269#288#0" expanded="true" />
           </folding>
@@ -496,27 +514,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../src/ofxGuiPresetSelector.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2431">
-          <caret line="242" column="25" selection-start-line="242" selection-start-column="25" selection-end-line="242" selection-end-column="25" />
+        <state relative-caret-position="180">
+          <caret line="123" column="21" selection-start-line="123" selection-start-column="21" selection-end-line="123" selection-end-column="21" />
           <folding>
             <element signature="e#494#513#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ofApp.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="753">
-          <caret line="112" selection-start-line="112" selection-end-line="112" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ofApp.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="585">
-          <caret line="45" selection-start-line="45" selection-end-line="53" selection-end-column="8" />
-          <folding>
-            <element signature="e#14#33#0" expanded="true" />
           </folding>
         </state>
       </provider>

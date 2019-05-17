@@ -16,7 +16,9 @@ ofxGuiPresetSelector::ofxGuiPresetSelector(){
     keysNotActivated = true;
     bKeySave = false;
 
-    // groups
+    //-
+
+    // A. ofParameterGroup
 #ifdef USE_OF_PARAMETER_GROUP
     groups.reserve(32);
 #endif
@@ -26,12 +28,18 @@ ofxGuiPresetSelector::ofxGuiPresetSelector(){
     grids.reserve(32);
 #endif
 
+    //-
+
     lastIndices.reserve(32);
     keys.reserve(32);
     
     lastMouseButtonState = false;
 
     bDelayedLoading = false;
+
+    //-
+
+    DONE_load.set("DONE LOAD", false);
 }
 
 // A. ofParameterGroup
@@ -52,13 +60,8 @@ int ofxGuiPresetSelector::getGuiIndex( string name ) const {
 int ofxGuiPresetSelector::getGuiIndex( string name ) const {
 
     for( size_t i = 0; i<grids.size(); ++i ){
-
-//        string myName = grids[i].getName();
         string myName = grids[i]->getName();
-
         if( myName == name ){
-        // if( grids[i].getName() == name ){
-
             return i;
         }
         return -1;
@@ -114,12 +117,10 @@ void ofxGuiPresetSelector::add( ofParameterGroup group, initializer_list<int> ke
 // B. custom DataGrid class
 
 #ifdef USE_CUSTOM_DATAGRID
-//void ofxGuiPresetSelector::add( DataGrid grid, int numPresets ) {
 void ofxGuiPresetSelector::add( DataGrid & grid, int numPresets ) {
 
     // add a gui for preset saving
 
-//    grids.push_back(grid);
     grids.push_back(&grid);
 
     lastIndices.push_back(0);
@@ -127,9 +128,7 @@ void ofxGuiPresetSelector::add( DataGrid & grid, int numPresets ) {
     presets.push_back(numPresets);
 }
 
-//void ofxGuiPresetSelector::add( DataGrid grid, initializer_list<int> keysList ) {
 void ofxGuiPresetSelector::add( DataGrid & grid, initializer_list<int> keysList ) {
-//    add( grid, keysList.size() );
     add( grid, keysList.size() );
 
     keys.resize(grids.size());
@@ -197,26 +196,23 @@ void ofxGuiPresetSelector::load( int presetIndex, string guiName ) {
 
 #ifdef USE_CUSTOM_DATAGRID
 void ofxGuiPresetSelector::save( int presetIndex, int guiIndex ) {
-    if(guiIndex>=0 && guiIndex<(int)grids.size()){
-
-//        std::string n = presetName( grids[guiIndex].getName(), presetIndex);
+    if(guiIndex>=0 && guiIndex<(int)grids.size())
+    {
         std::string n = presetName( grids[guiIndex]->getName(), presetIndex);
-//        grids[guiIndex].save_JSON(n);
-        grids[guiIndex]->save_JSON(n);
 
+        grids[guiIndex]->save_JSON(n);
     }
 }
 void ofxGuiPresetSelector::load( int presetIndex, int guiIndex ) {
     if(guiIndex>=0 && guiIndex<(int)grids.size()){
-//        string str = presetName( grids[guiIndex].getName(), presetIndex);
         string str = presetName( grids[guiIndex]->getName(), presetIndex);
-//        grids[guiIndex].load_JSON( str );
         grids[guiIndex]->load_JSON( str );
 
         lastIndices[guiIndex] = presetIndex;
 
-//        grids[guiIndex].dump_grid();
         grids[guiIndex]->dump_grid();
+
+        DONE_load = true;
     }
 }
 void ofxGuiPresetSelector::save( int presetIndex, string guiName ) {
@@ -225,7 +221,7 @@ void ofxGuiPresetSelector::save( int presetIndex, string guiName ) {
     if(guiIndex>=0 && guiIndex<(int)grids.size()){
 
         string n = presetName( guiName, presetIndex);
-//        grids[guiIndex].save_JSON(n);
+
         grids[guiIndex]->save_JSON(n);
     }
 }
@@ -235,13 +231,13 @@ void ofxGuiPresetSelector::load( int presetIndex, string guiName ) {
     if(guiIndex>=0 && guiIndex<(int)grids.size()){
 
         string n = presetName( guiName, presetIndex);
-//        grids[guiIndex].load_JSON(n);
         grids[guiIndex]->load_JSON(n);
 
         lastIndices[guiIndex] = presetIndex;
 
-//        grids[guiIndex].dump_grid();
         grids[guiIndex]->dump_grid();
+
+        DONE_load = true;
     }
 }
 #endif
@@ -391,11 +387,8 @@ void ofxGuiPresetSelector::draw( ) {
 
             // B. custom DataGrid class
             #ifdef USE_CUSTOM_DATAGRID
-//            ofDrawBitmapString( grids[i].getName(), cellSize*k+8, cellSize*i+18 );
             ofDrawBitmapString( grids[i]->getName(), cellSize*k+8, cellSize*i+18 );
-
-#endif
-
+            #endif
         }
     ofPopStyle();
     ofPopMatrix();

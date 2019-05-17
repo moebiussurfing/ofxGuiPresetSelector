@@ -91,10 +91,12 @@ public:
     // if setDelayedLoading() is set to true stages a load action
     void delayedLoad( int presetIndex, int guiIndex=0 );
     void delayedLoad( int presetIndex, string guiName );
-    
+
     // switch on or off the control with the keys
     void toggleKeysControl( bool active );
-    
+
+    ofParameter<bool> DONE_load;
+
 private:
     int getGuiIndex(string name ) const;
     string presetName( string guiName, int presetIndex );
@@ -122,20 +124,21 @@ private:
     void addKeysListeners();
     void keyPressed( ofKeyEventArgs& eventArgs);
     void keyReleased( ofKeyEventArgs& eventArgs );
-    
+
     bool bKeys;
     vector<vector<int>> keys;
     bool keysNotActivated;
     int modeKey;
     bool bKeySave;
-    
+
     int x;
     int y;
     int cellSize;
-    
+
     bool lastMouseButtonState;
     void mousePressed( int x, int y );
-    
+
     bool bDelayedLoading;
     vector<int> newIndices;
+
 };
