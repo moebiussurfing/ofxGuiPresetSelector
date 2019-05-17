@@ -201,6 +201,7 @@ void ofxGuiPresetSelector::save( int presetIndex, int guiIndex ) {
         std::string n = presetName( grids[guiIndex]->getName(), presetIndex);
 
         grids[guiIndex]->save_JSON(n);
+        ofLogNotice("ofxGuiPresetSelector") << "save";
     }
 }
 void ofxGuiPresetSelector::load( int presetIndex, int guiIndex ) {
@@ -213,6 +214,7 @@ void ofxGuiPresetSelector::load( int presetIndex, int guiIndex ) {
         grids[guiIndex]->dump_grid();
 
         DONE_load = true;
+        ofLogNotice("ofxGuiPresetSelector") << "load";
     }
 }
 void ofxGuiPresetSelector::save( int presetIndex, string guiName ) {
@@ -223,6 +225,7 @@ void ofxGuiPresetSelector::save( int presetIndex, string guiName ) {
         string n = presetName( guiName, presetIndex);
 
         grids[guiIndex]->save_JSON(n);
+        ofLogNotice("ofxGuiPresetSelector") << "save";
     }
 }
 void ofxGuiPresetSelector::load( int presetIndex, string guiName ) {
@@ -238,6 +241,7 @@ void ofxGuiPresetSelector::load( int presetIndex, string guiName ) {
         grids[guiIndex]->dump_grid();
 
         DONE_load = true;
+        ofLogNotice("ofxGuiPresetSelector") << "load";
     }
 }
 #endif
