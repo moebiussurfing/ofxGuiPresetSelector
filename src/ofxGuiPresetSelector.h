@@ -13,9 +13,10 @@
 //
 // TODO:
 // - save full kit of presets to avoid blocking main thread when switching presets
-// - use pointers bewteen classes to share the data struct from DataGridc class,
+// - use pointers bewteen classes (ofxSequencer) to share the data struct
+// from DataGrid class,
 // ofxSEQ, or wherever is used ... almost done. but maybe should add listeners
-// replayers when preset are loaded/saved..
+// re players when preset are loaded/saved..
 
 #pragma once
 
@@ -167,8 +168,6 @@ private:
 
 public:
 
-    //-
-
     // GUI
 
     ofJson confCont, confItem, confItem_Big, confItem_Fat;
@@ -186,6 +185,8 @@ public:
     bool SHOW_ClickPanel;
     void setVisible_Gui(bool visible);
     void setVisible_ClickPanel(bool visible);
+
+    int gui_w;
 
     //-
 };

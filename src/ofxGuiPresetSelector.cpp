@@ -8,11 +8,12 @@
 
 ofxGuiPresetSelector::~ofxGuiPresetSelector()
 {
-    ofRemoveListener(params.parameterChangedE(), this, &ofApp::Changed_Gui);
+    ofRemoveListener(params.parameterChangedE(), this, &ofxGuiPresetSelector::Changed_Gui);
 }
 
 ofxGuiPresetSelector::ofxGuiPresetSelector()
 {
+
 //    ofSetLogLevel("ofxGuiPresetSelector")
     ofSetLogLevel(OF_LOG_VERBOSE);
 
@@ -51,7 +52,6 @@ ofxGuiPresetSelector::ofxGuiPresetSelector()
     myFont.load(myTTF, sizeTTF, true, true);
 
     //-
-
 }
 
 // A. ofParameterGroup
@@ -130,6 +130,7 @@ void ofxGuiPresetSelector::add( ofParameterGroup group, initializer_list<int> ke
 // B. custom DataGrid class
 
 #ifdef USE_CUSTOM_DATAGRID
+
 void ofxGuiPresetSelector::add( DataGrid & grid, int numPresets ) {
 
     // add a gui for preset saving
@@ -158,12 +159,8 @@ void ofxGuiPresetSelector::add( DataGrid & grid, initializer_list<int> keysList 
     for (const int & key : keysList) keys[i].push_back( key );
 
     if(keysNotActivated) addKeysListeners();
-
-    //-
-
-//    num_presets = grids.size();
-//    (group->getIntSlider("PRESETS"))->setMax(num_presets);
 }
+
 #endif
 
 //-
@@ -219,6 +216,7 @@ void ofxGuiPresetSelector::load( int presetIndex, string guiName ) {
 // B. custom DataGrid class
 
 #ifdef USE_CUSTOM_DATAGRID
+
 void ofxGuiPresetSelector::save( int presetIndex, int guiIndex ) {
     if(guiIndex>=0 && guiIndex<(int)grids.size())
     {
@@ -230,6 +228,7 @@ void ofxGuiPresetSelector::save( int presetIndex, int guiIndex ) {
         ofLogNotice("ofxGuiPresetSelector") << "save";
     }
 }
+
 void ofxGuiPresetSelector::load( int presetIndex, int guiIndex ) {
     if(guiIndex>=0 && guiIndex<(int)grids.size())
     {
@@ -245,6 +244,7 @@ void ofxGuiPresetSelector::load( int presetIndex, int guiIndex ) {
         DONE_load = true;
     }
 }
+
 void ofxGuiPresetSelector::save( int presetIndex, string guiName ) {
     int guiIndex = getGuiIndex(guiName);
 
@@ -258,6 +258,7 @@ void ofxGuiPresetSelector::save( int presetIndex, string guiName ) {
         ofLogNotice("ofxGuiPresetSelector") << "save";
     }
 }
+
 void ofxGuiPresetSelector::load( int presetIndex, string guiName ) {
     int guiIndex = getGuiIndex(guiName);
 
@@ -268,13 +269,12 @@ void ofxGuiPresetSelector::load( int presetIndex, string guiName ) {
 
         lastIndices[guiIndex] = presetIndex;
 
-//        grids[guiIndex]->dump_grid();
-
         ofLogNotice("ofxGuiPresetSelector") << "load";
 
         DONE_load = true;
     }
 }
+
 #endif
 
 //-
@@ -301,6 +301,7 @@ int ofxGuiPresetSelector::getPresetIndex( string guiName )const {
 
 // B. custom DataGrid class
 #ifdef USE_CUSTOM_DATAGRID
+
 int ofxGuiPresetSelector::getPresetIndex( int guiIndex ) const {
     if(guiIndex>0 && guiIndex<(int)grids.size()){
         return lastIndices[guiIndex];
@@ -308,6 +309,7 @@ int ofxGuiPresetSelector::getPresetIndex( int guiIndex ) const {
         return -1;
     }
 }
+
 int ofxGuiPresetSelector::getPresetIndex( string guiName )const {
     int guiIndex = getGuiIndex(guiName);
 
@@ -317,6 +319,7 @@ int ofxGuiPresetSelector::getPresetIndex( string guiName )const {
         return -1;
     }
 }
+
 #endif
 
 //-
@@ -324,7 +327,6 @@ int ofxGuiPresetSelector::getPresetIndex( string guiName )const {
 void ofxGuiPresetSelector::setModeKey( int key ){
     modeKey = key;
 }
-
 
 void ofxGuiPresetSelector::keyPressed( ofKeyEventArgs& eventArgs ) {
     if( bKeys ){
@@ -407,7 +409,7 @@ void ofxGuiPresetSelector::draw( ) {
             for (; k < keys[i].size(); ++k) {
                 ofDrawRectangle(cellSize * k, cellSize * i, cellSize, cellSize);
 
-//                ofDrawBitmapString( ofToString((char)keys[i][k]), cellSize*k+8, cellSize*i+18 );
+                //ofDrawBitmapString( ofToString((char)keys[i][k]), cellSize*k+8, cellSize*i+18 );
                 myFont.drawString(ofToString((char) keys[i][k]),
                         cellSize * k + 0.5 * cellSize - 0.25 * sizeTTF,
                         cellSize * i + 0.5 * cellSize + 0.5 * sizeTTF);
@@ -482,6 +484,7 @@ void ofxGuiPresetSelector::mousePressed( int x, int y ) {
 
     // B. custom DataGrid class
 #ifdef USE_CUSTOM_DATAGRID
+
     if( yIndex >=0 &&  yIndex < (int)grids.size() ){
         if(xIndex>=0 && xIndex< presets[yIndex] ){
             //load
@@ -501,6 +504,7 @@ void ofxGuiPresetSelector::mousePressed( int x, int y ) {
             PRESET_selected = 1 + yIndex;
         }
     }
+
 #endif
 
     //-
@@ -590,51 +594,37 @@ void ofxGuiPresetSelector::Changed_Gui(ofAbstractParameter &e) {
     {
         ofLogNotice("ofxGuiPresetSelector") << "PRESETS: " << e;
 
-
-
-
-//        if( yIndex >=0 &&  yIndex < (int)grids.size() ){
-//            if(xIndex>=0 && xIndex< presets[yIndex] ){
         //load
         if(bDelayedLoading)
         {
-//                    xIndex = PRESET_selected - 1;
-//                    newIndices[yIndex] = xIndex;
-//                    ofLogNotice("ofxGuiPresetSelector") << "newIndices[yIndex] = xIndex:" <<  yIndex << " = " << xIndex;
+//            ofLogNotice("ofxGuiPresetSelector") << "newIndices[yIndex] = xIndex:" <<  yIndex << " = " << xIndex;
         }
 
         else
         {
             int xIndex = PRESET_selected - 1;
-
-            // yIndex = ?
             int yIndex = 0;
+            // yIndex = ?
 
             load( xIndex, yIndex);
             ofLogNotice("ofxGuiPresetSelector") << "load( xIndex, yIndex):" <<  xIndex << ", " << yIndex;
-
-//                    PRESET_selected = 1 + xIndex;
         }
-//            }
-//            else if( xIndex == presets[yIndex]){
-//                // save
-//                save( lastIndices[yIndex], yIndex );
-//
-//                PRESET_selected = 1 + yIndex;
-//            }
     }
 }
 
 void ofxGuiPresetSelector::setup_Gui() {
 
-    int w = 200;
+    gui_w = 200;
+    int gui_slider_h = 14;
+    int gui_slider_big_h = 18;
+    int gui_button_h = 22;
 
     //-
 
     confCont = //container
             {
                     {"direction", "vertical"},
-                    {"width", w},
+                    {"width", gui_w},
                     {"padding", 0},
                     {"margin", 0},
             };
@@ -642,21 +632,21 @@ void ofxGuiPresetSelector::setup_Gui() {
     confItem = //sliders
             {
                     {"type", "fullsize"},
-                    {"width", 100},
-                    {"height", 14},
+//                    {"width", 100},
+                    {"height", gui_slider_h},
             };
 
     confItem_Big = //big sliders
             {
                     {"type", "fullsize"},
                     {"width", 100},
-                    {"height", 18},
+                    {"height", gui_slider_big_h},
             };
 
     confItem_Fat = //big buttons
             {
                     {"type", "fullsize"},
-                    {"height", 22},
+                    {"height", gui_button_h},
                     {"text-align", "center"},
             };
 
