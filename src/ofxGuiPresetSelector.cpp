@@ -6,6 +6,11 @@
 
 #include "ofxGuiPresetSelector.h"
 
+ofxGuiPresetSelector::~ofxGuiPresetSelector()
+{
+    ofRemoveListener(params.parameterChangedE(), this, &ofApp::Changed_Gui);
+}
+
 ofxGuiPresetSelector::ofxGuiPresetSelector()
 {
 //    ofSetLogLevel("ofxGuiPresetSelector")
@@ -45,13 +50,6 @@ ofxGuiPresetSelector::ofxGuiPresetSelector()
     sizeTTF = 10;
     myFont.load(myTTF, sizeTTF, true, true);
 
-    //-
-
-//    // GUI
-//
-//    setup_GUI_PRESETS();
-
-    //    ofRemoveListener(params.parameterChangedE(), this, &ofApp::Changed_PRESET);
     //-
 
 }
@@ -393,47 +391,46 @@ void ofxGuiPresetSelector::draw( int x, int y, int cellSize ) {
 
 void ofxGuiPresetSelector::draw( ) {
 
-    if( !lastMouseButtonState && ofGetMousePressed() ){
-        mousePressed( ofGetMouseX(), ofGetMouseY() );
-    }
-    lastMouseButtonState = ofGetMousePressed();
+    if (SHOW_ClickPanel) {
+        if (!lastMouseButtonState && ofGetMousePressed()) {
+            mousePressed(ofGetMouseX(), ofGetMouseY());
+        }
+        lastMouseButtonState = ofGetMousePressed();
 
-    ofPushMatrix();
-    ofPushStyle();
-    ofNoFill();
-    ofTranslate(x, y);
+        ofPushMatrix();
+        ofPushStyle();
+        ofNoFill();
+        ofTranslate(x, y);
 
-    for(size_t i=0; i<keys.size(); ++i)
-    {
-        size_t k=0;
-        for(; k<keys[i].size(); ++k)
-        {
-            ofDrawRectangle( cellSize*k, cellSize*i, cellSize, cellSize );
+        for (size_t i = 0; i < keys.size(); ++i) {
+            size_t k = 0;
+            for (; k < keys[i].size(); ++k) {
+                ofDrawRectangle(cellSize * k, cellSize * i, cellSize, cellSize);
 
 //                ofDrawBitmapString( ofToString((char)keys[i][k]), cellSize*k+8, cellSize*i+18 );
-            myFont.drawString( ofToString((char)keys[i][k]),
-                    cellSize*k + 0.5*cellSize - 0.25*sizeTTF,
-                    cellSize*i + 0.5*cellSize + 0.5*sizeTTF );
+                myFont.drawString(ofToString((char) keys[i][k]),
+                        cellSize * k + 0.5 * cellSize - 0.25 * sizeTTF,
+                        cellSize * i + 0.5 * cellSize + 0.5 * sizeTTF);
 
-            if( lastIndices[i]==k ) ofDrawRectangle( cellSize*k+4, cellSize*i+4, cellSize-8, cellSize-8 );
-        }
-        for(; k<presets[i]; ++k){
-            ofDrawRectangle( cellSize*k, cellSize*i, cellSize, cellSize );
-            if( lastIndices[i]==k ) ofDrawRectangle( cellSize*k+4, cellSize*i+4, cellSize-8, cellSize-8 );
-        }
+                if (lastIndices[i] == k) ofDrawRectangle(cellSize * k + 4, cellSize * i + 4, cellSize - 8, cellSize - 8);
+            }
+            for (; k < presets[i]; ++k) {
+                ofDrawRectangle(cellSize * k, cellSize * i, cellSize, cellSize);
+                if (lastIndices[i] == k) ofDrawRectangle(cellSize * k + 4, cellSize * i + 4, cellSize - 8, cellSize - 8);
+            }
 
-        // save button
-        ofDrawRectangle( cellSize*k, cellSize*i, cellSize, cellSize );
-        ofDrawCircle ( cellSize*k + cellSize/2, cellSize*i + cellSize/2, cellSize * 0.1f );
-        ofDrawRectangle( cellSize*k + cellSize*0.24f, cellSize*i, cellSize*0.09f, cellSize*0.20f );
-        ofDrawRectangle( cellSize*k + cellSize*0.18f, cellSize*i, cellSize*0.55f, cellSize*0.25f );
+            // save button
+            ofDrawRectangle(cellSize * k, cellSize * i, cellSize, cellSize);
+            ofDrawCircle(cellSize * k + cellSize / 2, cellSize * i + cellSize / 2, cellSize * 0.1f);
+            ofDrawRectangle(cellSize * k + cellSize * 0.24f, cellSize * i, cellSize * 0.09f, cellSize * 0.20f);
+            ofDrawRectangle(cellSize * k + cellSize * 0.18f, cellSize * i, cellSize * 0.55f, cellSize * 0.25f);
 
 
-        k++;
+            k++;
 
-        //-
+            //-
 
-        // kit name
+            // kit name
 
 //            // A. ofParameterGroup
 //            #ifdef USE_OF_PARAMETER_GROUP
@@ -445,10 +442,11 @@ void ofxGuiPresetSelector::draw( ) {
 //            ofDrawBitmapString( grids[i]->getName(), cellSize*k+8, cellSize*i+18 );
 //            #endif
 
-        //-
+            //-
+        }
+        ofPopStyle();
+        ofPopMatrix();
     }
-    ofPopStyle();
-    ofPopMatrix();
 }
 
 
@@ -583,10 +581,10 @@ void ofxGuiPresetSelector::toggleKeysControl( bool active ) {
 
 // PRESET GUI MANAGER
 
-void ofxGuiPresetSelector::Changed_PRESET(ofAbstractParameter& e) {
+void ofxGuiPresetSelector::Changed_Gui(ofAbstractParameter &e) {
     string WIDGET = e.getName();
 
-    ofLogNotice("ofxGuiPresetSelector") << "Changed_PRESET '" << WIDGET << "': " << e;
+    ofLogNotice("ofxGuiPresetSelector") << "Changed_Gui '" << WIDGET << "': " << e;
 
     if (WIDGET == "PRESETS")
     {
@@ -627,7 +625,7 @@ void ofxGuiPresetSelector::Changed_PRESET(ofAbstractParameter& e) {
     }
 }
 
-void ofxGuiPresetSelector::setup_GUI_PRESETS() {
+void ofxGuiPresetSelector::setup_Gui() {
 
     int w = 200;
 
@@ -676,7 +674,7 @@ void ofxGuiPresetSelector::setup_GUI_PRESETS() {
     group = gui.addGroup("PRESETS", confCont);
     group->add<ofxGuiIntSlider>(PRESET_selected, confItem_Big);
 
-    ofAddListener(params.parameterChangedE(), this, &ofxGuiPresetSelector::Changed_PRESET);
+    ofAddListener(params.parameterChangedE(), this, &ofxGuiPresetSelector::Changed_Gui);
 
     group->setPosition(600, 550);
 }
@@ -685,4 +683,15 @@ void ofxGuiPresetSelector::set_GUI_position(int x, int y)
 {
     group->setPosition(x, y);
 
+}
+
+void ofxGuiPresetSelector::setVisible_Gui(bool visible)
+{
+    SHOW_Gui = visible;
+    gui.getVisible().set(SHOW_Gui);
+}
+
+void ofxGuiPresetSelector::setVisible_ClickPanel(bool visible)
+{
+    SHOW_ClickPanel = visible;
 }

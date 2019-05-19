@@ -9,6 +9,7 @@
 // + switched preset management from ofxGuiPanel to ofParametersGroup
 // + added custom DATA class DataGrid
 // + integrated to ofxSEQ
+// + added slider selector
 //
 // TODO:
 // - save full kit of presets to avoid blocking main thread when switching presets
@@ -40,6 +41,7 @@ class ofxGuiPresetSelector {
     
 public:
     ofxGuiPresetSelector();
+    ~ofxGuiPresetSelector();
 
     //-
 
@@ -164,11 +166,14 @@ private:
     //-
 
 public:
+
+    //-
+
     // GUI
 
     ofJson confCont, confItem, confItem_Big, confItem_Fat;
-    void setup_GUI_PRESETS();
-    void Changed_PRESET(ofAbstractParameter& e);
+    void setup_Gui();
+    void Changed_Gui(ofAbstractParameter &e);
 
     ofxGui gui;
     ofParameterGroup params;
@@ -176,4 +181,11 @@ public:
     ofParameter<int> PRESET_selected;
     int num_presets;
     void set_GUI_position(int x, int y);
+
+    bool SHOW_Gui;
+    bool SHOW_ClickPanel;
+    void setVisible_Gui(bool visible);
+    void setVisible_ClickPanel(bool visible);
+
+    //-
 };
