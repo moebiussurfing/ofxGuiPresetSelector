@@ -1,11 +1,20 @@
 
 // ofxGuiPresetSelector.h
-// Nicola Pisanti, MIT License, 2016
+// original addon by Nicola Pisanti, MIT License, 2016
 //
-// changes by moebiussurfing:
+// changes and customized by moebiussurfing:
+//
+// LOG:
 // + switched from ofxGui to ofxGuiExtended
-// + switched preset mangement from ofxGuiPanel to ofParametersGroup
-// TODO: add vectors, structs, json utils..
+// + switched preset management from ofxGuiPanel to ofParametersGroup
+// + added custom DATA class DataGrid
+// + integrated to ofxSEQ
+//
+// TODO:
+// - save full kit of presets to avoid blocking main thread when switching presets
+// - use pointers bewteen classes to share the data struct from DataGridc class,
+// ofxSEQ, or wherever is used ... almost done. but maybe should add listeners
+// replayers when preset are loaded/saved..
 
 #pragma once
 
@@ -118,7 +127,6 @@ private:
 
     // B. custom DataGrid class
 #ifdef USE_CUSTOM_DATAGRID
-//    vector<DataGrid> grids;
     vector<DataGrid*> grids;
 #endif
 
@@ -147,4 +155,25 @@ private:
     bool bDelayedLoading;
     vector<int> newIndices;
 
+    //-
+
+    ofTrueTypeFont	myFont;
+    string myTTF;// gui font for all gui theme
+    int sizeTTF;
+
+    //-
+
+public:
+    // GUI
+
+    ofJson confCont, confItem, confItem_Big, confItem_Fat;
+    void setup_GUI_PRESETS();
+    void Changed_PRESET(ofAbstractParameter& e);
+
+    ofxGui gui;
+    ofParameterGroup params;
+    ofxGuiGroup * group;
+    ofParameter<int> PRESET_selected;
+    int num_presets;
+    void set_GUI_position(int x, int y);
 };

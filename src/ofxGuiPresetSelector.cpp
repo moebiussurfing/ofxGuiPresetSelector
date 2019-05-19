@@ -2,15 +2,15 @@
 // ofxGuiPresetSelector.h
 // Nicola Pisanti, MIT License, 2016
 //
-// changes by moebiussurfing:
-// + switched from ofxGui to ofxGuiExtended
-// + switched preset mangement from ofxGuiPanel to ofParametersGroup
-// TODO: add vectors, structs, json utils..
+// changes by moebiussurfing
 
 #include "ofxGuiPresetSelector.h"
 
-ofxGuiPresetSelector::ofxGuiPresetSelector(){
-        
+ofxGuiPresetSelector::ofxGuiPresetSelector()
+{
+//    ofSetLogLevel("ofxGuiPresetSelector")
+    ofSetLogLevel(OF_LOG_VERBOSE);
+
     modeKey = OF_KEY_CONTROL;
     bKeys = false;
     keysNotActivated = true;
@@ -32,7 +32,7 @@ ofxGuiPresetSelector::ofxGuiPresetSelector(){
 
     lastIndices.reserve(32);
     keys.reserve(32);
-    
+
     lastMouseButtonState = false;
 
     bDelayedLoading = false;
@@ -40,6 +40,20 @@ ofxGuiPresetSelector::ofxGuiPresetSelector(){
     //-
 
     DONE_load.set("DONE LOAD", false);
+
+    myTTF = "assets/fonts/PragmataProR_0822.ttf";
+    sizeTTF = 10;
+    myFont.load(myTTF, sizeTTF, true, true);
+
+    //-
+
+//    // GUI
+//
+//    setup_GUI_PRESETS();
+
+    //    ofRemoveListener(params.parameterChangedE(), this, &ofApp::Changed_PRESET);
+    //-
+
 }
 
 // A. ofParameterGroup
@@ -71,13 +85,14 @@ int ofxGuiPresetSelector::getGuiIndex( string name ) const {
 
 
 string ofxGuiPresetSelector::presetName( string guiName, int presetIndex ) {
+    string folder = "assets/patterns/";
 
 #ifdef USE_OF_PARAMETER_GROUP
-    return (guiName + "_preset_" + ofToString(presetIndex) + ".xml" );
+    return (folder + guiName + "_preset_" + ofToString(presetIndex) + ".xml" );
 #endif
 
 #ifdef USE_CUSTOM_DATAGRID
-    return (guiName + "_preset_" + ofToString(presetIndex) + ".json" );
+    return (folder + guiName + "_preset_" + ofToString(presetIndex) + ".json" );
 #endif
 
 }
@@ -126,6 +141,12 @@ void ofxGuiPresetSelector::add( DataGrid & grid, int numPresets ) {
     lastIndices.push_back(0);
     newIndices.push_back(0);
     presets.push_back(numPresets);
+
+    //-
+
+    num_presets = numPresets;
+    (group->getIntSlider("PRESETS"))->setMax(num_presets);
+
 }
 
 void ofxGuiPresetSelector::add( DataGrid & grid, initializer_list<int> keysList ) {
@@ -139,6 +160,11 @@ void ofxGuiPresetSelector::add( DataGrid & grid, initializer_list<int> keysList 
     for (const int & key : keysList) keys[i].push_back( key );
 
     if(keysNotActivated) addKeysListeners();
+
+    //-
+
+//    num_presets = grids.size();
+//    (group->getIntSlider("PRESETS"))->setMax(num_presets);
 }
 #endif
 
@@ -207,13 +233,14 @@ void ofxGuiPresetSelector::save( int presetIndex, int guiIndex ) {
     }
 }
 void ofxGuiPresetSelector::load( int presetIndex, int guiIndex ) {
-    if(guiIndex>=0 && guiIndex<(int)grids.size()){
+    if(guiIndex>=0 && guiIndex<(int)grids.size())
+    {
         string str = presetName( grids[guiIndex]->getName(), presetIndex);
         grids[guiIndex]->load_JSON( str );
 
         lastIndices[guiIndex] = presetIndex;
 
-//        grids[guiIndex]->dump_grid();
+        // grids[guiIndex]->dump_grid();
 
         ofLogNotice("ofxGuiPresetSelector") << "load";
 
@@ -301,33 +328,39 @@ void ofxGuiPresetSelector::setModeKey( int key ){
 }
 
 
-void ofxGuiPresetSelector::keyPressed( ofKeyEventArgs& eventArgs ) {    
+void ofxGuiPresetSelector::keyPressed( ofKeyEventArgs& eventArgs ) {
     if( bKeys ){
-		const int & key = eventArgs.key;
-		
-		if(key == modeKey){
-			bKeySave = true;
-			return;
-		} 
-		
-		for(size_t i=0; i<keys.size(); ++i){
-			for(size_t k=0; k<keys[i].size(); ++k){
-				if(key == keys[i][k]){
-					
-					if(bKeySave){
-						save( k, i);
-					}else{
-						if(bDelayedLoading){
-							newIndices[i] = k;
-						}else{
-							load( k, i );
-						}
-					}
-					
-					return;
-				}
-			}   
-		}
+        const int & key = eventArgs.key;
+
+        if(key == modeKey){
+            bKeySave = true;
+            return;
+        }
+
+        for(size_t i=0; i<keys.size(); ++i){
+            for(size_t k=0; k<keys[i].size(); ++k){
+                if(key == keys[i][k]){
+
+                    if(bKeySave){
+                        save( k, i);
+                    }else{
+                        if(bDelayedLoading){
+                            newIndices[i] = k;
+                            ofLogNotice("ofxGuiPresetSelector") << "newIndices[i] = k;" <<  k << ", " << i;
+
+                            PRESET_selected = 1 + k;
+                        }
+                        else{
+                            load( k, i );
+                            ofLogNotice("ofxGuiPresetSelector") << "load( k, i ):" <<  k << ", " << i;
+
+                            PRESET_selected = 1 + k;
+                        }
+                    }
+                    return;
+                }
+            }
+        }
     }
 }
 
@@ -341,7 +374,7 @@ void ofxGuiPresetSelector::addKeysListeners(){
     ofAddListener( ofEvents().keyPressed, this, &ofxGuiPresetSelector::keyPressed );
     ofAddListener( ofEvents().keyReleased, this, &ofxGuiPresetSelector::keyReleased );
     keysNotActivated = false;
-	bKeys = true;
+    bKeys = true;
 }
 
 
@@ -353,53 +386,67 @@ void ofxGuiPresetSelector::setPosition( int x, int y, int cellSize ) {
 
 
 void ofxGuiPresetSelector::draw( int x, int y, int cellSize ) {
-    setPosition(x, y, cellSize);    
+    setPosition(x, y, cellSize);
     draw();
 }
 
 
 void ofxGuiPresetSelector::draw( ) {
-    
+
     if( !lastMouseButtonState && ofGetMousePressed() ){
         mousePressed( ofGetMouseX(), ofGetMouseY() );
     }
     lastMouseButtonState = ofGetMousePressed();
-    
+
     ofPushMatrix();
     ofPushStyle();
-        ofNoFill();
-        ofTranslate(x, y);
-        for(size_t i=0; i<keys.size(); ++i){
-            size_t k=0;
-            for(; k<keys[i].size(); ++k){
-                ofDrawRectangle( cellSize*k, cellSize*i, cellSize, cellSize );
-                ofDrawBitmapString( ofToString((char)keys[i][k]), cellSize*k+8, cellSize*i+18 );
-                if( lastIndices[i]==k ) ofDrawRectangle( cellSize*k+4, cellSize*i+4, cellSize-8, cellSize-8 );
-            }
-            for(; k<presets[i]; ++k){
-                ofDrawRectangle( cellSize*k, cellSize*i, cellSize, cellSize );
-                if( lastIndices[i]==k ) ofDrawRectangle( cellSize*k+4, cellSize*i+4, cellSize-8, cellSize-8 );
-            }
-            
-            
+    ofNoFill();
+    ofTranslate(x, y);
+
+    for(size_t i=0; i<keys.size(); ++i)
+    {
+        size_t k=0;
+        for(; k<keys[i].size(); ++k)
+        {
             ofDrawRectangle( cellSize*k, cellSize*i, cellSize, cellSize );
-            ofDrawCircle ( cellSize*k + cellSize/2, cellSize*i + cellSize/2, cellSize * 0.1f );
-            ofDrawRectangle( cellSize*k + cellSize*0.24f, cellSize*i, cellSize*0.09f, cellSize*0.20f );
-            ofDrawRectangle( cellSize*k + cellSize*0.18f, cellSize*i, cellSize*0.55f, cellSize*0.25f );
-            
-            
-            k++;
 
-            // A. ofParameterGroup
-            #ifdef USE_OF_PARAMETER_GROUP
-            ofDrawBitmapString( groups[i].getName(), cellSize*k+8, cellSize*i+18 );
-            #endif
+//                ofDrawBitmapString( ofToString((char)keys[i][k]), cellSize*k+8, cellSize*i+18 );
+            myFont.drawString( ofToString((char)keys[i][k]),
+                    cellSize*k + 0.5*cellSize - 0.25*sizeTTF,
+                    cellSize*i + 0.5*cellSize + 0.5*sizeTTF );
 
-            // B. custom DataGrid class
-            #ifdef USE_CUSTOM_DATAGRID
-            ofDrawBitmapString( grids[i]->getName(), cellSize*k+8, cellSize*i+18 );
-            #endif
+            if( lastIndices[i]==k ) ofDrawRectangle( cellSize*k+4, cellSize*i+4, cellSize-8, cellSize-8 );
         }
+        for(; k<presets[i]; ++k){
+            ofDrawRectangle( cellSize*k, cellSize*i, cellSize, cellSize );
+            if( lastIndices[i]==k ) ofDrawRectangle( cellSize*k+4, cellSize*i+4, cellSize-8, cellSize-8 );
+        }
+
+        // save button
+        ofDrawRectangle( cellSize*k, cellSize*i, cellSize, cellSize );
+        ofDrawCircle ( cellSize*k + cellSize/2, cellSize*i + cellSize/2, cellSize * 0.1f );
+        ofDrawRectangle( cellSize*k + cellSize*0.24f, cellSize*i, cellSize*0.09f, cellSize*0.20f );
+        ofDrawRectangle( cellSize*k + cellSize*0.18f, cellSize*i, cellSize*0.55f, cellSize*0.25f );
+
+
+        k++;
+
+        //-
+
+        // kit name
+
+//            // A. ofParameterGroup
+//            #ifdef USE_OF_PARAMETER_GROUP
+//            ofDrawBitmapString( groups[i].getName(), cellSize*k+8, cellSize*i+18 );
+//            #endif
+//
+//            // B. custom DataGrid class
+//            #ifdef USE_CUSTOM_DATAGRID
+//            ofDrawBitmapString( grids[i]->getName(), cellSize*k+8, cellSize*i+18 );
+//            #endif
+
+        //-
+    }
     ofPopStyle();
     ofPopMatrix();
 }
@@ -442,18 +489,24 @@ void ofxGuiPresetSelector::mousePressed( int x, int y ) {
             //load
             if(bDelayedLoading){
                 newIndices[yIndex] = xIndex;
+                ofLogNotice("ofxGuiPresetSelector") << "newIndices[yIndex] = xIndex:" <<  yIndex << " = " << xIndex;
             }else{
                 load( xIndex, yIndex);
+                ofLogNotice("ofxGuiPresetSelector") << "load( xIndex, yIndex):" <<  xIndex << ", " << yIndex;
+
+                PRESET_selected = 1 + xIndex;
             }
         }else if( xIndex == presets[yIndex]){
             // save
             save( lastIndices[yIndex], yIndex );
+
+            PRESET_selected = 1 + yIndex;
         }
     }
 #endif
 
     //-
-}  
+}
 
 
 void ofxGuiPresetSelector::setDelayedLoading( bool active ) {
@@ -523,5 +576,113 @@ void ofxGuiPresetSelector::delayedUpdate() {
 //-
 
 void ofxGuiPresetSelector::toggleKeysControl( bool active ) {
-	bKeys = active;
+    bKeys = active;
+}
+
+//--
+
+// PRESET GUI MANAGER
+
+void ofxGuiPresetSelector::Changed_PRESET(ofAbstractParameter& e) {
+    string WIDGET = e.getName();
+
+    ofLogNotice("ofxGuiPresetSelector") << "Changed_PRESET '" << WIDGET << "': " << e;
+
+    if (WIDGET == "PRESETS")
+    {
+        ofLogNotice("ofxGuiPresetSelector") << "PRESETS: " << e;
+
+
+
+
+//        if( yIndex >=0 &&  yIndex < (int)grids.size() ){
+//            if(xIndex>=0 && xIndex< presets[yIndex] ){
+        //load
+        if(bDelayedLoading)
+        {
+//                    xIndex = PRESET_selected - 1;
+//                    newIndices[yIndex] = xIndex;
+//                    ofLogNotice("ofxGuiPresetSelector") << "newIndices[yIndex] = xIndex:" <<  yIndex << " = " << xIndex;
+        }
+
+        else
+        {
+            int xIndex = PRESET_selected - 1;
+
+            // yIndex = ?
+            int yIndex = 0;
+
+            load( xIndex, yIndex);
+            ofLogNotice("ofxGuiPresetSelector") << "load( xIndex, yIndex):" <<  xIndex << ", " << yIndex;
+
+//                    PRESET_selected = 1 + xIndex;
+        }
+//            }
+//            else if( xIndex == presets[yIndex]){
+//                // save
+//                save( lastIndices[yIndex], yIndex );
+//
+//                PRESET_selected = 1 + yIndex;
+//            }
+    }
+}
+
+void ofxGuiPresetSelector::setup_GUI_PRESETS() {
+
+    int w = 200;
+
+    //-
+
+    confCont = //container
+            {
+                    {"direction", "vertical"},
+                    {"width", w},
+                    {"padding", 0},
+                    {"margin", 0},
+            };
+
+    confItem = //sliders
+            {
+                    {"type", "fullsize"},
+                    {"width", 100},
+                    {"height", 14},
+            };
+
+    confItem_Big = //big sliders
+            {
+                    {"type", "fullsize"},
+                    {"width", 100},
+                    {"height", 18},
+            };
+
+    confItem_Fat = //big buttons
+            {
+                    {"type", "fullsize"},
+                    {"height", 22},
+                    {"text-align", "center"},
+            };
+
+    //-
+
+    // PRESETS OF DEVICE
+
+    PRESET_selected.set("PRESETS", 1, 1, num_presets);
+
+    params.setName("PRESETS");
+    params.add(PRESET_selected);
+
+    //-
+
+    group = gui.addGroup("PRESETS", confCont);
+    group->add<ofxGuiIntSlider>(PRESET_selected, confItem_Big);
+
+    ofAddListener(params.parameterChangedE(), this, &ofxGuiPresetSelector::Changed_PRESET);
+
+    group->setPosition(600, 550);
+}
+
+void ofxGuiPresetSelector::set_GUI_position(int x, int y)
+{
+    group->setPosition(x, y);
+
 }

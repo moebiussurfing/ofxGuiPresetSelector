@@ -64,7 +64,7 @@ void DataGrid::save_JSON(string path)
         // JSON_row = ofxJsonUtils::create( kv( grid[note] ) );
         JSON_row = ofxJsonUtils::create( name, grid[note] );
 
-        ofLogNotice("DataGrid") << " > DUMP: " + name + " " << JSON_row.dump();
+        ofLogNotice("DataGrid") << "DUMP: " + name + " " << JSON_row.dump();
 
         //-
 
