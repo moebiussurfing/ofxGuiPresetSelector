@@ -184,6 +184,7 @@ public:
     ofParameterGroup params;
     ofxGuiGroup * group;
     ofParameter<int> PRESET_selected;
+    int PRESET_selected_PRE = -1;
     ofParameter<bool> autoSave;
     int num_presets;
 
@@ -194,6 +195,9 @@ public:
     void set_GUI_position(int x, int y);
     void setVisible_Gui(bool visible);
     void setVisible_ClickPanel(bool visible);
+
+    string pathKitFolder = "myKit";//default kit folder to store patterns
+    void set_pathKit_Folder(string folder);
 
     //-
 

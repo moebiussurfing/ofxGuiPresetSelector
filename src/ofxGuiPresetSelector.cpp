@@ -15,8 +15,7 @@ ofxGuiPresetSelector::~ofxGuiPresetSelector()
 
 ofxGuiPresetSelector::ofxGuiPresetSelector()
 {
-
-//    ofSetLogLevel("ofxGuiPresetSelector")
+    // ofSetLogLevel("ofxGuiPresetSelector")
     ofSetLogLevel(OF_LOG_VERBOSE);
 
     modeKey = OF_KEY_CONTROL;
@@ -47,6 +46,7 @@ ofxGuiPresetSelector::ofxGuiPresetSelector()
     //-
 
     DONE_load.set("DONE LOAD", false);
+    DONE_save.set("DONE SAVE", false);
 
     myTTF = "assets/fonts/PragmataProR_0822.ttf";
     sizeTTF = 10;
@@ -66,8 +66,6 @@ ofxGuiPresetSelector::ofxGuiPresetSelector()
     ofAddListener(params.parameterChangedE(), this, &ofxGuiPresetSelector::Changed_Gui);
 
     //-
-
-
 }
 
 // A. ofParameterGroup
@@ -97,9 +95,11 @@ int ofxGuiPresetSelector::getGuiIndex( string name ) const {
 }
 #endif
 
-
-string ofxGuiPresetSelector::presetName( string guiName, int presetIndex ) {
-    string folder = "assets/patterns/";
+string ofxGuiPresetSelector::presetName( string guiName, int presetIndex )
+{
+    string folder;
+//    folder = "/patterns/"; //using subfolder
+    folder = "/"; //without subfolder
 
 #ifdef USE_OF_PARAMETER_GROUP
     return (folder + guiName + "_preset_" + ofToString(presetIndex) + ".xml" );
@@ -233,14 +233,15 @@ void ofxGuiPresetSelector::load( int presetIndex, string guiName ) {
 
 #ifdef USE_CUSTOM_DATAGRID
 
-void ofxGuiPresetSelector::save( int presetIndex, int guiIndex ) {
+void ofxGuiPresetSelector::save( int presetIndex, int guiIndex )
+{
     if(guiIndex>=0 && guiIndex<(int)grids.size())
     {
         DONE_save = true;
 
         std::string n = presetName( grids[guiIndex]->getName(), presetIndex);
 
-        grids[guiIndex]->save_JSON(n);
+        grids[guiIndex]->save_JSON(pathKitFolder + "/" + n);
         ofLogNotice("ofxGuiPresetSelector") << "save";
     }
 }
@@ -249,7 +250,7 @@ void ofxGuiPresetSelector::load( int presetIndex, int guiIndex ) {
     if(guiIndex>=0 && guiIndex<(int)grids.size())
     {
         string str = presetName( grids[guiIndex]->getName(), presetIndex);
-        grids[guiIndex]->load_JSON( str );
+        grids[guiIndex]->load_JSON( pathKitFolder + "/" + str );
 
         lastIndices[guiIndex] = presetIndex;
 
@@ -270,7 +271,7 @@ void ofxGuiPresetSelector::save( int presetIndex, string guiName ) {
 
         string n = presetName( guiName, presetIndex);
 
-        grids[guiIndex]->save_JSON(n);
+        grids[guiIndex]->save_JSON(pathKitFolder + "/" + n);
         ofLogNotice("ofxGuiPresetSelector") << "save";
     }
 }
@@ -281,7 +282,7 @@ void ofxGuiPresetSelector::load( int presetIndex, string guiName ) {
     if(guiIndex>=0 && guiIndex<(int)grids.size()){
 
         string n = presetName( guiName, presetIndex);
-        grids[guiIndex]->load_JSON(n);
+        grids[guiIndex]->load_JSON(pathKitFolder + "/" + n);
 
         lastIndices[guiIndex] = presetIndex;
 
@@ -318,7 +319,8 @@ int ofxGuiPresetSelector::getPresetIndex( string guiName )const {
 // B. custom DataGrid class
 #ifdef USE_CUSTOM_DATAGRID
 
-int ofxGuiPresetSelector::getPresetIndex( int guiIndex ) const {
+int ofxGuiPresetSelector::getPresetIndex( int guiIndex ) const
+{
     if(guiIndex>0 && guiIndex<(int)grids.size()){
         return lastIndices[guiIndex];
     }else{
@@ -326,7 +328,8 @@ int ofxGuiPresetSelector::getPresetIndex( int guiIndex ) const {
     }
 }
 
-int ofxGuiPresetSelector::getPresetIndex( string guiName )const {
+int ofxGuiPresetSelector::getPresetIndex( string guiName )const
+{
     int guiIndex = getGuiIndex(guiName);
 
     if(guiIndex>0 && guiIndex<(int)grids.size()){
@@ -344,7 +347,8 @@ void ofxGuiPresetSelector::setModeKey( int key ){
     modeKey = key;
 }
 
-void ofxGuiPresetSelector::keyPressed( ofKeyEventArgs& eventArgs ) {
+void ofxGuiPresetSelector::keyPressed( ofKeyEventArgs& eventArgs )
+{
     if( bKeys && ENABLE_shortcuts){
         const int & key = eventArgs.key;
 
@@ -610,12 +614,13 @@ void ofxGuiPresetSelector::toggleKeysControl( bool active ) {
 
 // PRESET GUI MANAGER
 
-void ofxGuiPresetSelector::Changed_Gui(ofAbstractParameter &e) {
+void ofxGuiPresetSelector::Changed_Gui(ofAbstractParameter &e)
+{
     string WIDGET = e.getName();
 
     ofLogNotice("ofxGuiPresetSelector") << "Changed_Gui '" << WIDGET << "': " << e;
 
-    if (WIDGET == "PRESETS")
+    if ( WIDGET == "PRESETS" && (PRESET_selected != PRESET_selected_PRE) )
     {
         ofLogNotice("ofxGuiPresetSelector") << "PRESETS: " << e;
 
@@ -641,7 +646,10 @@ void ofxGuiPresetSelector::Changed_Gui(ofAbstractParameter &e) {
 //            ofLogNotice("ofxGuiPresetSelector") << "load( xIndex, yIndex):" <<  xIndex << ", " << yIndex;
 
             int xIndex = PRESET_selected - 1;
-            int yIndex = 0;
+
+            PRESET_selected_PRE = PRESET_selected;
+
+            int yIndex = 0;//this should handle when using multiple kits together
             // yIndex = ?
 
             load( xIndex, yIndex);
@@ -705,7 +713,6 @@ void ofxGuiPresetSelector::setup_Gui() {
 void ofxGuiPresetSelector::set_GUI_position(int x, int y)
 {
     group->setPosition(x, y);
-
 }
 
 void ofxGuiPresetSelector::setVisible_Gui(bool visible)
@@ -725,13 +732,16 @@ void ofxGuiPresetSelector::load_ControlSettings()
     settings.load(pathControl);
     ofDeserialize(settings, params);
 
-    cout << "PRESET_selected: " << PRESET_selected << endl;
+    cout << "load_ControlSettings > PRESET_selected: " << PRESET_selected << endl;
 }
 
-
-void ofxGuiPresetSelector::save_ControlSettings()
-{
+void ofxGuiPresetSelector::save_ControlSettings() {
     ofXml settings;
     ofSerialize(settings, params);
     settings.save(pathControl);
+}
+
+void ofxGuiPresetSelector::set_pathKit_Folder(string folder)
+{
+    pathKitFolder = folder;
 }
