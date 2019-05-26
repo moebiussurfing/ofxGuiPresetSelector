@@ -6,7 +6,9 @@
 
 DataGrid::DataGrid()
 {
-    ofLogNotice("DataGrid") << "CONSTRUCTOR";
+    ofSetLogLevel("DataGrid", OF_LOG_NOTICE);
+
+    ofLogVerbose("DataGrid") << "CONSTRUCTOR";
     name = "";
     id = 0;
     subTag = "row";//text tag for any row (aka subjson) into json file
@@ -43,10 +45,6 @@ void DataGrid::save_JSON(string path)
 {
     ofLogNotice("DataGrid") << "save_JSON";
 
-    //    int steps[NUM_SEQ_BEATS];
-    //    //    vector<int> steps;
-    //    //    steps.resize(NUM_SEQ_BEATS);
-
     ofJson JSON_row;//temp row(note) json for the slow mode parser
     ofJson JSON_grid;
 
@@ -64,7 +62,7 @@ void DataGrid::save_JSON(string path)
         // JSON_row = ofxJsonUtils::create( kv( grid[note] ) );
         JSON_row = ofxJsonUtils::create( name, grid[note] );
 
-        ofLogNotice("DataGrid") << "DUMP: " + name + " " << JSON_row.dump();
+        ofLogVerbose("DataGrid") << "DUMP: " + name + " " << JSON_row.dump();
 
         //-
 
@@ -85,9 +83,7 @@ void DataGrid::save_JSON(string path)
 //------------------------------------------------
 void DataGrid::dump_grid()
 {
-    ofLogVerbose("DataGrid") << "dump_grid";
-
-    // TODO: should define data vector with open size..
+    ofLogNotice("DataGrid") << "dump_grid";
 
     for (int note = 0; note < NUM_SEQ_NOTES; note++) {
 
@@ -120,7 +116,7 @@ void DataGrid::randomize_grid() {
 
     for( size_t n = 0; n < NUM_SEQ_NOTES; n++ )
     {
-        ofLogNotice("DataGrid") << subTag + ofToString(n ) + " -- ";
+        //ofLogVerbose("DataGrid") << subTag + ofToString(n ) + " -- ";
         // cout << subTag << n << " -- ";
 
         for( size_t b = 0; b < NUM_SEQ_BEATS; b++ )
@@ -134,9 +130,8 @@ void DataGrid::randomize_grid() {
         }
         // cout << endl;
 
-        ofLogNotice("DataGrid") << str;
+        //ofLogVerbose("DataGrid") << str;
     }
-
     //-
 }
 
@@ -147,28 +142,21 @@ void DataGrid::load_JSON(string path)
 
     //-
 
-    // fast mode do not works. maybe because using array not vectors..
-
-    //    ofJson js = ofxJsonUtils::loadFromFile(path);
-    //    ofLogNotice("DataGrid") << "DUMP GRID: " << js.dump();
-    //    ofxJsonUtils::load( json, kv( grid[][] ) );
-
-    //-
-
     ofJson js;
     ofFile file( path );
     if(file.exists())
     {
         file >> js;
-        ofLogNotice("DataGrid") << " > DUMP GRID: ";
+        ofLogVerbose("DataGrid") << " > DUMP GRID: ";
 
         int n = 0;
         for (auto &js_Row: js) {
             if (!js_Row.empty()) {
                 string js_Tag = subTag + ofToString(n);
-                ofLogNotice("DataGrid") << "subJSON:" + js_Tag + ": " << js_Row.dump();
+                ofLogVerbose("DataGrid") << "subJSON:" + js_Tag + ": " << js_Row.dump();
 
-                std::vector<int> steps = js_Row[js_Tag]; //load json array to vector
+                std::vector<int> steps = js_Row[js_Tag];
+                //load json array to vector
                 int b = 0;
                 for (auto i : steps) {
                     grid[n][b] = i;
@@ -181,9 +169,11 @@ void DataGrid::load_JSON(string path)
 
     //-
 
-//    // testing: re init randomize when no json files are present
-//
-//    randomize_grid();
+    // fast mode do not works. maybe because using array not vectors..
+
+    //    ofJson js = ofxJsonUtils::loadFromFile(path);
+    //    ofLogNotice("DataGrid") << "DUMP GRID: " << js.dump();
+    //    ofxJsonUtils::load( json, kv( grid[][] ) );
 
     //-
 }

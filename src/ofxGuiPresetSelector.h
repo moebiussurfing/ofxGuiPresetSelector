@@ -88,9 +88,15 @@ public:
     // set the key you have to hold for saving, default is OF_KEY_CONTROL
     void setModeKey( int key );
 
+    //-
+
+    // API
+
     // set graphics position
     // cellsize is the size of each preset button
-    void setPosition( int x, int y, int cellSize );
+    void setPosition_CLICKER( int x, int y, int cellSize );
+
+    //-
 
     // draw some info, when the gui is drawn you can also click on the button to change / save presets
     void draw();
@@ -179,14 +185,26 @@ public:
     ofxGuiGroup * group;
     ofParameter<int> PRESET_selected;
     int num_presets;
-    void set_GUI_position(int x, int y);
 
-    bool SHOW_Gui;
-    bool SHOW_ClickPanel;
+    //-
+
+    // API
+
+    void set_GUI_position(int x, int y);
     void setVisible_Gui(bool visible);
     void setVisible_ClickPanel(bool visible);
 
+    //-
+
+    bool SHOW_Gui;
+    bool SHOW_ClickPanel;
+
     int gui_w;
+    int gui_slider_h;
+    int gui_slider_big_h;
+    int gui_button_h;
+
+    bool ENABLE_shortcuts = true;
 
     //-
 };

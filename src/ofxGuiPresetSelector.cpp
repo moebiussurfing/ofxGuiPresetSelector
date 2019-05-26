@@ -329,7 +329,7 @@ void ofxGuiPresetSelector::setModeKey( int key ){
 }
 
 void ofxGuiPresetSelector::keyPressed( ofKeyEventArgs& eventArgs ) {
-    if( bKeys ){
+    if( bKeys && ENABLE_shortcuts){
         const int & key = eventArgs.key;
 
         if(key == modeKey){
@@ -345,14 +345,14 @@ void ofxGuiPresetSelector::keyPressed( ofKeyEventArgs& eventArgs ) {
                         save( k, i);
                     }else{
                         if(bDelayedLoading){
-                            newIndices[i] = k;
-                            ofLogNotice("ofxGuiPresetSelector") << "newIndices[i] = k;" <<  k << ", " << i;
+//                            newIndices[i] = k;
+//                            ofLogNotice("ofxGuiPresetSelector") << "newIndices[i] = k;" <<  k << ", " << i;
 
                             PRESET_selected = 1 + k;
                         }
                         else{
-                            load( k, i );
-                            ofLogNotice("ofxGuiPresetSelector") << "load( k, i ):" <<  k << ", " << i;
+//                            load( k, i );
+//                            ofLogNotice("ofxGuiPresetSelector") << "load( k, i ):" <<  k << ", " << i;
 
                             PRESET_selected = 1 + k;
                         }
@@ -366,7 +366,7 @@ void ofxGuiPresetSelector::keyPressed( ofKeyEventArgs& eventArgs ) {
 
 
 void ofxGuiPresetSelector::keyReleased( ofKeyEventArgs& eventArgs ) {
-    if( eventArgs.key == modeKey) bKeySave = false;
+    if( eventArgs.key == modeKey && ENABLE_shortcuts) bKeySave = false;
 }
 
 
@@ -378,7 +378,7 @@ void ofxGuiPresetSelector::addKeysListeners(){
 }
 
 
-void ofxGuiPresetSelector::setPosition( int x, int y, int cellSize ) {
+void ofxGuiPresetSelector::setPosition_CLICKER( int x, int y, int cellSize ) {
     this->x = x;
     this->y = y;
     this->cellSize = cellSize;
@@ -386,7 +386,7 @@ void ofxGuiPresetSelector::setPosition( int x, int y, int cellSize ) {
 
 
 void ofxGuiPresetSelector::draw( int x, int y, int cellSize ) {
-    setPosition(x, y, cellSize);
+    setPosition_CLICKER(x, y, cellSize);
     draw();
 }
 
@@ -467,7 +467,8 @@ void ofxGuiPresetSelector::mousePressed( int x, int y ) {
 
     // A. ofParameterGroup
 #ifdef USE_OF_PARAMETER_GROUP
-    if( yIndex >=0 &&  yIndex < (int)groups.size() ){
+    if( yIndex >=0 &&  yIndex < (int)groups.size() )
+    {
         if(xIndex>=0 && xIndex< presets[yIndex] ){
             //load
             if(bDelayedLoading){
@@ -485,19 +486,25 @@ void ofxGuiPresetSelector::mousePressed( int x, int y ) {
     // B. custom DataGrid class
 #ifdef USE_CUSTOM_DATAGRID
 
-    if( yIndex >=0 &&  yIndex < (int)grids.size() ){
+    if( yIndex >=0 &&  yIndex < (int)grids.size() )
+    {
         if(xIndex>=0 && xIndex< presets[yIndex] ){
             //load
-            if(bDelayedLoading){
-                newIndices[yIndex] = xIndex;
-                ofLogNotice("ofxGuiPresetSelector") << "newIndices[yIndex] = xIndex:" <<  yIndex << " = " << xIndex;
-            }else{
-                load( xIndex, yIndex);
-                ofLogNotice("ofxGuiPresetSelector") << "load( xIndex, yIndex):" <<  xIndex << ", " << yIndex;
+            if(bDelayedLoading)
+            {
+//                newIndices[yIndex] = xIndex;
+//                ofLogNotice("ofxGuiPresetSelector") << "newIndices[yIndex] = xIndex:" <<  yIndex << " = " << xIndex;
+            }
+            else
+            {
+//                load( xIndex, yIndex);
+//                ofLogNotice("ofxGuiPresetSelector") << "load( xIndex, yIndex):" <<  xIndex << ", " << yIndex;
 
                 PRESET_selected = 1 + xIndex;
             }
-        }else if( xIndex == presets[yIndex]){
+        }
+        else if( xIndex == presets[yIndex])
+        {
             // save
             save( lastIndices[yIndex], yIndex );
 
@@ -511,13 +518,15 @@ void ofxGuiPresetSelector::mousePressed( int x, int y ) {
 }
 
 
-void ofxGuiPresetSelector::setDelayedLoading( bool active ) {
+void ofxGuiPresetSelector::setDelayedLoading( bool active )
+{
     bDelayedLoading = active;
 }
 
 //-
 
-void ofxGuiPresetSelector::delayedLoad( int presetIndex, int guiIndex ) {
+void ofxGuiPresetSelector::delayedLoad( int presetIndex, int guiIndex )
+{
 
     // A. ofParameterGroup
 #ifdef USE_OF_PARAMETER_GROUP
@@ -534,7 +543,8 @@ void ofxGuiPresetSelector::delayedLoad( int presetIndex, int guiIndex ) {
 #endif
 }
 
-void ofxGuiPresetSelector::delayedLoad( int presetIndex, string guiName ) {
+void ofxGuiPresetSelector::delayedLoad( int presetIndex, string guiName )
+{
     int guiIndex = getGuiIndex(guiName);
 
     // A. ofParameterGroup
@@ -550,7 +560,6 @@ void ofxGuiPresetSelector::delayedLoad( int presetIndex, string guiName ) {
         newIndices[guiIndex] = presetIndex;
     }
 #endif
-
 }
 
 void ofxGuiPresetSelector::delayedUpdate() {
@@ -597,11 +606,24 @@ void ofxGuiPresetSelector::Changed_Gui(ofAbstractParameter &e) {
         //load
         if(bDelayedLoading)
         {
-//            ofLogNotice("ofxGuiPresetSelector") << "newIndices[yIndex] = xIndex:" <<  yIndex << " = " << xIndex;
+            //byKey
+            //newIndices[i] = k;
+            //ofLogNotice("ofxGuiPresetSelector") << "newIndices[i] = k;" <<  k << ", " << i;
+
+            //byMousePressed
+            //ofLogNotice("ofxGuiPresetSelector") << "newIndices[yIndex] = xIndex:" <<  yIndex << " = " << xIndex;
         }
 
         else
         {
+            //byKey
+//            load( k, i );
+//            ofLogNotice("ofxGuiPresetSelector") << "load( k, i ):" <<  k << ", " << i;
+
+            //byMousePressed
+//            load( xIndex, yIndex);
+//            ofLogNotice("ofxGuiPresetSelector") << "load( xIndex, yIndex):" <<  xIndex << ", " << yIndex;
+
             int xIndex = PRESET_selected - 1;
             int yIndex = 0;
             // yIndex = ?
@@ -615,9 +637,9 @@ void ofxGuiPresetSelector::Changed_Gui(ofAbstractParameter &e) {
 void ofxGuiPresetSelector::setup_Gui() {
 
     gui_w = 200;
-    int gui_slider_h = 14;
-    int gui_slider_big_h = 18;
-    int gui_button_h = 22;
+    gui_slider_h = 14;
+    gui_slider_big_h = 18;
+    gui_button_h = 22;
 
     //-
 
@@ -632,14 +654,12 @@ void ofxGuiPresetSelector::setup_Gui() {
     confItem = //sliders
             {
                     {"type", "fullsize"},
-//                    {"width", 100},
                     {"height", gui_slider_h},
             };
 
     confItem_Big = //big sliders
             {
                     {"type", "fullsize"},
-                    {"width", 100},
                     {"height", gui_slider_big_h},
             };
 
@@ -661,7 +681,7 @@ void ofxGuiPresetSelector::setup_Gui() {
 
     //-
 
-    group = gui.addGroup("PRESETS", confCont);
+    group = gui.addGroup("PATTERNS", confCont);
     group->add<ofxGuiIntSlider>(PRESET_selected, confItem_Big);
 
     ofAddListener(params.parameterChangedE(), this, &ofxGuiPresetSelector::Changed_Gui);

@@ -7,8 +7,6 @@
 #include "ofMain.h"
 #include "ofxJsonUtils.h"
 
-// TODO: should define data vector with open size..
-
 #define NUM_SEQ_NOTES 12//max & fixed size
 #define NUM_SEQ_BEATS 16//max & fixed size
 
@@ -40,6 +38,5 @@ public:
 
     void setName(std::string name);
     std::string getName() const;
-
 };
 
