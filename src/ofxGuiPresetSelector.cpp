@@ -8,6 +8,8 @@
 
 ofxGuiPresetSelector::~ofxGuiPresetSelector()
 {
+    save_ControlSettings();
+
     ofRemoveListener(params.parameterChangedE(), this, &ofxGuiPresetSelector::Changed_Gui);
 }
 
@@ -40,7 +42,6 @@ ofxGuiPresetSelector::ofxGuiPresetSelector()
     keys.reserve(32);
 
     lastMouseButtonState = false;
-
     bDelayedLoading = false;
 
     //-
@@ -52,6 +53,21 @@ ofxGuiPresetSelector::ofxGuiPresetSelector()
     myFont.load(myTTF, sizeTTF, true, true);
 
     //-
+
+    // PRESETS OF DEVICE
+
+    PRESET_selected.set("PRESETS", 1, 1, num_presets);
+
+    params.setName("PRESETS");
+    params.add(PRESET_selected);
+    autoSave.set("AUTOSAVE", false);
+    params.add(autoSave);
+
+    ofAddListener(params.parameterChangedE(), this, &ofxGuiPresetSelector::Changed_Gui);
+
+    //-
+
+
 }
 
 // A. ofParameterGroup
@@ -651,6 +667,11 @@ void ofxGuiPresetSelector::setup_Gui() {
                     {"margin", 0},
             };
 
+    confItem_toggle = //toggle
+            {
+                    {"height", gui_slider_h},
+            };
+
     confItem = //sliders
             {
                     {"type", "fullsize"},
@@ -672,19 +693,11 @@ void ofxGuiPresetSelector::setup_Gui() {
 
     //-
 
-    // PRESETS OF DEVICE
-
-    PRESET_selected.set("PRESETS", 1, 1, num_presets);
-
-    params.setName("PRESETS");
-    params.add(PRESET_selected);
-
-    //-
-
     group = gui.addGroup("PATTERNS", confCont);
     group->add<ofxGuiIntSlider>(PRESET_selected, confItem_Big);
+    group->add<ofxGuiToggle>(autoSave, confItem_toggle);
 
-    ofAddListener(params.parameterChangedE(), this, &ofxGuiPresetSelector::Changed_Gui);
+    //-
 
     group->setPosition(600, 550);
 }
@@ -704,4 +717,21 @@ void ofxGuiPresetSelector::setVisible_Gui(bool visible)
 void ofxGuiPresetSelector::setVisible_ClickPanel(bool visible)
 {
     SHOW_ClickPanel = visible;
+}
+
+void ofxGuiPresetSelector::load_ControlSettings()
+{
+    ofXml settings;
+    settings.load(pathControl);
+    ofDeserialize(settings, params);
+
+    cout << "PRESET_selected: " << PRESET_selected << endl;
+}
+
+
+void ofxGuiPresetSelector::save_ControlSettings()
+{
+    ofXml settings;
+    ofSerialize(settings, params);
+    settings.save(pathControl);
 }

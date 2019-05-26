@@ -176,7 +176,7 @@ public:
 
     // GUI
 
-    ofJson confCont, confItem, confItem_Big, confItem_Fat;
+    ofJson confCont, confItem, confItem_toggle, confItem_Big, confItem_Fat;
     void setup_Gui();
     void Changed_Gui(ofAbstractParameter &e);
 
@@ -184,6 +184,7 @@ public:
     ofParameterGroup params;
     ofxGuiGroup * group;
     ofParameter<int> PRESET_selected;
+    ofParameter<bool> autoSave;
     int num_presets;
 
     //-
@@ -207,4 +208,8 @@ public:
     bool ENABLE_shortcuts = true;
 
     //-
+
+    void load_ControlSettings();
+    void save_ControlSettings();
+    string pathControl = "assets/settings/PRESET_MANAGER_control.xml";
 };
