@@ -186,6 +186,9 @@ public:
     ofParameter<int> PRESET_selected;
     int PRESET_selected_PRE = -1;
     ofParameter<bool> autoSave;
+    ofParameter<bool> autoLoad;
+    ofParameter<bool> cloneRight;
+    void doCloneRight(int patternNum);
     int num_presets;
 
     //-
@@ -216,4 +219,9 @@ public:
     void load_ControlSettings();
     void save_ControlSettings();
     string pathControl = "assets/settings/PRESET_MANAGER_control.xml";
+
+    //--
+
+            // TODO: make save, load, functions to reuse and simplify
+
 };

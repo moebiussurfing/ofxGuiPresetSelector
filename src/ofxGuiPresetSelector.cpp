@@ -60,8 +60,12 @@ ofxGuiPresetSelector::ofxGuiPresetSelector()
 
     params.setName("PRESETS");
     params.add(PRESET_selected);
-    autoSave.set("AUTOSAVE", false);
+    autoLoad.set("AUTO LOAD", false);
+    autoSave.set("AUTO SAVE", false);
+    cloneRight.set("CLONE >", false);
+    params.add(autoLoad);
     params.add(autoSave);
+    params.add(cloneRight);
 
     ofAddListener(params.parameterChangedE(), this, &ofxGuiPresetSelector::Changed_Gui);
 
@@ -237,28 +241,18 @@ void ofxGuiPresetSelector::save( int presetIndex, int guiIndex )
 {
     if(guiIndex>=0 && guiIndex<(int)grids.size())
     {
+        ofLogNotice("ofxGuiPresetSelector") << "DONE_save";
         DONE_save = true;
+        // will make in SEQ: get sequencer state before saving in preset manager
+        //GRID_getFrom_Sequencer();
 
         std::string n = presetName( grids[guiIndex]->getName(), presetIndex);
 
+        ofLogNotice("ofxGuiPresetSelector") << "> save( presetIndex, guiIndex): " << presetIndex <<", "<< guiIndex;
+        ofLogNotice("ofxGuiPresetSelector") << "grids[guiIndex]->getName(): " << grids[guiIndex]->getName();
+        ofLogNotice("ofxGuiPresetSelector") << "n: " << n;
+
         grids[guiIndex]->save_JSON(pathKitFolder + "/" + n);
-        ofLogNotice("ofxGuiPresetSelector") << "save";
-    }
-}
-
-void ofxGuiPresetSelector::load( int presetIndex, int guiIndex ) {
-    if(guiIndex>=0 && guiIndex<(int)grids.size())
-    {
-        string str = presetName( grids[guiIndex]->getName(), presetIndex);
-        grids[guiIndex]->load_JSON( pathKitFolder + "/" + str );
-
-        lastIndices[guiIndex] = presetIndex;
-
-        // grids[guiIndex]->dump_grid();
-
-        ofLogNotice("ofxGuiPresetSelector") << "load";
-
-        DONE_load = true;
     }
 }
 
@@ -267,12 +261,37 @@ void ofxGuiPresetSelector::save( int presetIndex, string guiName ) {
 
     if(guiIndex>=0 && guiIndex<(int)grids.size())
     {
+        ofLogNotice("ofxGuiPresetSelector") << "DONE_save";
         DONE_save = true;
+        // will make in SEQ: get sequencer state before saving in preset manager
+        //GRID_getFrom_Sequencer();
+
+        ofLogNotice("ofxGuiPresetSelector") << "> save( presetIndex, guiName): " << presetIndex <<", "<< guiName;
+        ofLogNotice("ofxGuiPresetSelector") << "guiIndex = getGuiIndex(guiName): " << guiIndex;
 
         string n = presetName( guiName, presetIndex);
 
         grids[guiIndex]->save_JSON(pathKitFolder + "/" + n);
-        ofLogNotice("ofxGuiPresetSelector") << "save";
+    }
+}
+
+//-
+
+void ofxGuiPresetSelector::load( int presetIndex, int guiIndex ) {
+    if(guiIndex>=0 && guiIndex<(int)grids.size())
+    {
+        ofLogNotice("ofxGuiPresetSelector") << "> load( presetIndex, guiIndex): " << presetIndex <<", "<< guiIndex;
+
+        string str = presetName( grids[guiIndex]->getName(), presetIndex);
+        grids[guiIndex]->load_JSON( pathKitFolder + "/" + str );
+
+        lastIndices[guiIndex] = presetIndex;
+
+        // grids[guiIndex]->dump_grid();
+
+        ofLogNotice("ofxGuiPresetSelector") << "DONE_load";
+
+        DONE_load = true;
     }
 }
 
@@ -281,12 +300,14 @@ void ofxGuiPresetSelector::load( int presetIndex, string guiName ) {
 
     if(guiIndex>=0 && guiIndex<(int)grids.size()){
 
+        ofLogNotice("ofxGuiPresetSelector") << "> load( presetIndex, guiName): " << presetIndex <<", "<< guiName;
+
         string n = presetName( guiName, presetIndex);
         grids[guiIndex]->load_JSON(pathKitFolder + "/" + n);
 
         lastIndices[guiIndex] = presetIndex;
 
-        ofLogNotice("ofxGuiPresetSelector") << "load";
+        ofLogNotice("ofxGuiPresetSelector") << "DONE_load";
 
         DONE_load = true;
     }
@@ -367,8 +388,7 @@ void ofxGuiPresetSelector::keyPressed( ofKeyEventArgs& eventArgs )
                         if(bDelayedLoading){
 //                            newIndices[i] = k;
 //                            ofLogNotice("ofxGuiPresetSelector") << "newIndices[i] = k;" <<  k << ", " << i;
-
-                            PRESET_selected = 1 + k;
+//                            PRESET_selected = 1 + k;
                         }
                         else{
 //                            load( k, i );
@@ -483,6 +503,8 @@ void ofxGuiPresetSelector::mousePressed( int x, int y ) {
     xIndex = (x>0) ? xIndex : -1;
     yIndex = (y>0) ? yIndex : -1;
 
+    ofLogNotice("ofxGuiPresetSelector") << "> mousePressed - xIndex, yIndex: " << xIndex <<", "<< yIndex;
+
     //-
 
     // A. ofParameterGroup
@@ -508,6 +530,7 @@ void ofxGuiPresetSelector::mousePressed( int x, int y ) {
 
     if( yIndex >=0 &&  yIndex < (int)grids.size() )
     {
+        // row buttons, preset selctors
         if(xIndex>=0 && xIndex< presets[yIndex] ){
             //load
             if(bDelayedLoading)
@@ -523,12 +546,14 @@ void ofxGuiPresetSelector::mousePressed( int x, int y ) {
                 PRESET_selected = 1 + xIndex;
             }
         }
+
+        // last button (save button)
         else if( xIndex == presets[yIndex])
         {
             // save
             save( lastIndices[yIndex], yIndex );
 
-            PRESET_selected = 1 + yIndex;
+//            PRESET_selected = 1 + yIndex;
         }
     }
 
@@ -620,6 +645,12 @@ void ofxGuiPresetSelector::Changed_Gui(ofAbstractParameter &e)
 
     ofLogNotice("ofxGuiPresetSelector") << "Changed_Gui '" << WIDGET << "': " << e;
 
+    if ( WIDGET == "CLONE >" && (cloneRight) )
+    {
+        ofLogNotice("ofxGuiPresetSelector") << "CLONE >: " << e;
+        doCloneRight(PRESET_selected - 1);
+    }
+
     if ( WIDGET == "PRESETS" && (PRESET_selected != PRESET_selected_PRE) )
     {
         ofLogNotice("ofxGuiPresetSelector") << "PRESETS: " << e;
@@ -645,21 +676,40 @@ void ofxGuiPresetSelector::Changed_Gui(ofAbstractParameter &e)
 //            load( xIndex, yIndex);
 //            ofLogNotice("ofxGuiPresetSelector") << "load( xIndex, yIndex):" <<  xIndex << ", " << yIndex;
 
-            int xIndex = PRESET_selected - 1;
+            //-
 
-            PRESET_selected_PRE = PRESET_selected;
+////            if (autoSave)
+////            {
+//                DONE_save = true;// get sequencer state before saving in preset manager
+//                save( lastIndices[PRESET_selected_PRE], 0 );//save on back from ofxSEQlistener
+////            }
 
-            int yIndex = 0;//this should handle when using multiple kits together
-            // yIndex = ?
+            //-
 
-            load( xIndex, yIndex);
-            ofLogNotice("ofxGuiPresetSelector") << "load( xIndex, yIndex):" <<  xIndex << ", " << yIndex;
+//            if (autoLoad)
+//            {
+
+                int xIndex = PRESET_selected - 1;
+
+                PRESET_selected_PRE = PRESET_selected;
+
+                int yIndex = 0;
+                //this should handle when using multiple kits together
+                // yIndex = ?
+
+                //-
+
+                load( xIndex, yIndex);
+                ofLogNotice("ofxGuiPresetSelector") << "load( xIndex, yIndex): " <<  xIndex << ", " << yIndex;
+
+                DONE_load = true;
+//            }
         }
     }
 }
 
-void ofxGuiPresetSelector::setup_Gui() {
-
+void ofxGuiPresetSelector::setup_Gui()
+{
     gui_w = 200;
     gui_slider_h = 14;
     gui_slider_big_h = 18;
@@ -703,7 +753,9 @@ void ofxGuiPresetSelector::setup_Gui() {
 
     group = gui.addGroup("PATTERNS", confCont);
     group->add<ofxGuiIntSlider>(PRESET_selected, confItem_Big);
-    group->add<ofxGuiToggle>(autoSave, confItem_toggle);
+//    group->add<ofxGuiToggle>(autoLoad, confItem_toggle);
+//    group->add<ofxGuiToggle>(autoSave, confItem_toggle);
+    group->add<ofxGuiButton>(cloneRight, confItem_toggle);
 
     //-
 
@@ -744,4 +796,13 @@ void ofxGuiPresetSelector::save_ControlSettings() {
 void ofxGuiPresetSelector::set_pathKit_Folder(string folder)
 {
     pathKitFolder = folder;
+}
+
+void ofxGuiPresetSelector::doCloneRight(int patternNum)
+{
+    ofLogNotice("ofxGuiPresetSelector") << "doCloneRight: patternNum: " << patternNum;
+    for (int i = patternNum+1; i<num_presets; i++)
+    {
+        save( i, 0 );//only 1 row (gui) / data content
+    }
 }
