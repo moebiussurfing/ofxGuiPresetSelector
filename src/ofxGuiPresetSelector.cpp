@@ -25,11 +25,12 @@ ofxGuiPresetSelector::ofxGuiPresetSelector()
 
     //-
 
+            /*
     // A. ofParameterGroup
 #ifdef USE_OF_PARAMETER_GROUP
     groups.reserve(32);
 #endif
-
+*/
     // B. custom DataGrid class
 #ifdef USE_CUSTOM_DATAGRID
     grids.reserve(32);
@@ -72,8 +73,11 @@ ofxGuiPresetSelector::ofxGuiPresetSelector()
     ofAddListener(params.parameterChangedE(), this, &ofxGuiPresetSelector::Changed_Gui);
 
     //-
+
+    PRESET_selected_PRE = -1;
 }
 
+/*
 // A. ofParameterGroup
 #ifdef USE_OF_PARAMETER_GROUP
 int ofxGuiPresetSelector::getGuiIndex( string name ) const {
@@ -86,6 +90,7 @@ int ofxGuiPresetSelector::getGuiIndex( string name ) const {
     }
 }
 #endif
+*/
 
 // B. custom DataGrid class
 #ifdef USE_CUSTOM_DATAGRID
@@ -107,9 +112,11 @@ string ofxGuiPresetSelector::presetName( string guiName, int presetIndex )
 //    folder = "/patterns/"; //using subfolder
     folder = "/"; //without subfolder
 
+            /*
 #ifdef USE_OF_PARAMETER_GROUP
     return (folder + guiName + "_preset_" + ofToString(presetIndex) + ".xml" );
 #endif
+*/
 
 #ifdef USE_CUSTOM_DATAGRID
     return (folder + guiName + "_preset_" + ofToString(presetIndex) + ".json" );
@@ -120,7 +127,7 @@ string ofxGuiPresetSelector::presetName( string guiName, int presetIndex )
 //-
 
 // A. ofParameterGroup
-
+/*
 #ifdef USE_OF_PARAMETER_GROUP
 void ofxGuiPresetSelector::add( ofParameterGroup group, int numPresets ) {
 
@@ -146,6 +153,7 @@ void ofxGuiPresetSelector::add( ofParameterGroup group, initializer_list<int> ke
     if(keysNotActivated) addKeysListeners();
 }
 #endif
+*/
 
 //-
 
@@ -319,7 +327,7 @@ void ofxGuiPresetSelector::load( int presetIndex, string guiName ) {
 #endif
 
 //-
-
+/*
 // A. ofParameterGroup
 #ifdef USE_OF_PARAMETER_GROUP
 int ofxGuiPresetSelector::getPresetIndex( int guiIndex ) const {
@@ -339,6 +347,7 @@ int ofxGuiPresetSelector::getPresetIndex( string guiName )const {
     }
 }
 #endif
+*/
 
 // B. custom DataGrid class
 #ifdef USE_CUSTOM_DATAGRID
@@ -591,14 +600,14 @@ void ofxGuiPresetSelector::setDelayedLoading( bool active )
 
 void ofxGuiPresetSelector::delayedLoad( int presetIndex, int guiIndex )
 {
-
+/*
     // A. ofParameterGroup
 #ifdef USE_OF_PARAMETER_GROUP
     if(guiIndex>=0 && guiIndex<(int)groups.size()){
         newIndices[guiIndex] = presetIndex;
     }
 #endif
-
+*/
     // B. custom DataGrid class
 #ifdef USE_CUSTOM_DATAGRID
     if(guiIndex>=0 && guiIndex<(int)grids.size()){
@@ -610,13 +619,14 @@ void ofxGuiPresetSelector::delayedLoad( int presetIndex, int guiIndex )
 void ofxGuiPresetSelector::delayedLoad( int presetIndex, string guiName )
 {
     int guiIndex = getGuiIndex(guiName);
-
+/*
     // A. ofParameterGroup
 #ifdef USE_OF_PARAMETER_GROUP
     if(guiIndex>=0 && guiIndex<(int)groups.size()){
         newIndices[guiIndex] = presetIndex;
     }
 #endif
+*/
 
     // B. custom DataGrid class
 #ifdef USE_CUSTOM_DATAGRID
@@ -628,6 +638,7 @@ void ofxGuiPresetSelector::delayedLoad( int presetIndex, string guiName )
 
 void ofxGuiPresetSelector::delayedUpdate() {
 
+    /*
     // A. ofParameterGroup
 #ifdef USE_OF_PARAMETER_GROUP
     for(size_t i=0; i<groups.size(); ++i){
@@ -636,6 +647,7 @@ void ofxGuiPresetSelector::delayedUpdate() {
         }
     }
 #endif
+*/
 
     // B. custom DataGrid class
 #ifdef USE_CUSTOM_DATAGRID
@@ -677,11 +689,13 @@ void ofxGuiPresetSelector::Changed_Gui(ofAbstractParameter &e)
 
     else if ( WIDGET == "PRESETS" && (PRESET_selected != PRESET_selected_PRE) )
     {
-        ofLogNotice("ofxGuiPresetSelector") << "PRESETS: " << e;
+        ofLogNotice("ofxGuiPresetSelector") << "Changed PRESET_selected: " << e;
 
         //load
         if(bDelayedLoading)//TODO: not implemented
         {
+            ofLogNotice("ofxGuiPresetSelector") << "bDelayedLoading: " << bDelayedLoading;
+
             //byKey
             //newIndices[i] = k;
             //ofLogNotice("ofxGuiPresetSelector") << "newIndices[i] = k;" <<  k << ", " << i;
@@ -727,7 +741,9 @@ void ofxGuiPresetSelector::Changed_Gui(ofAbstractParameter &e)
             }
             else
             {
-                lastIndices[yIndex] = xIndex;
+                lastIndices[yIndex] = xIndex;//this is to move clicker selector
+                ofLogNotice("ofxGuiPresetSelector") << "lastIndices[yIndex]: " <<  xIndex;
+                ofLogNotice("ofxGuiPresetSelector") << "autoLoad: " << autoLoad;
             }
         }
     }
@@ -813,7 +829,8 @@ void ofxGuiPresetSelector::load_ControlSettings()
     cout << "load_ControlSettings > PRESET_selected: " << PRESET_selected << endl;
 }
 
-void ofxGuiPresetSelector::save_ControlSettings() {
+void ofxGuiPresetSelector::save_ControlSettings()
+{
     ofXml settings;
     ofSerialize(settings, params);
     settings.save(pathControl);
