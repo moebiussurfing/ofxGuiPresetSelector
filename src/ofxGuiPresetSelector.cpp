@@ -60,9 +60,11 @@ ofxGuiPresetSelector::ofxGuiPresetSelector()
 
     params.setName("PRESETS");
     params.add(PRESET_selected);
+    bSave.set("SAVE", false);
     autoLoad.set("AUTO LOAD", false);
     autoSave.set("AUTO SAVE", false);
     cloneRight.set("CLONE >", false);
+    params.add(bSave);
     params.add(autoLoad);
     params.add(autoSave);
     params.add(cloneRight);
@@ -184,7 +186,7 @@ void ofxGuiPresetSelector::add( DataGrid & grid, initializer_list<int> keysList 
 #endif
 
 //-
-
+/*
 // A. ofParameterGroup
 
 #ifdef USE_OF_PARAMETER_GROUP
@@ -230,6 +232,7 @@ void ofxGuiPresetSelector::load( int presetIndex, string guiName ) {
     }
 }
 #endif
+*/
 
 //-
 
@@ -364,10 +367,12 @@ int ofxGuiPresetSelector::getPresetIndex( string guiName )const
 
 //-
 
-void ofxGuiPresetSelector::setModeKey( int key ){
+void ofxGuiPresetSelector::setModeKey( int key )
+{
     modeKey = key;
 }
 
+//----------------------------------------------------------------
 void ofxGuiPresetSelector::keyPressed( ofKeyEventArgs& eventArgs )
 {
     if( bKeys && ENABLE_shortcuts){
@@ -382,19 +387,24 @@ void ofxGuiPresetSelector::keyPressed( ofKeyEventArgs& eventArgs )
             for(size_t k=0; k<keys[i].size(); ++k){
                 if(key == keys[i][k]){
 
-                    if(bKeySave){
+                    if(bKeySave)
+                    {
                         save( k, i);
-                    }else{
-                        if(bDelayedLoading){
+                    }
+                    else
+                    {
+                        if(bDelayedLoading)
+                        {
 //                            newIndices[i] = k;
 //                            ofLogNotice("ofxGuiPresetSelector") << "newIndices[i] = k;" <<  k << ", " << i;
 //                            PRESET_selected = 1 + k;
                         }
-                        else{
+                        else
+                        {
 //                            load( k, i );
 //                            ofLogNotice("ofxGuiPresetSelector") << "load( k, i ):" <<  k << ", " << i;
 
-                            PRESET_selected = 1 + k;
+                            PRESET_selected = 1 + k;//first row/gui only
                         }
                     }
                     return;
@@ -430,7 +440,7 @@ void ofxGuiPresetSelector::draw( int x, int y, int cellSize ) {
     draw();
 }
 
-
+//---------------------------------
 void ofxGuiPresetSelector::draw( ) {
 
     if (SHOW_ClickPanel) {
@@ -491,8 +501,9 @@ void ofxGuiPresetSelector::draw( ) {
     }
 }
 
-
-void ofxGuiPresetSelector::mousePressed( int x, int y ) {
+//-----------------------------------------------------
+void ofxGuiPresetSelector::mousePressed( int x, int y )
+{
 
     x -= this->x;
     y -= this->y;
@@ -506,8 +517,9 @@ void ofxGuiPresetSelector::mousePressed( int x, int y ) {
     ofLogNotice("ofxGuiPresetSelector") << "> mousePressed - xIndex, yIndex: " << xIndex <<", "<< yIndex;
 
     //-
-
+/*
     // A. ofParameterGroup
+
 #ifdef USE_OF_PARAMETER_GROUP
     if( yIndex >=0 &&  yIndex < (int)groups.size() )
     {
@@ -524,8 +536,9 @@ void ofxGuiPresetSelector::mousePressed( int x, int y ) {
         }
     }
 #endif
-
+*/
     // B. custom DataGrid class
+
 #ifdef USE_CUSTOM_DATAGRID
 
     if( yIndex >=0 &&  yIndex < (int)grids.size() )
@@ -550,10 +563,16 @@ void ofxGuiPresetSelector::mousePressed( int x, int y ) {
         // last button (save button)
         else if( xIndex == presets[yIndex])
         {
-            // save
-            save( lastIndices[yIndex], yIndex );
+            ofLogNotice("ofxGuiPresetSelector") << "saveButton: ( lastIndices[yIndex], yIndex ): " <<  lastIndices[yIndex] << ", " << yIndex;
 
-//            PRESET_selected = 1 + yIndex;
+            // save
+
+//            save( lastIndices[yIndex], yIndex );
+
+//            //save( k, i);//this is from keyPressed
+////            PRESET_selected = 1 + yIndex;
+
+            doSave( lastIndices[yIndex] );
         }
     }
 
@@ -645,18 +664,23 @@ void ofxGuiPresetSelector::Changed_Gui(ofAbstractParameter &e)
 
     ofLogNotice("ofxGuiPresetSelector") << "Changed_Gui '" << WIDGET << "': " << e;
 
-    if ( WIDGET == "CLONE >" && (cloneRight) )
+    if ( WIDGET == "SAVE" && (bSave) ) {
+        ofLogNotice("ofxGuiPresetSelector") << "SAVE: " << e;
+        doSave(PRESET_selected - 1);
+    }
+
+    else if ( WIDGET == "CLONE >" && (cloneRight) )
     {
         ofLogNotice("ofxGuiPresetSelector") << "CLONE >: " << e;
         doCloneRight(PRESET_selected - 1);
     }
 
-    if ( WIDGET == "PRESETS" && (PRESET_selected != PRESET_selected_PRE) )
+    else if ( WIDGET == "PRESETS" && (PRESET_selected != PRESET_selected_PRE) )
     {
         ofLogNotice("ofxGuiPresetSelector") << "PRESETS: " << e;
 
         //load
-        if(bDelayedLoading)
+        if(bDelayedLoading)//TODO: not implemented
         {
             //byKey
             //newIndices[i] = k;
@@ -686,24 +710,25 @@ void ofxGuiPresetSelector::Changed_Gui(ofAbstractParameter &e)
 
             //-
 
-//            if (autoLoad)
-//            {
+            PRESET_selected_PRE = PRESET_selected;
+            int xIndex = PRESET_selected - 1;
+            int yIndex = 0;
+            //this should handle when using multiple kits together
+            // yIndex = ?
 
-                int xIndex = PRESET_selected - 1;
+            //-
 
-                PRESET_selected_PRE = PRESET_selected;
-
-                int yIndex = 0;
-                //this should handle when using multiple kits together
-                // yIndex = ?
-
-                //-
-
+            if (autoLoad)
+            {
                 load( xIndex, yIndex);
                 ofLogNotice("ofxGuiPresetSelector") << "load( xIndex, yIndex): " <<  xIndex << ", " << yIndex;
 
-                DONE_load = true;
-//            }
+                DONE_load = true;//to refresh in SEQ sequencer from grid..
+            }
+            else
+            {
+                lastIndices[yIndex] = xIndex;
+            }
         }
     }
 }
@@ -711,7 +736,7 @@ void ofxGuiPresetSelector::Changed_Gui(ofAbstractParameter &e)
 void ofxGuiPresetSelector::setup_Gui()
 {
     gui_w = 200;
-    gui_slider_h = 14;
+    gui_slider_h = 16;
     gui_slider_big_h = 18;
     gui_button_h = 22;
 
@@ -730,7 +755,7 @@ void ofxGuiPresetSelector::setup_Gui()
                     {"height", gui_slider_h},
             };
 
-    confItem = //sliders
+    confItem = //sliders & button
             {
                     {"type", "fullsize"},
                     {"height", gui_slider_h},
@@ -753,7 +778,8 @@ void ofxGuiPresetSelector::setup_Gui()
 
     group = gui.addGroup("PATTERNS", confCont);
     group->add<ofxGuiIntSlider>(PRESET_selected, confItem_Big);
-//    group->add<ofxGuiToggle>(autoLoad, confItem_toggle);
+    group->add<ofxGuiButton>(bSave, confItem_toggle);
+    group->add<ofxGuiToggle>(autoLoad, confItem_toggle);
 //    group->add<ofxGuiToggle>(autoSave, confItem_toggle);
     group->add<ofxGuiButton>(cloneRight, confItem_toggle);
 
@@ -805,4 +831,10 @@ void ofxGuiPresetSelector::doCloneRight(int patternNum)
     {
         save( i, 0 );//only 1 row (gui) / data content
     }
+}
+
+void ofxGuiPresetSelector::doSave(int patternNum)
+{
+    ofLogNotice("ofxGuiPresetSelector") << "doSave: patternNum: " << patternNum;
+    save( patternNum, 0 );//only 1 row (gui) / data content
 }

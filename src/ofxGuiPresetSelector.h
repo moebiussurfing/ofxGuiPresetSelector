@@ -45,7 +45,7 @@ public:
     ~ofxGuiPresetSelector();
 
     //-
-
+/*
     // A. ofParameterGroup
 
 #ifdef USE_OF_PARAMETER_GROUP
@@ -54,7 +54,7 @@ public:
     // adds and activate key switch
     void add( ofParameterGroup group, initializer_list<int> keysList );
 #endif
-
+*/
     //-
 
     // B. custom DataGrid class
@@ -185,10 +185,12 @@ public:
     ofxGuiGroup * group;
     ofParameter<int> PRESET_selected;
     int PRESET_selected_PRE = -1;
+    ofParameter<bool> bSave;
     ofParameter<bool> autoSave;
     ofParameter<bool> autoLoad;
     ofParameter<bool> cloneRight;
     void doCloneRight(int patternNum);
+    void doSave(int patternNum);
     int num_presets;
 
     //-
@@ -221,7 +223,4 @@ public:
     string pathControl = "assets/settings/PRESET_MANAGER_control.xml";
 
     //--
-
-            // TODO: make save, load, functions to reuse and simplify
-
 };
