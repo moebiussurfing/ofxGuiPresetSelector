@@ -9,6 +9,7 @@
 // DEFINE MODE:
 
 // un-comment one of the two modes only! can't use both together:
+// NOTE: must do the same into the ofxGuiPresetSelector.h
 
 // A. ofParameterGroup
 

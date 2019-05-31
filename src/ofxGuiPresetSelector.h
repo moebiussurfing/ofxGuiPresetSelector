@@ -9,7 +9,7 @@
 // + switched preset management from ofxGuiPanel to ofParametersGroup
 // + added custom DATA class DataGrid
 // + integrated to ofxSEQ
-// + added slider selector
+// + added contro gui panel: slider selector, cloner, save
 //
 // TODO:
 // - save full kit of presets to avoid blocking main thread when switching presets
