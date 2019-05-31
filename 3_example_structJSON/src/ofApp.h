@@ -3,7 +3,28 @@
 #include "ofMain.h"
 
 #include "ofxGuiPresetSelector.h"
+
+//-
+
+// DEFINE MODE:
+
+// un-comment one of the two modes only! can't use both together:
+
+// A. ofParameterGroup
+#define USE_OF_PARAMETER_GROUP
+
+//-
+
+// B. custom DataGrid class
+//#define USE_CUSTOM_DATAGRID
+
+//-
+
+#ifdef USE_CUSTOM_DATAGRID
 #include "DataGrid.h"
+#endif
+
+//-
 
 //--
 
@@ -27,29 +48,43 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
 
+    //--
+
+    // PRESET MANAGER
+
+    ofxGuiPresetSelector PRESETS_manager;
+
+    //-
+
+    // CONTROL
+
+
+    //-
+
     ofxGui gui;
     ofxGuiPanel* panel;
     ofxGuiGroup* group;
+
     void setup_group();
 
+    //-
+
     // group
+
+#ifdef USE_OF_PARAMETER_GROUP
     ofParameterGroup params;
+    ofParameter<int> numSquares;
+    ofParameter<int> separation;
+    ofParameter<int> squareSide;
+#endif
 
-    //    // int parameters
-    //    ofParameter<int> numSquares;
-    //    ofParameter<int> separation;
-    //    ofParameter<int> squareSide;
-
-    //    // array bool steps
-    //    ofParameter<bool> step[16];
-
-    //--
-
-    // preset manager
-    ofxGuiPresetSelector PRESETS_manager;
+    //-
 
     // custom class
+
+#ifdef USE_CUSTOM_DATAGRID
     DataGrid myDataGrid;
+#endif
 
     //--
 

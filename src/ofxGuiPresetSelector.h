@@ -22,7 +22,6 @@
 
 #include "ofMain.h"
 #include "ofxGuiExtended.h"
-#include "DataGrid.h"
 
 //-
 
@@ -31,37 +30,50 @@
 // un-comment one of the two modes only! can't use both together:
 
 // A. ofParameterGroup
-#define USE_CUSTOM_DATAGRID
+#define USE_OF_PARAMETER_GROUP
+
+//-
 
 // B. custom DataGrid class
-//#define USE_OF_PARAMETER_GROUP
+//#define USE_CUSTOM_DATAGRID
+
+//-
+
+#ifdef USE_CUSTOM_DATAGRID
+#include "DataGrid.h"
+#endif
+
+//-
+
+#define NUM_OF_PRESETS 8
 
 //-
 
 class ofxGuiPresetSelector {
     
 public:
+
     ofxGuiPresetSelector();
     ~ofxGuiPresetSelector();
 
     //-
-/*
+
     // A. ofParameterGroup
 
 #ifdef USE_OF_PARAMETER_GROUP
     // add a gui for preset saving
-    void add( ofParameterGroup group, int numPresets=8 );
+    void add( ofParameterGroup & group, int numPresets=8 );
     // adds and activate key switch
-    void add( ofParameterGroup group, initializer_list<int> keysList );
+    void add( ofParameterGroup & group, initializer_list<int> keysList );
 #endif
-*/
+
     //-
 
     // B. custom DataGrid class
 
 #ifdef USE_CUSTOM_DATAGRID
 //    // add a gui for preset saving
-//    void add( DataGrid grid, int numPresets=8 );
+//    void add( DataGrid grid, int numPresets=NUM_OF_PRESETS );
 //    // adds and activate key switch
 //    void add( DataGrid grid, initializer_list<int> keysList );
 
@@ -101,7 +113,11 @@ public:
     // draw some info, when the gui is drawn you can also click on the button to change / save presets
     void draw();
     void draw( int x, int y, int cellSize );
-    
+
+    //-
+
+    // DELAYED LOADING
+
     // if you set it to true the preset will be loaded only when you call (false is the default behavior)
     void setDelayedLoading( bool active );
     // make preset change effective when setDelayedLoading() is set to true
@@ -115,13 +131,14 @@ public:
 
     //-
 
-    // TODO: easy listener temp solution
+    // TODO: easy listener temp solution for ofxSEQ integration
     ofParameter<bool> DONE_load;
     ofParameter<bool> DONE_save;
 
     //-
 
 private:
+
     int getGuiIndex(string name ) const;
     string presetName( string guiName, int presetIndex );
 
@@ -131,8 +148,10 @@ private:
 
     // A. ofParameterGroup
 #ifdef USE_OF_PARAMETER_GROUP
-    vector<ofParameterGroup> groups;
+    vector<ofParameterGroup*> groups;
 #endif
+
+    //-
 
     // B. custom DataGrid class
 #ifdef USE_CUSTOM_DATAGRID

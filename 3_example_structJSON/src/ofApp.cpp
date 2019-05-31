@@ -1,34 +1,11 @@
 #include "ofApp.h"
 
 //--------------------------------------------------------------
-void ofApp::setup(){
+void ofApp::setup()
+{
     ofSetFrameRate(30);
     ofDisableAntiAliasing();
     ofSetWindowTitle("ofxGuiSelector example");
-
-    //--
-
-//    //randomize
-//
-//    myDataGrid.randomize_grid();
-//
-//    //-
-//
-//    // save
-//
-//    myDataGrid.save_JSON( myDataGrid.name );
-//
-//    //-
-//
-//    // load json
-//
-//    myDataGrid.load_JSON( myDataGrid.name );
-//
-//    //-
-//
-//    // dump grid
-//
-//    myDataGrid.dump_grid();
 
     //--
 
@@ -38,11 +15,12 @@ void ofApp::setup(){
 
     //-
 
-//    // GUI
-//
-//    panel = gui.addPanel();
-//    group = panel->addGroup(params);
-//    panel->setPosition(10, 10);
+    // GUI
+
+    panel = gui.addPanel();
+    group = panel->addGroup(params);
+
+    panel->setPosition(400, 10);
 
     //-
 
@@ -60,58 +38,54 @@ void ofApp::setup(){
 
     //-
 
+#ifdef USE_OF_PARAMETER_GROUP
     // ofParameterGroup params
-//    PRESETS_manager.add( params, { '1', '2', '3', '4', '5'} );
+    PRESETS_manager.add( params, { '1', '2', '3', '4', '5'} );
+#endif
 
+//-
+
+#ifdef USE_CUSTOM_DATAGRID
     // custom DATA
     PRESETS_manager.add( myDataGrid, { '1', '2', '3', '4', '5'} );
+#endif
 
     //-
 
     // x, y, button size
-    PRESETS_manager.setPosition( 20, 360, 50 );
+    PRESETS_manager.setPosition_CLICKER( 20, 10, 50 );
 
     PRESETS_manager.load( 1 ); // load the second preset of the first added gui
     //PRESETS_manager.load( 0, 1 ); // load the first preset of the second added gui
 
     // remember to have a bin/data folder in your app directories
     // there are already 3 saved presets in the bin/data folder of this example
-
 }
 
 //--------------------------------------------------------------
-void ofApp::setup_group(){
-
-//    // array bool steps
-//
-//    params.setName("bools");
-//    // array bool steps
-//    for (int i = 0; i < 16; i++)
-//    {
-//        bool b = false;
-//        std::string n = "s" + ofToString(i);
-//
-//        step[i].set(n, b);
-//        params.add( step[i] );
-//    }
-
+void ofApp::setup_group()
+{
     //-
 
-// setup 'ofParameterGroup params'
-//    // int parameters
-//
-//    params.setName("squares");
-//    // it is really important to set the name as it will be used as base for the .xml preset files
-//    // remember to give each ofxPanel an unique name
-//    params.add( numSquares.set("num squares", 1, 1, 24) );
-//    params.add( separation.set("separation", 5, 1, 100) );
-//    params.add( squareSide.set("square side", 50, 5, 200) );
+    // group
+
+#ifdef USE_OF_PARAMETER_GROUP
+    // setup 'ofParameterGroup params'
+    params.setName("squares");
+    // it is really important to set the name as it will be used as base for the .xml preset files
+    // remember to give each ofxPanel an unique name
+    params.add( numSquares.set("num squares", 1, 1, 24) );
+    params.add( separation.set("separation", 5, 1, 100) );
+    params.add( squareSide.set("square side", 50, 5, 200) );
+#endif
 
     //-
 
     // grid matrix
 
+#ifdef USE_CUSTOM_DATAGRID
     myDataGrid.setName("stepSequencer");
+#endif
 
     //-
 }
@@ -129,7 +103,7 @@ void ofApp::exit(){
 //--------------------------------------------------------------
 void ofApp::draw(){
 
-    ofBackground(0);
+    ofBackground(128);
 
 //    ofSetColor(255, 95, 95);
 //    ofNoFill();

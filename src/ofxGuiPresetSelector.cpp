@@ -25,21 +25,24 @@ ofxGuiPresetSelector::ofxGuiPresetSelector()
 
     //-
 
-            /*
     // A. ofParameterGroup
+
 #ifdef USE_OF_PARAMETER_GROUP
-    groups.reserve(32);
-#endif
-*/
-    // B. custom DataGrid class
-#ifdef USE_CUSTOM_DATAGRID
-    grids.reserve(32);
+    groups.reserve(32);//TODO: this multidimension is for multiple panels ?
 #endif
 
     //-
 
-    lastIndices.reserve(32);
-    keys.reserve(32);
+    // B. custom DataGrid class
+
+#ifdef USE_CUSTOM_DATAGRID
+    grids.reserve(32);//TODO: this multidimension is for multiple panels ?
+#endif
+
+    //-
+
+    lastIndices.reserve(32);//TODO: this multidimension is for multiple panels ?
+    keys.reserve(32);//TODO: this multidimension is for multiple panels ?
 
     lastMouseButtonState = false;
     bDelayedLoading = false;
@@ -48,6 +51,8 @@ ofxGuiPresetSelector::ofxGuiPresetSelector()
 
     DONE_load.set("DONE LOAD", false);
     DONE_save.set("DONE SAVE", false);
+
+    //-
 
     myTTF = "assets/fonts/PragmataProR_0822.ttf";
     sizeTTF = 10;
@@ -77,22 +82,26 @@ ofxGuiPresetSelector::ofxGuiPresetSelector()
     PRESET_selected_PRE = -1;
 }
 
-/*
-// A. ofParameterGroup
-#ifdef USE_OF_PARAMETER_GROUP
-int ofxGuiPresetSelector::getGuiIndex( string name ) const {
+//-
 
+// A. ofParameterGroup
+
+#ifdef USE_OF_PARAMETER_GROUP
+int ofxGuiPresetSelector::getGuiIndex( string name ) const
+{
     for( size_t i = 0; i<groups.size(); ++i ){
-        if( groups[i].getName() == name ){
+        if( groups[i]->getName() == name ){
             return i;
         }
         return -1;
     }
 }
 #endif
-*/
+
+//-
 
 // B. custom DataGrid class
+
 #ifdef USE_CUSTOM_DATAGRID
 int ofxGuiPresetSelector::getGuiIndex( string name ) const {
 
@@ -109,14 +118,20 @@ int ofxGuiPresetSelector::getGuiIndex( string name ) const {
 string ofxGuiPresetSelector::presetName( string guiName, int presetIndex )
 {
     string folder;
-//    folder = "/patterns/"; //using subfolder
+    //    folder = "/patterns/"; //using subfolder
     folder = "/"; //without subfolder
 
-            /*
+    //-
+
+    // A. ofParameterGroup
+
 #ifdef USE_OF_PARAMETER_GROUP
     return (folder + guiName + "_preset_" + ofToString(presetIndex) + ".xml" );
 #endif
-*/
+
+    //-
+
+    // B. custom DataGrid class
 
 #ifdef USE_CUSTOM_DATAGRID
     return (folder + guiName + "_preset_" + ofToString(presetIndex) + ".json" );
@@ -127,19 +142,20 @@ string ofxGuiPresetSelector::presetName( string guiName, int presetIndex )
 //-
 
 // A. ofParameterGroup
-/*
+
 #ifdef USE_OF_PARAMETER_GROUP
-void ofxGuiPresetSelector::add( ofParameterGroup group, int numPresets ) {
+void ofxGuiPresetSelector::add( ofParameterGroup & group, int numPresets ) {
 
     // add a gui for preset saving
 
-    groups.push_back(group);
+    groups.push_back(& group);
 
     lastIndices.push_back(0);
     newIndices.push_back(0);
     presets.push_back(numPresets);
 }
-void ofxGuiPresetSelector::add( ofParameterGroup group, initializer_list<int> keysList ) {
+
+void ofxGuiPresetSelector::add( ofParameterGroup & group, initializer_list<int> keysList ) {
 
     add( group, keysList.size() );
 
@@ -153,7 +169,6 @@ void ofxGuiPresetSelector::add( ofParameterGroup group, initializer_list<int> ke
     if(keysNotActivated) addKeysListeners();
 }
 #endif
-*/
 
 //-
 
@@ -194,16 +209,17 @@ void ofxGuiPresetSelector::add( DataGrid & grid, initializer_list<int> keysList 
 #endif
 
 //-
-/*
+
 // A. ofParameterGroup
 
 #ifdef USE_OF_PARAMETER_GROUP
+
 void ofxGuiPresetSelector::save( int presetIndex, int guiIndex ) {
     if(guiIndex>=0 && guiIndex<(int)groups.size()){
 
         ofXml settings;
-        std::string n = presetName( groups[guiIndex].getName(), presetIndex);
-        ofSerialize( settings, groups[guiIndex] );
+        std::string n = presetName( groups[guiIndex]->getName(), presetIndex);
+//        ofSerialize( settings, groups[guiIndex] );
         settings.save( n );
     }
 }
@@ -211,8 +227,9 @@ void ofxGuiPresetSelector::load( int presetIndex, int guiIndex ) {
     if(guiIndex>=0 && guiIndex<(int)groups.size()){
 
         ofXml settings;
-        settings.load(  presetName( groups[guiIndex].getName(), presetIndex) );
-        ofDeserialize(settings, groups[guiIndex] );
+        settings.load(  presetName( groups[guiIndex]->getName(), presetIndex) );
+//        ofParameterGroup g = &groups[guiIndex];
+//        ofDeserialize(settings, groups[guiIndex] );
 
         lastIndices[guiIndex] = presetIndex;
     }
@@ -223,7 +240,7 @@ void ofxGuiPresetSelector::save( int presetIndex, string guiName ) {
     if(guiIndex>=0 && guiIndex<(int)groups.size()){
         ofXml settings;
         string n = presetName( guiName, presetIndex);
-        ofSerialize( settings, groups[guiIndex] );
+//        ofSerialize( settings, groups[guiIndex] );
         settings.save( n );
     }
 }
@@ -234,13 +251,13 @@ void ofxGuiPresetSelector::load( int presetIndex, string guiName ) {
 
         ofXml settings;
         settings.load( presetName( guiName, presetIndex) );
-        ofDeserialize(settings, groups[guiIndex]);
+//        ofDeserialize(settings, groups[guiIndex]);
 
         lastIndices[guiIndex] = presetIndex;
     }
 }
+
 #endif
-*/
 
 //-
 
@@ -327,8 +344,9 @@ void ofxGuiPresetSelector::load( int presetIndex, string guiName ) {
 #endif
 
 //-
-/*
+
 // A. ofParameterGroup
+
 #ifdef USE_OF_PARAMETER_GROUP
 int ofxGuiPresetSelector::getPresetIndex( int guiIndex ) const {
     if(guiIndex>0 && guiIndex<(int)groups.size()){
@@ -347,9 +365,11 @@ int ofxGuiPresetSelector::getPresetIndex( string guiName )const {
     }
 }
 #endif
-*/
+
+//-
 
 // B. custom DataGrid class
+
 #ifdef USE_CUSTOM_DATAGRID
 
 int ofxGuiPresetSelector::getPresetIndex( int guiIndex ) const
@@ -449,7 +469,7 @@ void ofxGuiPresetSelector::draw( int x, int y, int cellSize ) {
     draw();
 }
 
-//---------------------------------
+//---------------------------------------------------------------------
 void ofxGuiPresetSelector::draw( ) {
 
     if (SHOW_ClickPanel) {
@@ -526,27 +546,45 @@ void ofxGuiPresetSelector::mousePressed( int x, int y )
     ofLogNotice("ofxGuiPresetSelector") << "> mousePressed - xIndex, yIndex: " << xIndex <<", "<< yIndex;
 
     //-
-/*
+
     // A. ofParameterGroup
 
 #ifdef USE_OF_PARAMETER_GROUP
+
     if( yIndex >=0 &&  yIndex < (int)groups.size() )
     {
-        if(xIndex>=0 && xIndex< presets[yIndex] ){
+        if(xIndex>=0 && xIndex< presets[yIndex] )
+        {
             //load
-            if(bDelayedLoading){
-                newIndices[yIndex] = xIndex;
-            }else{
-                load( xIndex, yIndex);
+            if(bDelayedLoading)
+            {
+//                newIndices[yIndex] = xIndex;
             }
-        }else if( xIndex == presets[yIndex]){
+            else
+            {
+//                load( xIndex, yIndex);
+                PRESET_selected = 1 + xIndex;
+            }
+        }
+
+        // last button (save button)
+        else if( xIndex == presets[yIndex])
+        {
+            ofLogNotice("ofxGuiPresetSelector") << "saveButton: ( lastIndices[yIndex], yIndex ): " <<  lastIndices[yIndex] << ", " << yIndex;
+
             // save
-            save( lastIndices[yIndex], yIndex );
+
+//            save( lastIndices[yIndex], yIndex );
+
+            doSave( lastIndices[yIndex] );
         }
     }
+
 #endif
-*/
-    // B. custom DataGrid class
+
+//-
+
+// B. custom DataGrid class
 
 #ifdef USE_CUSTOM_DATAGRID
 
@@ -600,33 +638,44 @@ void ofxGuiPresetSelector::setDelayedLoading( bool active )
 
 void ofxGuiPresetSelector::delayedLoad( int presetIndex, int guiIndex )
 {
-/*
+    //-
+
     // A. ofParameterGroup
+
 #ifdef USE_OF_PARAMETER_GROUP
     if(guiIndex>=0 && guiIndex<(int)groups.size()){
         newIndices[guiIndex] = presetIndex;
     }
 #endif
-*/
+
+    //-
+
     // B. custom DataGrid class
+
 #ifdef USE_CUSTOM_DATAGRID
     if(guiIndex>=0 && guiIndex<(int)grids.size()){
         newIndices[guiIndex] = presetIndex;
     }
 #endif
+
+    //-
+
 }
 
 void ofxGuiPresetSelector::delayedLoad( int presetIndex, string guiName )
 {
     int guiIndex = getGuiIndex(guiName);
-/*
+
+    //-
+
     // A. ofParameterGroup
 #ifdef USE_OF_PARAMETER_GROUP
     if(guiIndex>=0 && guiIndex<(int)groups.size()){
         newIndices[guiIndex] = presetIndex;
     }
 #endif
-*/
+
+    //-
 
     // B. custom DataGrid class
 #ifdef USE_CUSTOM_DATAGRID
@@ -638,8 +687,10 @@ void ofxGuiPresetSelector::delayedLoad( int presetIndex, string guiName )
 
 void ofxGuiPresetSelector::delayedUpdate() {
 
-    /*
+    //-
+
     // A. ofParameterGroup
+
 #ifdef USE_OF_PARAMETER_GROUP
     for(size_t i=0; i<groups.size(); ++i){
         if(newIndices[i]!=lastIndices[i]){
@@ -647,9 +698,11 @@ void ofxGuiPresetSelector::delayedUpdate() {
         }
     }
 #endif
-*/
+
+     //-
 
     // B. custom DataGrid class
+
 #ifdef USE_CUSTOM_DATAGRID
     for(size_t i=0; i<grids.size(); ++i){
         if(newIndices[i]!=lastIndices[i]){
@@ -737,7 +790,7 @@ void ofxGuiPresetSelector::Changed_Gui(ofAbstractParameter &e)
                 load( xIndex, yIndex);
                 ofLogNotice("ofxGuiPresetSelector") << "load( xIndex, yIndex): " <<  xIndex << ", " << yIndex;
 
-                DONE_load = true;//to refresh in SEQ sequencer from grid..
+                DONE_load = true;//TODO: to refresh in SEQ sequencer from grid..
             }
             else
             {
