@@ -4,7 +4,6 @@
 void ofApp::setup()
 {
     ofSetFrameRate(30);
-    //    ofDisableAntiAliasing();
     ofSetWindowTitle("PRESET MANAGER");
 
     //--
@@ -13,17 +12,16 @@ void ofApp::setup()
 
 #ifdef USE_OF_PARAMETER_GROUP
 
-    setup_group();
+    // define and group parameters
+    params.add( numSquares.set("num squares", 1, 1, 24) );
+    params.add( separation.set("separation", 5, 1, 100) );
+    params.add( squareSide.set("square side", 50, 5, 200) );
 
-    //-
-
-    // GUI GROUP PARAMETERS
-
+    // create gui for the group
     panel = gui.addPanel();
     group = panel->addGroup(params);
     panel->setPosition(400, 10);
 
-    //-
 #endif
 
     //-
@@ -39,7 +37,7 @@ void ofApp::setup()
     // ofParameterGroup params
 
 #ifdef USE_OF_PARAMETER_GROUP
-    PRESETS_manager.set_pathKit_Folder("groups/kit_1");
+    PRESETS_manager.set_pathKit_Folder("assets/groups/kit_1");
     params.setName("myGroupParameters");
     PRESETS_manager.add( params, { '1', '2', '3', '4', '5', '6', '7', '8'} );
 #endif
@@ -49,7 +47,7 @@ void ofApp::setup()
     // custom DATA
 
 #ifdef USE_CUSTOM_DATAGRID
-    PRESETS_manager.set_pathKit_Folder("patterns/kit_1");
+    PRESETS_manager.set_pathKit_Folder("assets/patterns/kit_1");
     myDataGrid.setName("stepSequencer");
     PRESETS_manager.add( myDataGrid, { '1', '2', '3', '4', '5', '6', '7', '8'} );
 #endif
@@ -84,24 +82,9 @@ void ofApp::setup()
     PRESETS_manager.setVisible_ClickPanel(true);//default
     PRESETS_manager.setVisible_Gui(true);//default
 
-    // PRESETS_manager.setDelayedLoading(true);
-
     //--
 }
 
-//--------------------------------------------------------------
-void ofApp::setup_group()
-{
-    //-
-
-    // group
-
-    params.add( numSquares.set("num squares", 1, 1, 24) );
-    params.add( separation.set("separation", 5, 1, 100) );
-    params.add( squareSide.set("square side", 50, 5, 200) );
-
-    //-
-}
 
 //--------------------------------------------------------------
 void ofApp::update(){
@@ -127,6 +110,8 @@ void ofApp::draw(){
     //-
 
 #ifdef USE_OF_PARAMETER_GROUP
+    // draw object linked to grouped parameters
+
     ofPushStyle();
     ofSetColor(ofColor::white);
     ofNoFill();
@@ -141,6 +126,8 @@ void ofApp::draw(){
 #endif
 
     //-
+
+    // PRESET MANAGER
 
     PRESETS_manager.draw();
     // draws some minimalistic graphics to monitor the active preset
@@ -215,11 +202,13 @@ void ofApp::Changed_DONE_save(bool & DONE_save) {
 
     ofLogNotice("ofApp") << "Changed_DONE_save: " << ofToString( DONE_save?"TRUE":"FALSE" ) ;
 
+    // extra stuff when finish loading/saving
+
     if (PRESETS_manager.DONE_save)
     {
         PRESETS_manager.DONE_save = false;
 
-//        GRID_getFrom_Sequencer();// get sequencer state before saving in preset manager
+    //        GRID_getFrom_Sequencer();// get sequencer state before saving in preset manager
     }
 }
 
@@ -227,7 +216,7 @@ void ofApp::Changed_DONE_save(bool & DONE_save) {
 void ofApp::Changed_DONE_load(bool & DONE_load){
     ofLogNotice("ofApp") << "Changed_DONE_load: " << ofToString( DONE_load?"TRUE":"FALSE" ) ;
 
-    // load local grid into sequencer:
+    // extra stuff when finish loading/saving
 
     if (PRESETS_manager.DONE_load)
     {

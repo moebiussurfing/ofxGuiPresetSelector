@@ -199,7 +199,9 @@ public:
     void setup_Gui();
     void Changed_Gui(ofAbstractParameter &e);
 
-    // control panel
+    //-
+
+    // control panel to selec presets, clone, save..
     ofxGui gui;
     ofParameterGroup params;
     ofxGuiGroup * group;
@@ -233,14 +235,12 @@ public:
 
     bool SHOW_Gui;
     bool SHOW_ClickPanel;
+    bool ENABLE_shortcuts = true;
 
     int gui_w;
     int gui_slider_h;
     int gui_slider_big_h;
     int gui_button_h;
-
-    bool ENABLE_shortcuts = true;
-
 
     //--
 };

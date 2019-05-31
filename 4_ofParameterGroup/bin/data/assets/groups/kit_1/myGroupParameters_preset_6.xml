@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<squares>
+<myGroupParameters>
 	<num_squares>24</num_squares>
-	<separation>11</separation>
+	<separation>13</separation>
 	<square_side>200</square_side>
-</squares>
+</myGroupParameters>

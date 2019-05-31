@@ -58,22 +58,12 @@ public:
 
     //-
 
-    // CONTROL
-
-
-    //-
-
-    ofxGui gui;
-    ofxGuiPanel* panel;
-    ofxGuiGroup* group;
-
-    void setup_group();
-
-    //-
-
     // group
 
 #ifdef USE_OF_PARAMETER_GROUP
+    ofxGui gui;
+    ofxGuiPanel* panel;
+    ofxGuiGroup* group;
     ofParameterGroup params;
     ofParameter<int> numSquares;
     ofParameter<int> separation;

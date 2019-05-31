@@ -42,6 +42,7 @@ ofxGuiPresetSelector::ofxGuiPresetSelector()
 
     //-
 
+    // TODO: easy listener temp solution for ofxSEQ integration
     DONE_load.set("DONE LOAD", false);
     DONE_save.set("DONE SAVE", false);
 
@@ -54,8 +55,6 @@ ofxGuiPresetSelector::ofxGuiPresetSelector()
     //-
 
     // PRESETS OF DEVICE
-
-//    num_presets = 8;//TODO:
 
     PRESET_selected.set("PRESETS", 1, 1, num_presets);
 
@@ -123,7 +122,7 @@ string ofxGuiPresetSelector::presetName( string guiName, int presetIndex )
 {
     string folder;
     //folder = "/patterns/"; //using subfolder
-    folder = "/"; //without subfolder
+    folder = "/"; //without subfolder. must ends with "/"
 
     //-
 
@@ -231,10 +230,11 @@ void ofxGuiPresetSelector::save( int presetIndex, int guiIndex ) {
 
         //-
 
-        ofXml settings;
         std::string n = presetName( groups[guiIndex].getName(), presetIndex);
+
+        ofXml settings;
         ofSerialize( settings, groups[guiIndex] );
-        settings.save( n );
+        settings.save( pathKitFolder + "/" + n );
     }
 }
 
@@ -247,18 +247,23 @@ void ofxGuiPresetSelector::save( int presetIndex, string guiName ) {
 
         //-
 
-        ofXml settings;
         string n = presetName( guiName, presetIndex);
+
+        ofXml settings;
         ofSerialize( settings, groups[guiIndex] );
-        settings.save( n );
+        settings.save( pathKitFolder + "/" + n );
     }
 }
+
+//-
 
 void ofxGuiPresetSelector::load( int presetIndex, int guiIndex ) {
     if(guiIndex>=0 && guiIndex<(int)groups.size()){
 
+        string str = presetName( groups[guiIndex].getName(), presetIndex);
+
         ofXml settings;
-        settings.load(  presetName( groups[guiIndex].getName(), presetIndex) );
+        settings.load( pathKitFolder + "/" + str );
         ofDeserialize(settings, groups[guiIndex] );
 
         lastIndices[guiIndex] = presetIndex;
@@ -275,8 +280,10 @@ void ofxGuiPresetSelector::load( int presetIndex, string guiName ) {
 
     if(guiIndex>=0 && guiIndex<(int)groups.size()){
 
+        string n = presetName( guiName, presetIndex);
+
         ofXml settings;
-        settings.load( presetName( guiName, presetIndex) );
+        settings.load( pathKitFolder + "/" + n );
         ofDeserialize(settings, groups[guiIndex]);
 
         lastIndices[guiIndex] = presetIndex;
@@ -334,7 +341,7 @@ void ofxGuiPresetSelector::save( int presetIndex, string guiName ) {
 
         string n = presetName( guiName, presetIndex);
 
-        grids[guiIndex]->save_JSON(pathKitFolder + "/" + n);
+        grids[guiIndex]->save_JSON( pathKitFolder + "/" + n );
     }
 }
 
@@ -367,7 +374,7 @@ void ofxGuiPresetSelector::load( int presetIndex, string guiName ) {
         ofLogNotice("ofxGuiPresetSelector") << "> load( presetIndex, guiName): " << presetIndex <<", "<< guiName;
 
         string n = presetName( guiName, presetIndex);
-        grids[guiIndex]->load_JSON(pathKitFolder + "/" + n);
+        grids[guiIndex]->load_JSON( pathKitFolder + "/" + n );
 
         lastIndices[guiIndex] = presetIndex;
 
