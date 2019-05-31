@@ -11,11 +11,13 @@
 // un-comment one of the two modes only! can't use both together:
 
 // A. ofParameterGroup
+
 #define USE_OF_PARAMETER_GROUP
 
 //-
 
 // B. custom DataGrid class
+
 //#define USE_CUSTOM_DATAGRID
 
 //-

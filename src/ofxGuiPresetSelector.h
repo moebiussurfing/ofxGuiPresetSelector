@@ -62,9 +62,9 @@ public:
 
 #ifdef USE_OF_PARAMETER_GROUP
     // add a gui for preset saving
-    void add( ofParameterGroup & group, int numPresets=8 );
+    void add( ofParameterGroup group, int numPresets=8 );
     // adds and activate key switch
-    void add( ofParameterGroup & group, initializer_list<int> keysList );
+    void add( ofParameterGroup group, initializer_list<int> keysList );
 #endif
 
     //-
@@ -148,7 +148,7 @@ private:
 
     // A. ofParameterGroup
 #ifdef USE_OF_PARAMETER_GROUP
-    vector<ofParameterGroup*> groups;
+    vector<ofParameterGroup> groups;
 #endif
 
     //-
@@ -214,14 +214,19 @@ public:
 
     //-
 
+    void load_ControlSettings();
+    void save_ControlSettings();
+    string pathControl = "assets/settings/PRESET_MANAGER_control.xml";
+
+    //-
+
     // API
 
     void set_GUI_position(int x, int y);
     void setVisible_Gui(bool visible);
     void setVisible_ClickPanel(bool visible);
-
-    string pathKitFolder = "myKit";//default kit folder to store patterns
     void set_pathKit_Folder(string folder);
+    string pathKitFolder = "myKit";//default kit folder to store patterns
 
     //-
 
@@ -235,11 +240,6 @@ public:
 
     bool ENABLE_shortcuts = true;
 
-    //-
-
-    void load_ControlSettings();
-    void save_ControlSettings();
-    string pathControl = "assets/settings/PRESET_MANAGER_control.xml";
 
     //--
 };

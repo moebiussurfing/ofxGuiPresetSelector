@@ -4,62 +4,92 @@
 void ofApp::setup()
 {
     ofSetFrameRate(30);
-    ofDisableAntiAliasing();
-    ofSetWindowTitle("ofxGuiSelector example");
+    //    ofDisableAntiAliasing();
+    ofSetWindowTitle("PRESET MANAGER");
 
     //--
 
-    // setup DATA
+    // ofParameterGroup params
+
+#ifdef USE_OF_PARAMETER_GROUP
 
     setup_group();
 
     //-
 
-    // GUI
+    // GUI GROUP PARAMETERS
 
     panel = gui.addPanel();
     group = panel->addGroup(params);
-
     panel->setPosition(400, 10);
 
     //-
-
-    // PRESET MANAGER
-
-//    PRESETS_manager.add( *panel, { '1', '2', '3', '4', '5'} );
-//    // PRESETS_manager.add( gui, 6 ); // add without activating key switch, 6 presets
-//    // PRESETS_manager.add( anotherGui, {'q', 'w', 'e', 'r', 't', 'y'} ); // add another gui with other keys
-//    // PRESETS_manager.setModeKey( OF_KEY_TAB ); // change the key you have to hold for saving
-//    // remember that the switch key change the keycodes
-//    // so it shouldn't work
-//
-//    // remember to have a bin/data folder in your app directories
-//    // the first time you save you probably have to press the key twices, the first it just create the .xml file
+#endif
 
     //-
 
-#ifdef USE_OF_PARAMETER_GROUP
+    // PRESET MANNAGER
+
+    // GUI
+
+    PRESETS_manager.setup_Gui();
+
+    //-
+
     // ofParameterGroup params
-    PRESETS_manager.add( params, { '1', '2', '3', '4', '5'} );
+
+#ifdef USE_OF_PARAMETER_GROUP
+    PRESETS_manager.set_pathKit_Folder("groups/kit_1");
+    params.setName("myGroupParameters");
+    PRESETS_manager.add( params, { '1', '2', '3', '4', '5', '6', '7', '8'} );
 #endif
 
-//-
+    //-
+
+    // custom DATA
 
 #ifdef USE_CUSTOM_DATAGRID
-    // custom DATA
-    PRESETS_manager.add( myDataGrid, { '1', '2', '3', '4', '5'} );
+    PRESETS_manager.set_pathKit_Folder("patterns/kit_1");
+    myDataGrid.setName("stepSequencer");
+    PRESETS_manager.add( myDataGrid, { '1', '2', '3', '4', '5', '6', '7', '8'} );
 #endif
 
     //-
 
     // x, y, button size
-    PRESETS_manager.setPosition_CLICKER( 20, 10, 50 );
+//    PRESETS_manager.setPosition_CLICKER( 20, 10, 50 );
 
-    PRESETS_manager.load( 1 ); // load the second preset of the first added gui
+//    PRESETS_manager.load( 1 ); // load the second preset of the first added gui
     //PRESETS_manager.load( 0, 1 ); // load the first preset of the second added gui
 
     // remember to have a bin/data folder in your app directories
     // there are already 3 saved presets in the bin/data folder of this example
+
+    //-
+
+    // STARTUP INIT
+
+    PRESETS_manager.load_ControlSettings();//this loads selected preset number and gui state
+
+    //-
+
+    // trick to solve auto load fail because the sorting of xml autoSave after preset selector tag
+    PRESETS_manager.PRESET_selected_PRE = -1;
+    cout << "PRESET_selected:" << PRESETS_manager.PRESET_selected << endl;
+    PRESETS_manager.PRESET_selected = PRESETS_manager.PRESET_selected;
+
+    //---
+
+    // DEFAULT STARUP SETTINGS
+
+    PRESETS_manager.set_GUI_position(10, 10);//default
+    PRESETS_manager.setPosition_CLICKER(10, 200, 40);//default
+    PRESETS_manager.setVisible_ClickPanel(true);//default
+    PRESETS_manager.setVisible_Gui(true);//default
+
+    // PRESETS_manager.setDelayedLoading(true);
+
+    //--
 }
 
 //--------------------------------------------------------------
@@ -71,20 +101,12 @@ void ofApp::setup_group()
 
 #ifdef USE_OF_PARAMETER_GROUP
     // setup 'ofParameterGroup params'
-    params.setName("squares");
+//    params.setName("myGroupParameters");
     // it is really important to set the name as it will be used as base for the .xml preset files
     // remember to give each ofxPanel an unique name
     params.add( numSquares.set("num squares", 1, 1, 24) );
     params.add( separation.set("separation", 5, 1, 100) );
     params.add( squareSide.set("square side", 50, 5, 200) );
-#endif
-
-    //-
-
-    // grid matrix
-
-#ifdef USE_CUSTOM_DATAGRID
-    myDataGrid.setName("stepSequencer");
 #endif
 
     //-
@@ -105,15 +127,23 @@ void ofApp::draw(){
 
     ofBackground(128);
 
-//    ofSetColor(255, 95, 95);
-//    ofNoFill();
-//    ofPushMatrix();
-//    ofTranslate( 320, 50 );
-//    for( int i=0; i<numSquares; ++i){
-//        ofDrawRectangle(0, 0, squareSide, squareSide);
-//        ofTranslate( separation, separation );
-//    }
-//    ofPopMatrix();
+    //-
+
+#ifdef USE_OF_PARAMETER_GROUP
+    ofPushStyle();
+    ofSetColor(ofColor::white);
+    ofNoFill();
+    ofPushMatrix();
+    ofTranslate( 120, 250 );
+    for( int i=0; i<numSquares; ++i){
+        ofDrawRectangle(0, 0, squareSide, squareSide);
+        ofTranslate( separation, separation );
+    }
+    ofPopMatrix();
+    ofPopStyle();
+#endif
+
+    //-
 
     PRESETS_manager.draw();
     // draws some minimalistic graphics to monitor the active preset

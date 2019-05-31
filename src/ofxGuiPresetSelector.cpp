@@ -6,13 +6,6 @@
 
 #include "ofxGuiPresetSelector.h"
 
-ofxGuiPresetSelector::~ofxGuiPresetSelector()
-{
-    save_ControlSettings();
-
-    ofRemoveListener(params.parameterChangedE(), this, &ofxGuiPresetSelector::Changed_Gui);
-}
-
 ofxGuiPresetSelector::ofxGuiPresetSelector()
 {
     // ofSetLogLevel("ofxGuiPresetSelector")
@@ -82,6 +75,15 @@ ofxGuiPresetSelector::ofxGuiPresetSelector()
     PRESET_selected_PRE = -1;
 }
 
+//--
+
+ofxGuiPresetSelector::~ofxGuiPresetSelector()
+{
+    save_ControlSettings();
+
+    ofRemoveListener(params.parameterChangedE(), this, &ofxGuiPresetSelector::Changed_Gui);
+}
+
 //-
 
 // A. ofParameterGroup
@@ -90,7 +92,7 @@ ofxGuiPresetSelector::ofxGuiPresetSelector()
 int ofxGuiPresetSelector::getGuiIndex( string name ) const
 {
     for( size_t i = 0; i<groups.size(); ++i ){
-        if( groups[i]->getName() == name ){
+        if( groups[i].getName() == name ){
             return i;
         }
         return -1;
@@ -144,18 +146,18 @@ string ofxGuiPresetSelector::presetName( string guiName, int presetIndex )
 // A. ofParameterGroup
 
 #ifdef USE_OF_PARAMETER_GROUP
-void ofxGuiPresetSelector::add( ofParameterGroup & group, int numPresets ) {
+void ofxGuiPresetSelector::add( ofParameterGroup group, int numPresets ) {
 
     // add a gui for preset saving
 
-    groups.push_back(& group);
+    groups.push_back(group);
 
     lastIndices.push_back(0);
     newIndices.push_back(0);
     presets.push_back(numPresets);
 }
 
-void ofxGuiPresetSelector::add( ofParameterGroup & group, initializer_list<int> keysList ) {
+void ofxGuiPresetSelector::add( ofParameterGroup group, initializer_list<int> keysList ) {
 
     add( group, keysList.size() );
 
@@ -218,32 +220,34 @@ void ofxGuiPresetSelector::save( int presetIndex, int guiIndex ) {
     if(guiIndex>=0 && guiIndex<(int)groups.size()){
 
         ofXml settings;
-        std::string n = presetName( groups[guiIndex]->getName(), presetIndex);
-//        ofSerialize( settings, groups[guiIndex] );
+        std::string n = presetName( groups[guiIndex].getName(), presetIndex);
+        ofSerialize( settings, groups[guiIndex] );
         settings.save( n );
     }
 }
+
 void ofxGuiPresetSelector::load( int presetIndex, int guiIndex ) {
     if(guiIndex>=0 && guiIndex<(int)groups.size()){
 
         ofXml settings;
-        settings.load(  presetName( groups[guiIndex]->getName(), presetIndex) );
-//        ofParameterGroup g = &groups[guiIndex];
-//        ofDeserialize(settings, groups[guiIndex] );
+        settings.load(  presetName( groups[guiIndex].getName(), presetIndex) );
+        ofDeserialize(settings, groups[guiIndex] );
 
         lastIndices[guiIndex] = presetIndex;
     }
 }
+
 void ofxGuiPresetSelector::save( int presetIndex, string guiName ) {
     int guiIndex = getGuiIndex(guiName);
 
     if(guiIndex>=0 && guiIndex<(int)groups.size()){
         ofXml settings;
         string n = presetName( guiName, presetIndex);
-//        ofSerialize( settings, groups[guiIndex] );
+        ofSerialize( settings, groups[guiIndex] );
         settings.save( n );
     }
 }
+
 void ofxGuiPresetSelector::load( int presetIndex, string guiName ) {
     int guiIndex = getGuiIndex(guiName);
 
@@ -251,7 +255,7 @@ void ofxGuiPresetSelector::load( int presetIndex, string guiName ) {
 
         ofXml settings;
         settings.load( presetName( guiName, presetIndex) );
-//        ofDeserialize(settings, groups[guiIndex]);
+        ofDeserialize(settings, groups[guiIndex]);
 
         lastIndices[guiIndex] = presetIndex;
     }
@@ -480,6 +484,7 @@ void ofxGuiPresetSelector::draw( ) {
 
         ofPushMatrix();
         ofPushStyle();
+        ofSetColor(ofColor::white);
         ofNoFill();
         ofTranslate(x, y);
 
@@ -556,6 +561,7 @@ void ofxGuiPresetSelector::mousePressed( int x, int y )
         if(xIndex>=0 && xIndex< presets[yIndex] )
         {
             //load
+
             if(bDelayedLoading)
             {
 //                newIndices[yIndex] = xIndex;
