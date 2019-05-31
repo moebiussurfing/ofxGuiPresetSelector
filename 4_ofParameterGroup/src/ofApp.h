@@ -90,8 +90,8 @@ public:
 
     //--
 
-//    // TODO: easy listener temp solution..
-//    void Changed_DONE_load(bool & DONE_load);
-//    void Changed_DONE_save(bool & DONE_save);
+    // TODO: easy listener temp solution..
+    void Changed_DONE_load(bool & DONE_load);
+    void Changed_DONE_save(bool & DONE_save);
 
 };

@@ -56,11 +56,11 @@ void ofApp::setup()
 
     //-
 
-//    // TODO: easy listener temp solution to trig when save/load is done
-//    // then will load refresh grid sequencer states
-//
-//    PRESETS_manager.DONE_save.addListener(this, &ofApp::Changed_DONE_save);
-//    PRESETS_manager.DONE_load.addListener(this, &ofApp::Changed_DONE_load);
+    // TODO: easy listener temp solution to trig when save/load is done
+    // then will load refresh grid sequencer states
+
+    PRESETS_manager.DONE_save.addListener(this, &ofApp::Changed_DONE_save);
+    PRESETS_manager.DONE_load.addListener(this, &ofApp::Changed_DONE_load);
 
     //-
 
@@ -110,13 +110,13 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::exit(){
-//    //-
-//
-//    // TODO: easy listener temp solution to trig when save/load is done
-//    // then will load refresh grid sequencer states
-//
-//    PRESETS_manager.DONE_save.removeListener(this, &ofApp::Changed_DONE_save);
-//    PRESETS_manager.DONE_load.removeListener(this, &ofApp::Changed_DONE_load);
+    //-
+
+    // TODO: easy listener temp solution to trig when save/load is done
+    // then will load refresh grid sequencer states
+
+    PRESETS_manager.DONE_save.removeListener(this, &ofApp::Changed_DONE_save);
+    PRESETS_manager.DONE_load.removeListener(this, &ofApp::Changed_DONE_load);
 }
 
 //--------------------------------------------------------------
@@ -208,51 +208,51 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
 
 }
 
+
+// TODO: easy listener temp solution
+//--------------------------------------------------------------
+void ofApp::Changed_DONE_save(bool & DONE_save) {
+
+    ofLogNotice("ofApp") << "Changed_DONE_save: " << ofToString( DONE_save?"TRUE":"FALSE" ) ;
+
+    if (PRESETS_manager.DONE_save)
+    {
+        PRESETS_manager.DONE_save = false;
+
+//        GRID_getFrom_Sequencer();// get sequencer state before saving in preset manager
+    }
+}
+
+//--------------------------------------------------------------
+void ofApp::Changed_DONE_load(bool & DONE_load){
+    ofLogNotice("ofApp") << "Changed_DONE_load: " << ofToString( DONE_load?"TRUE":"FALSE" ) ;
+
+    // load local grid into sequencer:
+
+    if (PRESETS_manager.DONE_load)
+    {
+        PRESETS_manager.DONE_load = false;
+
+        //-
+
+//        // 1. put local grid to sequencer grid:
 //
-//// TODO: easy listener temp solution
-////--------------------------------------------------------------
-//void ofApp::Changed_DONE_save(bool & DONE_save) {
-//
-//    ofLogNotice("ofApp") << "Changed_DONE_save: " << ofToString( DONE_save?"TRUE":"FALSE" ) ;
-//
-//    if (PRESETS_manager.DONE_save)
-//    {
-////        PRESETS_manager.DONE_save = false;
-//
-////        GRID_getFrom_Sequencer();// get sequencer state before saving in preset manager
-//    }
-//}
-//
-////--------------------------------------------------------------
-//void ofApp::Changed_DONE_load(bool & DONE_load){
-//    ofLogNotice("ofApp") << "Changed_DONE_load: " << ofToString( DONE_load?"TRUE":"FALSE" ) ;
-//
-//    // load local grid into sequencer:
-//
-//    if (PRESETS_manager.DONE_load)
-//    {
-////        PRESETS_manager.DONE_load = false;
-//
-//        //-
-//
-////        // 1. put local grid to sequencer grid:
-////
-//////        ofLogNotice("ofxSEQ") << "ofxSequencer size rows:" << sequencer.grid.size();
-////        for(int i=0 ; i < sequencer.grid.size() ; i++)
-////        {
-//////            ofLogNotice("ofxSEQ") << "ofxSequencer size cols:" << sequencer.grid[i].size() ;
-////            for(int j=0 ; j < sequencer.grid[i].size() ; j++)
-////            {
-////                sequencer.grid[i][j] = (bool) myDataGrid.grid[i][j];
-////            }
-////        }
-////
-////        //-
-////
-////        // 2. refresh from sequencer grid to draw params
-////
-////        sequencer.set_SequencerFromGrid();
+////        ofLogNotice("ofxSEQ") << "ofxSequencer size rows:" << sequencer.grid.size();
+//        for(int i=0 ; i < sequencer.grid.size() ; i++)
+//        {
+////            ofLogNotice("ofxSEQ") << "ofxSequencer size cols:" << sequencer.grid[i].size() ;
+//            for(int j=0 ; j < sequencer.grid[i].size() ; j++)
+//            {
+//                sequencer.grid[i][j] = (bool) myDataGrid.grid[i][j];
+//            }
+//        }
 //
 //        //-
-//    }
-//}
+//
+//        // 2. refresh from sequencer grid to draw params
+//
+//        sequencer.set_SequencerFromGrid();
+
+        //-
+    }
+}

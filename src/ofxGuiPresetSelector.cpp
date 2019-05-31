@@ -55,7 +55,7 @@ ofxGuiPresetSelector::ofxGuiPresetSelector()
 
     // PRESETS OF DEVICE
 
-    num_presets = 8;//TODO:
+//    num_presets = 8;//TODO:
 
     PRESET_selected.set("PRESETS", 1, 1, num_presets);
 
@@ -160,8 +160,8 @@ void ofxGuiPresetSelector::add( ofParameterGroup params, int numPresets ) {
 
     //-
 
-//    num_presets = numPresets;
-//    (group->getIntSlider("PRESETS"))->setMax(num_presets);
+    num_presets = numPresets;
+    (group->getIntSlider("PRESETS"))->setMax(num_presets);
 }
 
 void ofxGuiPresetSelector::add( ofParameterGroup params, initializer_list<int> keysList ) {
@@ -227,7 +227,9 @@ void ofxGuiPresetSelector::save( int presetIndex, int guiIndex ) {
     if(guiIndex>=0 && guiIndex<(int)groups.size())
     {
         ofLogNotice("ofxGuiPresetSelector") << "DONE_save";
-//        DONE_save = true;
+        DONE_save = true;
+
+        //-
 
         ofXml settings;
         std::string n = presetName( groups[guiIndex].getName(), presetIndex);
@@ -241,7 +243,7 @@ void ofxGuiPresetSelector::save( int presetIndex, string guiName ) {
 
     if(guiIndex>=0 && guiIndex<(int)groups.size()){
         ofLogNotice("ofxGuiPresetSelector") << "DONE_save";
-//        DONE_save = true;
+        DONE_save = true;
 
         //-
 
@@ -264,7 +266,7 @@ void ofxGuiPresetSelector::load( int presetIndex, int guiIndex ) {
         //-
 
         ofLogNotice("ofxGuiPresetSelector") << "DONE_load";
-//        DONE_load = true;
+        DONE_load = true;
     }
 }
 
@@ -282,7 +284,7 @@ void ofxGuiPresetSelector::load( int presetIndex, string guiName ) {
         //-
 
         ofLogNotice("ofxGuiPresetSelector") << "DONE_load";
-//        DONE_load = true;
+        DONE_load = true;
     }
 }
 
@@ -696,7 +698,6 @@ void ofxGuiPresetSelector::delayedLoad( int presetIndex, int guiIndex )
 #endif
 
     //-
-
 }
 
 void ofxGuiPresetSelector::delayedLoad( int presetIndex, string guiName )
@@ -841,7 +842,10 @@ void ofxGuiPresetSelector::Changed_Gui(ofAbstractParameter &e)
     }
 }
 
+//--
+
 // GUI CONTROL PANEL
+
 void ofxGuiPresetSelector::setup_Gui()
 {
     gui_w = 200;
