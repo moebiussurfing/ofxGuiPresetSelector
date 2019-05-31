@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-               BuildableName = "3_example_structJSON.app"
-               BlueprintName = "3_example_structJSON"
-               ReferencedContainer = "container:3_example_structJSON.xcodeproj">
+               BuildableName = "4_ofParameterGroup.app"
+               BlueprintName = "4_ofParameterGroup"
+               ReferencedContainer = "container:4_ofParameterGroup.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "3_example_structJSON.app"
-            BlueprintName = "3_example_structJSON"
-            ReferencedContainer = "container:3_example_structJSON.xcodeproj">
+            BuildableName = "4_ofParameterGroup.app"
+            BlueprintName = "4_ofParameterGroup"
+            ReferencedContainer = "container:4_ofParameterGroup.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -52,17 +52,13 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "3_example_structJSON.app"
-            BlueprintName = "3_example_structJSON"
-            ReferencedContainer = "container:3_example_structJSON.xcodeproj">
+            BuildableName = "4_ofParameterGroup.app"
+            BlueprintName = "4_ofParameterGroup"
+            ReferencedContainer = "container:4_ofParameterGroup.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
-      <LocationScenarioReference
-         identifier = "com.apple.dt.IDEFoundation.CurrentLocationScenarioIdentifier"
-         referenceType = "1">
-      </LocationScenarioReference>
    </LaunchAction>
    <ProfileAction
       shouldUseLaunchSchemeArgsEnv = "YES"
@@ -74,9 +70,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "3_example_structJSON.app"
-            BlueprintName = "3_example_structJSON"
-            ReferencedContainer = "container:3_example_structJSON.xcodeproj">
+            BuildableName = "4_ofParameterGroup.app"
+            BlueprintName = "4_ofParameterGroup"
+            ReferencedContainer = "container:4_ofParameterGroup.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

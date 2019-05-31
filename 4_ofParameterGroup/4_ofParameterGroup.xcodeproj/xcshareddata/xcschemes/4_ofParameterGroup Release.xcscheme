@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-               BuildableName = "3_example_structJSON.app"
-               BlueprintName = "3_example_structJSON"
-               ReferencedContainer = "container:3_example_structJSON.xcodeproj">
+               BuildableName = "4_ofParameterGroup.app"
+               BlueprintName = "4_ofParameterGroup"
+               ReferencedContainer = "container:4_ofParameterGroup.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -26,16 +26,16 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES"
-      buildConfiguration = "Debug">
+      buildConfiguration = "Release">
       <Testables>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "3_example_structJSON.app"
-            BlueprintName = "3_example_structJSON"
-            ReferencedContainer = "container:3_example_structJSON.xcodeproj">
+            BuildableName = "4_ofParameterGroup.app"
+            BlueprintName = "4_ofParameterGroup"
+            ReferencedContainer = "container:4_ofParameterGroup.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -44,7 +44,7 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
-      buildConfiguration = "Debug"
+      buildConfiguration = "Release"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
@@ -52,39 +52,35 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "3_example_structJSON.app"
-            BlueprintName = "3_example_structJSON"
-            ReferencedContainer = "container:3_example_structJSON.xcodeproj">
+            BuildableName = "4_ofParameterGroup.app"
+            BlueprintName = "4_ofParameterGroup"
+            ReferencedContainer = "container:4_ofParameterGroup.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
-      <LocationScenarioReference
-         identifier = "com.apple.dt.IDEFoundation.CurrentLocationScenarioIdentifier"
-         referenceType = "1">
-      </LocationScenarioReference>
    </LaunchAction>
    <ProfileAction
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
-      buildConfiguration = "Debug"
+      buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "3_example_structJSON.app"
-            BlueprintName = "3_example_structJSON"
-            ReferencedContainer = "container:3_example_structJSON.xcodeproj">
+            BuildableName = "4_ofParameterGroup.app"
+            BlueprintName = "4_ofParameterGroup"
+            ReferencedContainer = "container:4_ofParameterGroup.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
-      buildConfiguration = "Debug">
+      buildConfiguration = "Release">
    </AnalyzeAction>
    <ArchiveAction
-      buildConfiguration = "Debug"
+      buildConfiguration = "Release"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>

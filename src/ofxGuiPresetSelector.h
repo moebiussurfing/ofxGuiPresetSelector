@@ -62,9 +62,9 @@ public:
 
 #ifdef USE_OF_PARAMETER_GROUP
     // add a gui for preset saving
-    void add( ofParameterGroup group, int numPresets=8 );
+    void add( ofParameterGroup params, int numPresets=8 );
     // adds and activate key switch
-    void add( ofParameterGroup group, initializer_list<int> keysList );
+    void add( ofParameterGroup params, initializer_list<int> keysList );
 #endif
 
     //-
@@ -199,6 +199,7 @@ public:
     void setup_Gui();
     void Changed_Gui(ofAbstractParameter &e);
 
+    // control panel
     ofxGui gui;
     ofParameterGroup params;
     ofxGuiGroup * group;

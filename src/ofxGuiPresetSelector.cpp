@@ -55,6 +55,8 @@ ofxGuiPresetSelector::ofxGuiPresetSelector()
 
     // PRESETS OF DEVICE
 
+    num_presets = 8;//TODO:
+
     PRESET_selected.set("PRESETS", 1, 1, num_presets);
 
     params.setName("PRESETS");
@@ -120,7 +122,7 @@ int ofxGuiPresetSelector::getGuiIndex( string name ) const {
 string ofxGuiPresetSelector::presetName( string guiName, int presetIndex )
 {
     string folder;
-    //    folder = "/patterns/"; //using subfolder
+    //folder = "/patterns/"; //using subfolder
     folder = "/"; //without subfolder
 
     //-
@@ -146,20 +148,25 @@ string ofxGuiPresetSelector::presetName( string guiName, int presetIndex )
 // A. ofParameterGroup
 
 #ifdef USE_OF_PARAMETER_GROUP
-void ofxGuiPresetSelector::add( ofParameterGroup group, int numPresets ) {
+void ofxGuiPresetSelector::add( ofParameterGroup params, int numPresets ) {
 
     // add a gui for preset saving
 
-    groups.push_back(group);
+    groups.push_back(params);
 
     lastIndices.push_back(0);
     newIndices.push_back(0);
     presets.push_back(numPresets);
+
+    //-
+
+//    num_presets = numPresets;
+//    (group->getIntSlider("PRESETS"))->setMax(num_presets);
 }
 
-void ofxGuiPresetSelector::add( ofParameterGroup group, initializer_list<int> keysList ) {
+void ofxGuiPresetSelector::add( ofParameterGroup params, initializer_list<int> keysList ) {
 
-    add( group, keysList.size() );
+    add( params, keysList.size() );
 
     keys.resize(groups.size());
     int i = groups.size() - 1;
@@ -217,10 +224,29 @@ void ofxGuiPresetSelector::add( DataGrid & grid, initializer_list<int> keysList 
 #ifdef USE_OF_PARAMETER_GROUP
 
 void ofxGuiPresetSelector::save( int presetIndex, int guiIndex ) {
-    if(guiIndex>=0 && guiIndex<(int)groups.size()){
+    if(guiIndex>=0 && guiIndex<(int)groups.size())
+    {
+        ofLogNotice("ofxGuiPresetSelector") << "DONE_save";
+//        DONE_save = true;
 
         ofXml settings;
         std::string n = presetName( groups[guiIndex].getName(), presetIndex);
+        ofSerialize( settings, groups[guiIndex] );
+        settings.save( n );
+    }
+}
+
+void ofxGuiPresetSelector::save( int presetIndex, string guiName ) {
+    int guiIndex = getGuiIndex(guiName);
+
+    if(guiIndex>=0 && guiIndex<(int)groups.size()){
+        ofLogNotice("ofxGuiPresetSelector") << "DONE_save";
+//        DONE_save = true;
+
+        //-
+
+        ofXml settings;
+        string n = presetName( guiName, presetIndex);
         ofSerialize( settings, groups[guiIndex] );
         settings.save( n );
     }
@@ -234,17 +260,11 @@ void ofxGuiPresetSelector::load( int presetIndex, int guiIndex ) {
         ofDeserialize(settings, groups[guiIndex] );
 
         lastIndices[guiIndex] = presetIndex;
-    }
-}
 
-void ofxGuiPresetSelector::save( int presetIndex, string guiName ) {
-    int guiIndex = getGuiIndex(guiName);
+        //-
 
-    if(guiIndex>=0 && guiIndex<(int)groups.size()){
-        ofXml settings;
-        string n = presetName( guiName, presetIndex);
-        ofSerialize( settings, groups[guiIndex] );
-        settings.save( n );
+        ofLogNotice("ofxGuiPresetSelector") << "DONE_load";
+//        DONE_load = true;
     }
 }
 
@@ -258,6 +278,11 @@ void ofxGuiPresetSelector::load( int presetIndex, string guiName ) {
         ofDeserialize(settings, groups[guiIndex]);
 
         lastIndices[guiIndex] = presetIndex;
+
+        //-
+
+        ofLogNotice("ofxGuiPresetSelector") << "DONE_load";
+//        DONE_load = true;
     }
 }
 
@@ -278,6 +303,8 @@ void ofxGuiPresetSelector::save( int presetIndex, int guiIndex )
         // will make in SEQ: get sequencer state before saving in preset manager
         //GRID_getFrom_Sequencer();
 
+        //-
+
         std::string n = presetName( grids[guiIndex]->getName(), presetIndex);
 
         ofLogNotice("ofxGuiPresetSelector") << "> save( presetIndex, guiIndex): " << presetIndex <<", "<< guiIndex;
@@ -297,6 +324,8 @@ void ofxGuiPresetSelector::save( int presetIndex, string guiName ) {
         DONE_save = true;
         // will make in SEQ: get sequencer state before saving in preset manager
         //GRID_getFrom_Sequencer();
+
+        //-
 
         ofLogNotice("ofxGuiPresetSelector") << "> save( presetIndex, guiName): " << presetIndex <<", "<< guiName;
         ofLogNotice("ofxGuiPresetSelector") << "guiIndex = getGuiIndex(guiName): " << guiIndex;
@@ -321,8 +350,9 @@ void ofxGuiPresetSelector::load( int presetIndex, int guiIndex ) {
 
         // grids[guiIndex]->dump_grid();
 
-        ofLogNotice("ofxGuiPresetSelector") << "DONE_load";
+        //-
 
+        ofLogNotice("ofxGuiPresetSelector") << "DONE_load";
         DONE_load = true;
     }
 }
@@ -339,8 +369,9 @@ void ofxGuiPresetSelector::load( int presetIndex, string guiName ) {
 
         lastIndices[guiIndex] = presetIndex;
 
-        ofLogNotice("ofxGuiPresetSelector") << "DONE_load";
+        //-
 
+        ofLogNotice("ofxGuiPresetSelector") << "DONE_load";
         DONE_load = true;
     }
 }
@@ -675,6 +706,7 @@ void ofxGuiPresetSelector::delayedLoad( int presetIndex, string guiName )
     //-
 
     // A. ofParameterGroup
+
 #ifdef USE_OF_PARAMETER_GROUP
     if(guiIndex>=0 && guiIndex<(int)groups.size()){
         newIndices[guiIndex] = presetIndex;
@@ -684,6 +716,7 @@ void ofxGuiPresetSelector::delayedLoad( int presetIndex, string guiName )
     //-
 
     // B. custom DataGrid class
+
 #ifdef USE_CUSTOM_DATAGRID
     if(guiIndex>=0 && guiIndex<(int)grids.size()){
         newIndices[guiIndex] = presetIndex;
@@ -808,6 +841,7 @@ void ofxGuiPresetSelector::Changed_Gui(ofAbstractParameter &e)
     }
 }
 
+// GUI CONTROL PANEL
 void ofxGuiPresetSelector::setup_Gui()
 {
     gui_w = 200;

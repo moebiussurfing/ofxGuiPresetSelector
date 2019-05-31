@@ -56,11 +56,11 @@ void ofApp::setup()
 
     //-
 
-    // TODO: easy listener temp solution to trig when save/load is done
-    // then will load refresh grid sequencer states
-
-    PRESETS_manager.DONE_save.addListener(this, &ofApp::Changed_DONE_save);
-    PRESETS_manager.DONE_load.addListener(this, &ofApp::Changed_DONE_load);
+//    // TODO: easy listener temp solution to trig when save/load is done
+//    // then will load refresh grid sequencer states
+//
+//    PRESETS_manager.DONE_save.addListener(this, &ofApp::Changed_DONE_save);
+//    PRESETS_manager.DONE_load.addListener(this, &ofApp::Changed_DONE_load);
 
     //-
 
@@ -96,15 +96,9 @@ void ofApp::setup_group()
 
     // group
 
-//#ifdef USE_OF_PARAMETER_GROUP
-    // setup 'ofParameterGroup params'
-//    params.setName("myGroupParameters");
-    // it is really important to set the name as it will be used as base for the .xml preset files
-    // remember to give each ofxPanel an unique name
     params.add( numSquares.set("num squares", 1, 1, 24) );
     params.add( separation.set("separation", 5, 1, 100) );
     params.add( squareSide.set("square side", 50, 5, 200) );
-//#endif
 
     //-
 }
@@ -116,13 +110,13 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::exit(){
-    //-
-
-    // TODO: easy listener temp solution to trig when save/load is done
-    // then will load refresh grid sequencer states
-
-    PRESETS_manager.DONE_save.removeListener(this, &ofApp::Changed_DONE_save);
-    PRESETS_manager.DONE_load.removeListener(this, &ofApp::Changed_DONE_load);
+//    //-
+//
+//    // TODO: easy listener temp solution to trig when save/load is done
+//    // then will load refresh grid sequencer states
+//
+//    PRESETS_manager.DONE_save.removeListener(this, &ofApp::Changed_DONE_save);
+//    PRESETS_manager.DONE_load.removeListener(this, &ofApp::Changed_DONE_load);
 }
 
 //--------------------------------------------------------------
@@ -137,7 +131,7 @@ void ofApp::draw(){
     ofSetColor(ofColor::white);
     ofNoFill();
     ofPushMatrix();
-    ofTranslate( 120, 250 );
+    ofTranslate( 120, 300 );
     for( int i=0; i<numSquares; ++i){
         ofDrawRectangle(0, 0, squareSide, squareSide);
         ofTranslate( separation, separation );
@@ -214,50 +208,51 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
 
 }
 
-// TODO: easy listener temp solution
-//--------------------------------------------------------------
-void ofApp::Changed_DONE_save(bool & DONE_save) {
-
-    ofLogNotice("ofApp") << "Changed_DONE_save: " << ofToString( DONE_save?"TRUE":"FALSE" ) ;
-
-    if (PRESETS_manager.DONE_save)
-    {
-//        PRESETS_manager.DONE_save = false;
-
-//        GRID_getFrom_Sequencer();// get sequencer state before saving in preset manager
-    }
-}
-
-//--------------------------------------------------------------
-void ofApp::Changed_DONE_load(bool & DONE_load){
-    ofLogNotice("ofApp") << "Changed_DONE_load: " << ofToString( DONE_load?"TRUE":"FALSE" ) ;
-
-    // load local grid into sequencer:
-
-    if (PRESETS_manager.DONE_load)
-    {
-//        PRESETS_manager.DONE_load = false;
-
-        //-
-
-//        // 1. put local grid to sequencer grid:
 //
-////        ofLogNotice("ofxSEQ") << "ofxSequencer size rows:" << sequencer.grid.size();
-//        for(int i=0 ; i < sequencer.grid.size() ; i++)
-//        {
-////            ofLogNotice("ofxSEQ") << "ofxSequencer size cols:" << sequencer.grid[i].size() ;
-//            for(int j=0 ; j < sequencer.grid[i].size() ; j++)
-//            {
-//                sequencer.grid[i][j] = (bool) myDataGrid.grid[i][j];
-//            }
-//        }
+//// TODO: easy listener temp solution
+////--------------------------------------------------------------
+//void ofApp::Changed_DONE_save(bool & DONE_save) {
+//
+//    ofLogNotice("ofApp") << "Changed_DONE_save: " << ofToString( DONE_save?"TRUE":"FALSE" ) ;
+//
+//    if (PRESETS_manager.DONE_save)
+//    {
+////        PRESETS_manager.DONE_save = false;
+//
+////        GRID_getFrom_Sequencer();// get sequencer state before saving in preset manager
+//    }
+//}
+//
+////--------------------------------------------------------------
+//void ofApp::Changed_DONE_load(bool & DONE_load){
+//    ofLogNotice("ofApp") << "Changed_DONE_load: " << ofToString( DONE_load?"TRUE":"FALSE" ) ;
+//
+//    // load local grid into sequencer:
+//
+//    if (PRESETS_manager.DONE_load)
+//    {
+////        PRESETS_manager.DONE_load = false;
 //
 //        //-
 //
-//        // 2. refresh from sequencer grid to draw params
+////        // 1. put local grid to sequencer grid:
+////
+//////        ofLogNotice("ofxSEQ") << "ofxSequencer size rows:" << sequencer.grid.size();
+////        for(int i=0 ; i < sequencer.grid.size() ; i++)
+////        {
+//////            ofLogNotice("ofxSEQ") << "ofxSequencer size cols:" << sequencer.grid[i].size() ;
+////            for(int j=0 ; j < sequencer.grid[i].size() ; j++)
+////            {
+////                sequencer.grid[i][j] = (bool) myDataGrid.grid[i][j];
+////            }
+////        }
+////
+////        //-
+////
+////        // 2. refresh from sequencer grid to draw params
+////
+////        sequencer.set_SequencerFromGrid();
 //
-//        sequencer.set_SequencerFromGrid();
-
-        //-
-    }
-}
+//        //-
+//    }
+//}
