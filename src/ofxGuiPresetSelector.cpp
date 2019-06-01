@@ -613,7 +613,7 @@ void ofxGuiPresetSelector::mousePressed( int x, int y )
             }
         }
 
-        // last button (save button)
+            // last button (save button)
         else if( xIndex == presets[yIndex])
         {
             ofLogNotice("ofxGuiPresetSelector") << "saveButton: ( lastIndices[yIndex], yIndex ): " <<  lastIndices[yIndex] << ", " << yIndex;
@@ -746,7 +746,7 @@ void ofxGuiPresetSelector::delayedUpdate() {
     }
 #endif
 
-     //-
+    //-
 
     // B. custom DataGrid class
 
@@ -896,11 +896,21 @@ void ofxGuiPresetSelector::setup_Gui()
 
     //-
 
-    group = gui.addGroup("PATTERNS", confCont);
+    // customize panel name to class mode
+
+    string name_Panel;
+#ifdef USE_OF_PARAMETER_GROUP
+    name_Panel = "PARAMETERS";
+#endif
+#ifdef USE_CUSTOM_DATAGRID
+    name_Panel = "PATTERNS";
+#endif
+
+    group = gui.addGroup(name_Panel, confCont);
     group->add<ofxGuiIntSlider>(PRESET_selected, confItem_Big);
     group->add<ofxGuiButton>(bSave, confItem_toggle);
     group->add<ofxGuiToggle>(autoLoad, confItem_toggle);
-//    group->add<ofxGuiToggle>(autoSave, confItem_toggle);
+    //    group->add<ofxGuiToggle>(autoSave, confItem_toggle);
     group->add<ofxGuiButton>(cloneRight, confItem_toggle);
 
     //-

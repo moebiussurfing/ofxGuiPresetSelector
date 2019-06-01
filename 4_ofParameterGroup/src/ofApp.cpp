@@ -52,6 +52,8 @@ void ofApp::setup()
     PRESETS_manager.add( myDataGrid, { '1', '2', '3', '4', '5', '6', '7', '8'} );
 #endif
 
+    // NOTE: take care with path folders, that must exist before write inside!
+
     //-
 
     // TODO: easy listener temp solution to trig when save/load is done
@@ -92,7 +94,8 @@ void ofApp::update(){
 }
 
 //--------------------------------------------------------------
-void ofApp::exit(){
+void ofApp::exit()
+{
     //-
 
     // TODO: easy listener temp solution to trig when save/load is done
@@ -100,6 +103,8 @@ void ofApp::exit(){
 
     PRESETS_manager.DONE_save.removeListener(this, &ofApp::Changed_DONE_save);
     PRESETS_manager.DONE_load.removeListener(this, &ofApp::Changed_DONE_load);
+
+    //-
 }
 
 //--------------------------------------------------------------
@@ -110,8 +115,8 @@ void ofApp::draw(){
     //-
 
 #ifdef USE_OF_PARAMETER_GROUP
-    // draw object linked to grouped parameters
 
+    // draw object linked to grouped parameters
     ofPushStyle();
     ofSetColor(ofColor::white);
     ofNoFill();
@@ -123,6 +128,7 @@ void ofApp::draw(){
     }
     ofPopMatrix();
     ofPopStyle();
+
 #endif
 
     //-
@@ -137,7 +143,7 @@ void ofApp::draw(){
     info += "or click on the PRESETS_manager buttons above\n";
     info += "the last button save the currently selected preset";
     ofDrawBitmapString( info , 20, ofGetHeight() - 40 );
-    
+
 }
 
 //--------------------------------------------------------------
@@ -191,10 +197,9 @@ void ofApp::gotMessage(ofMessage msg){
 }
 
 //--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo){ 
+void ofApp::dragEvent(ofDragInfo dragInfo){
 
 }
-
 
 // TODO: easy listener temp solution
 //--------------------------------------------------------------
@@ -208,7 +213,7 @@ void ofApp::Changed_DONE_save(bool & DONE_save) {
     {
         PRESETS_manager.DONE_save = false;
 
-    //        GRID_getFrom_Sequencer();// get sequencer state before saving in preset manager
+        // GRID_getFrom_Sequencer();// get sequencer state before saving in preset manager
     }
 }
 

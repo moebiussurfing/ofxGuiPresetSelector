@@ -9,11 +9,13 @@
 // + switched preset management from ofxGuiPanel to ofParametersGroup
 // + added custom DATA class DataGrid
 // + integrated to ofxSEQ
-// + added contro gui panel: slider selector, cloner, save
+// + added control gui panel: slider selector, cloner, save
 //
 // TODO:
-// - save full kit of presets to avoid blocking main thread when switching presets
-// - use pointers bewteen classes (ofxSequencer) to share the data struct
+// + could make tween when changing params
+// + save full kit of presets to avoid blocking main thread when switching presets
+// because json loadings
+// + use pointers bewteen classes (ofxSequencer) to share the data struct
 // from DataGrid class,
 // ofxSEQ, or wherever is used ... almost done. but maybe should add listeners
 // re players when preset are loaded/saved..
@@ -23,7 +25,7 @@
 #include "ofMain.h"
 #include "ofxGuiExtended.h"
 
-//-
+//-------------------------------
 
 // DEFINE MODE:
 
@@ -37,7 +39,7 @@
 // B. custom DataGrid class
 //#define USE_CUSTOM_DATAGRID
 
-//-
+//-------------------------------
 
 #ifdef USE_CUSTOM_DATAGRID
 #include "DataGrid.h"
@@ -50,7 +52,7 @@
 //-
 
 class ofxGuiPresetSelector {
-    
+
 public:
 
     ofxGuiPresetSelector();
@@ -72,7 +74,7 @@ public:
     // B. custom DataGrid class
 
 #ifdef USE_CUSTOM_DATAGRID
-//    // add a gui for preset saving
+    //    // add a gui for preset saving
 //    void add( DataGrid grid, int numPresets=NUM_OF_PRESETS );
 //    // adds and activate key switch
 //    void add( DataGrid grid, initializer_list<int> keysList );
@@ -88,15 +90,15 @@ public:
     // save to a preset
     void save( int presetIndex, int guiIndex=0 );
     void save( int presetIndex, string guiName );
-    
+
     // loads an already saved preset
     void load( int presetIndex, int guiIndex=0 );
     void load( int presetIndex, string guiName );
-    
+
     // get the last loaded preset
     int getPresetIndex( int guiIndex ) const;
     int getPresetIndex( string guiName ) const;
-    
+
     // set the key you have to hold for saving, default is OF_KEY_CONTROL
     void setModeKey( int key );
 
