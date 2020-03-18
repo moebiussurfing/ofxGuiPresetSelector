@@ -23,7 +23,7 @@
 #pragma once
 
 #include "ofMain.h"
-#include "ofxGuiExtended.h"
+#include "ofxGuiExtended2.h"
 
 //-------------------------------
 
@@ -32,12 +32,12 @@
 // un-comment one of the two modes only! can't use both together:
 
 // A. ofParameterGroup
-#define USE_OF_PARAMETER_GROUP
+//#define USE_OF_PARAMETER_GROUP
 
 //-
 
 // B. custom DataGrid class
-//#define USE_CUSTOM_DATAGRID
+#define USE_CUSTOM_DATAGRID
 
 //-------------------------------
 
@@ -206,7 +206,7 @@ public:
     // control panel to selec presets, clone, save..
     ofxGui gui;
     ofParameterGroup params;
-    ofxGuiGroup * group;
+    ofxGuiGroup2 * group;
     ofParameter<int> PRESET_selected;
     int PRESET_selected_PRE = -1;
     ofParameter<bool> bSave;
