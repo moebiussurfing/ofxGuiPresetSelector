@@ -588,7 +588,8 @@ void ofxGuiPresetSelector::mousePressed( int x, int y )
     xIndex = (x>0) ? xIndex : -1;
     yIndex = (y>0) ? yIndex : -1;
 
-    ofLogNotice("ofxGuiPresetSelector") << "> mousePressed - xIndex, yIndex: " << xIndex <<", "<< yIndex;
+    if (xIndex != -1 && yIndex != -1)
+        ofLogNotice("ofxGuiPresetSelector") << "> mousePressed - xIndex, yIndex: " << xIndex <<", "<< yIndex;
 
     //-
 

@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="src\ofApp.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ofApp.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\addons\ofxGuiPresetSelector\src\DataGrid.cpp">
+      <Filter>addons\ofxGuiPresetSelector\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\addons\ofxGuiPresetSelector\src\ofxGuiPresetSelector.cpp">
+      <Filter>addons\ofxGuiPresetSelector\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ofxGuiExtended2\src\ofxGuiElement.cpp">
+      <Filter>addons\ofxGuiExtended2\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ofxGuiExtended2\src\ofxGuiExtended2.cpp">
+      <Filter>addons\ofxGuiExtended2\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ofxGuiExtended2\src\containers\ofxGuiContainer.cpp">
+      <Filter>addons\ofxGuiExtended2\src\containers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ofxGuiExtended2\src\containers\ofxGuiGroup2.cpp">
+      <Filter>addons\ofxGuiExtended2\src\containers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ofxGuiExtended2\src\containers\ofxGuiMenu.cpp">
+      <Filter>addons\ofxGuiExtended2\src\containers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ofxGuiExtended2\src\containers\ofxGuiPanel.cpp">
+      <Filter>addons\ofxGuiExtended2\src\containers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ofxGuiExtended2\src\containers\ofxGuiSliderGroup.cpp">
+      <Filter>addons\ofxGuiExtended2\src\containers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ofxGuiExtended2\src\containers\ofxGuiTabs.cpp">
+      <Filter>addons\ofxGuiExtended2\src\containers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ofxGuiExtended2\src\controls\ofxGuiButton.cpp">
+      <Filter>addons\ofxGuiExtended2\src\controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ofxGuiExtended2\src\controls\ofxGuiFpsPlotter.cpp">
+      <Filter>addons\ofxGuiExtended2\src\controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ofxGuiExtended2\src\controls\ofxGuiFunctionPlotter.cpp">
+      <Filter>addons\ofxGuiExtended2\src\controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ofxGuiExtended2\src\controls\ofxGuiGraphics.cpp">
+      <Filter>addons\ofxGuiExtended2\src\controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ofxGuiExtended2\src\controls\ofxGuiInputField.cpp">
+      <Filter>addons\ofxGuiExtended2\src\controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ofxGuiExtended2\src\controls\ofxGuiLabel.cpp">
+      <Filter>addons\ofxGuiExtended2\src\controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ofxGuiExtended2\src\controls\ofxGuiRangeSlider.cpp">
+      <Filter>addons\ofxGuiExtended2\src\controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ofxGuiExtended2\src\controls\ofxGuiSlider.cpp">
+      <Filter>addons\ofxGuiExtended2\src\controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ofxGuiExtended2\src\controls\ofxGuiToggle.cpp">
+      <Filter>addons\ofxGuiExtended2\src\controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ofxGuiExtended2\src\controls\ofxGuiValuePlotter.cpp">
+      <Filter>addons\ofxGuiExtended2\src\controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ofxGuiExtended2\src\controls\ofxGuiZoomableGraphics.cpp">
+      <Filter>addons\ofxGuiExtended2\src\controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ofxGuiExtended2\src\DOM\Document.cpp">
+      <Filter>addons\ofxGuiExtended2\src\DOM</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ofxGuiExtended2\src\DOM\Element.cpp">
+      <Filter>addons\ofxGuiExtended2\src\DOM</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ofxGuiExtended2\src\DOM\Events.cpp">
+      <Filter>addons\ofxGuiExtended2\src\DOM</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ofxGuiExtended2\src\DOM\Exceptions.cpp">
+      <Filter>addons\ofxGuiExtended2\src\DOM</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ofxGuiExtended2\src\DOM\Layout.cpp">
+      <Filter>addons\ofxGuiExtended2\src\DOM</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ofxGuiExtended2\src\view\JsonConfigParser.cpp">
+      <Filter>addons\ofxGuiExtended2\src\view</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ofxGuiExtended2\src\view\ofxDOMBoxLayout.cpp">
+      <Filter>addons\ofxGuiExtended2\src\view</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ofxGuiExtended2\src\view\ofxDOMFlexBoxLayout.cpp">
+      <Filter>addons\ofxGuiExtended2\src\view</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ofxGuiExtended2\src\view\ofxDOMLayoutHelper.cpp">
+      <Filter>addons\ofxGuiExtended2\src\view</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{d8376475-7454-4a24-b08a-aac121d3ad6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons">
+      <UniqueIdentifier>{71834F65-F3A9-211E-73B8-DC85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxGuiPresetSelector">
+      <UniqueIdentifier>{8D37BC99-629E-5A06-819D-793D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxGuiPresetSelector\src">
+      <UniqueIdentifier>{48C29E9F-9187-778D-72D5-630E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxJsonUtils">
+      <UniqueIdentifier>{D87C9337-DC53-3301-56D3-17E0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxJsonUtils\src">
+      <UniqueIdentifier>{4E4FDD8E-7DF2-C36E-BDD4-3EA8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxJsonUtils\libs">
+      <UniqueIdentifier>{1449B1FD-3661-F798-6AD2-ECB0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxJsonUtils\libs\bbb">
+      <UniqueIdentifier>{651CEC9C-B019-2021-0EFD-8B58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxJsonUtils\libs\bbb\json">
+      <UniqueIdentifier>{91B66E03-8C4D-AFD0-B3E2-B6F4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxJsonUtils\libs\bbb\json\libs">
+      <UniqueIdentifier>{CC80A0BD-2EE1-EA4B-8F57-795F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxJsonUtils\libs\bbb\json\libs\nlohmann_json">
+      <UniqueIdentifier>{EC344530-A2EC-4D39-A6F1-2C2C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxJsonUtils\libs\bbb\json\libs\nlohmann_json\src">
+      <UniqueIdentifier>{DE191EA2-EC9B-5E6F-E122-90B8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxJsonUtils\libs\bbb\json\utils">
+      <UniqueIdentifier>{AB0E8F92-9D39-469D-49AB-ACD7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxGuiExtended2">
+      <UniqueIdentifier>{07a398dc-8319-4c41-bd78-6142f5f56675}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxGuiExtended2\src">
+      <UniqueIdentifier>{086ab852-8d0a-4f47-b387-af17330fa20d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxGuiExtended2\src\containers">
+      <UniqueIdentifier>{317c64d4-4e6a-45bd-a435-3b7d1e504f4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxGuiExtended2\src\controls">
+      <UniqueIdentifier>{87dff73b-55fb-41d8-bd1a-bde79f27af1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxGuiExtended2\src\DOM">
+      <UniqueIdentifier>{99ac5836-eaeb-468b-8f74-4e0b90c975ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxGuiExtended2\src\util">
+      <UniqueIdentifier>{c2cbd612-5408-4aee-99d5-5f2cc07777e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxGuiExtended2\src\view">
+      <UniqueIdentifier>{aaa117bb-d0d8-4f3d-9b78-b743c732b946}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\ofApp.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ofApp.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxGuiPresetSelector\src\DataGrid.h">
+      <Filter>addons\ofxGuiPresetSelector\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxGuiPresetSelector\src\ofxGuiPresetSelector.h">
+      <Filter>addons\ofxGuiPresetSelector\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxJsonUtils\src\ofJson_compatible.h">
+      <Filter>addons\ofxJsonUtils\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxJsonUtils\src\ofxJsonConvertFunctions.h">
+      <Filter>addons\ofxJsonUtils\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxJsonUtils\src\ofxJsonify.h">
+      <Filter>addons\ofxJsonUtils\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxJsonUtils\src\ofxJsonParseFunctions.h">
+      <Filter>addons\ofxJsonUtils\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxJsonUtils\src\ofxJsonUtils.h">
+      <Filter>addons\ofxJsonUtils\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxJsonUtils\src\ofxJsonUtilsCommon.h">
+      <Filter>addons\ofxJsonUtils\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxJsonUtils\src\ofxJsonUtilsSetting.h">
+      <Filter>addons\ofxJsonUtils\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxJsonUtils\src\ofxJsonUtilsTypeTraits.h">
+      <Filter>addons\ofxJsonUtils\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxJsonUtils\libs\bbb\bbb_json.hpp">
+      <Filter>addons\ofxJsonUtils\libs\bbb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxJsonUtils\libs\bbb\json\libs\nlohmann_json\src\json.hpp">
+      <Filter>addons\ofxJsonUtils\libs\bbb\json\libs\nlohmann_json\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxJsonUtils\libs\bbb\json\utils\common.hpp">
+      <Filter>addons\ofxJsonUtils\libs\bbb\json\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxJsonUtils\libs\bbb\json\utils\constants.hpp">
+      <Filter>addons\ofxJsonUtils\libs\bbb\json\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxJsonUtils\libs\bbb\json\utils\convert.hpp">
+      <Filter>addons\ofxJsonUtils\libs\bbb\json\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxJsonUtils\libs\bbb\json\utils\parse.hpp">
+      <Filter>addons\ofxJsonUtils\libs\bbb\json\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxJsonUtils\libs\bbb\json\utils\type_traits.hpp">
+      <Filter>addons\ofxJsonUtils\libs\bbb\json\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxJsonUtils\libs\bbb\json\utils\utility.hpp">
+      <Filter>addons\ofxJsonUtils\libs\bbb\json\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxJsonUtils\libs\bbb\json\utils.hpp">
+      <Filter>addons\ofxJsonUtils\libs\bbb\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ofxGuiExtended2\src\ofxGuiElement.h">
+      <Filter>addons\ofxGuiExtended2\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ofxGuiExtended2\src\ofxGuiExtended2.h">
+      <Filter>addons\ofxGuiExtended2\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ofxGuiExtended2\src\containers\ofxGuiContainer.h">
+      <Filter>addons\ofxGuiExtended2\src\containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ofxGuiExtended2\src\containers\ofxGuiGroup2.h">
+      <Filter>addons\ofxGuiExtended2\src\containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ofxGuiExtended2\src\containers\ofxGuiMenu.h">
+      <Filter>addons\ofxGuiExtended2\src\containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ofxGuiExtended2\src\containers\ofxGuiPanel.h">
+      <Filter>addons\ofxGuiExtended2\src\containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ofxGuiExtended2\src\containers\ofxGuiSliderGroup.h">
+      <Filter>addons\ofxGuiExtended2\src\containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ofxGuiExtended2\src\containers\ofxGuiTabs.h">
+      <Filter>addons\ofxGuiExtended2\src\containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ofxGuiExtended2\src\controls\ofxGuiButton.h">
+      <Filter>addons\ofxGuiExtended2\src\controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ofxGuiExtended2\src\controls\ofxGuiFpsPlotter.h">
+      <Filter>addons\ofxGuiExtended2\src\controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ofxGuiExtended2\src\controls\ofxGuiFunctionPlotter.h">
+      <Filter>addons\ofxGuiExtended2\src\controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ofxGuiExtended2\src\controls\ofxGuiGraphics.h">
+      <Filter>addons\ofxGuiExtended2\src\controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ofxGuiExtended2\src\controls\ofxGuiInputField.h">
+      <Filter>addons\ofxGuiExtended2\src\controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ofxGuiExtended2\src\controls\ofxGuiLabel.h">
+      <Filter>addons\ofxGuiExtended2\src\controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ofxGuiExtended2\src\controls\ofxGuiRangeSlider.h">
+      <Filter>addons\ofxGuiExtended2\src\controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ofxGuiExtended2\src\controls\ofxGuiSlider.h">
+      <Filter>addons\ofxGuiExtended2\src\controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ofxGuiExtended2\src\controls\ofxGuiToggle.h">
+      <Filter>addons\ofxGuiExtended2\src\controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ofxGuiExtended2\src\controls\ofxGuiValuePlotter.h">
+      <Filter>addons\ofxGuiExtended2\src\controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ofxGuiExtended2\src\controls\ofxGuiZoomableGraphics.h">
+      <Filter>addons\ofxGuiExtended2\src\controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ofxGuiExtended2\src\DOM\Document.h">
+      <Filter>addons\ofxGuiExtended2\src\DOM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ofxGuiExtended2\src\DOM\Element.h">
+      <Filter>addons\ofxGuiExtended2\src\DOM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ofxGuiExtended2\src\DOM\Events.h">
+      <Filter>addons\ofxGuiExtended2\src\DOM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ofxGuiExtended2\src\DOM\EventTarget.h">
+      <Filter>addons\ofxGuiExtended2\src\DOM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ofxGuiExtended2\src\DOM\Exceptions.h">
+      <Filter>addons\ofxGuiExtended2\src\DOM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ofxGuiExtended2\src\DOM\Layout.h">
+      <Filter>addons\ofxGuiExtended2\src\DOM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ofxGuiExtended2\src\DOM\ofxDOM.h">
+      <Filter>addons\ofxGuiExtended2\src\DOM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ofxGuiExtended2\src\DOM\Types.h">
+      <Filter>addons\ofxGuiExtended2\src\DOM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ofxGuiExtended2\src\util\IDGenerator.h">
+      <Filter>addons\ofxGuiExtended2\src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ofxGuiExtended2\src\view\JsonConfigParser.h">
+      <Filter>addons\ofxGuiExtended2\src\view</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ofxGuiExtended2\src\view\ofxDOMBoxLayout.h">
+      <Filter>addons\ofxGuiExtended2\src\view</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ofxGuiExtended2\src\view\ofxDOMFlexBoxLayout.h">
+      <Filter>addons\ofxGuiExtended2\src\view</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ofxGuiExtended2\src\view\ofxDOMLayoutHelper.h">
+      <Filter>addons\ofxGuiExtended2\src\view</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ofxGuiExtended2\src\view\ofxGuiDefaultConfig.h">
+      <Filter>addons\ofxGuiExtended2\src\view</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="icon.rc" />
+  </ItemGroup>
+</Project>

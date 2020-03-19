@@ -1,3 +1,3 @@
-ofxGuiExtended
+ofxGuiExtended2
 ofxGuiPresetSelector
 ofxJsonUtils

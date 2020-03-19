@@ -15,7 +15,7 @@
 // + could make tween when changing params
 // + save full kit of presets to avoid blocking main thread when switching presets
 // because json loadings
-// + use pointers bewteen classes (ofxSequencer) to share the data struct
+// + use pointers between classes (ofxSequencer) to share the data struct
 // from DataGrid class,
 // ofxSEQ, or wherever is used ... almost done. but maybe should add listeners
 // re players when preset are loaded/saved..
@@ -23,7 +23,7 @@
 #pragma once
 
 #include "ofMain.h"
-#include "ofxGuiExtended.h"
+#include "ofxGuiExtended2.h"
 
 //-------------------------------
 
@@ -37,6 +37,7 @@
 //-
 
 // B. custom DataGrid class
+//to use with ofxSEQ
 //#define USE_CUSTOM_DATAGRID
 
 //-------------------------------
@@ -206,7 +207,7 @@ public:
     // control panel to selec presets, clone, save..
     ofxGui gui;
     ofParameterGroup params;
-    ofxGuiGroup * group;
+    ofxGuiGroup2 * group;
     ofParameter<int> PRESET_selected;
     int PRESET_selected_PRE = -1;
     ofParameter<bool> bSave;
