@@ -32,13 +32,17 @@
 // un-comment one of the two modes only! can't use both together:
 
 // A. ofParameterGroup
-#define USE_OF_PARAMETER_GROUP
+//#define USE_OF_PARAMETER_GROUP
 
 //-
 
 // B. custom DataGrid class
+<<<<<<< HEAD
 //to use with ofxSEQ
 //#define USE_CUSTOM_DATAGRID
+=======
+#define USE_CUSTOM_DATAGRID
+>>>>>>> 26a196037088b7f3ba0b48098beca2c8461d6643
 
 //-------------------------------
 
