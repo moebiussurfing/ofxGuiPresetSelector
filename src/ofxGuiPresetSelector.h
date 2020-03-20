@@ -207,6 +207,7 @@ public:
     ofxGui gui;
     ofParameterGroup params;
     ofxGuiGroup2 * group;
+    
     ofParameter<int> PRESET_selected;
     int PRESET_selected_PRE = -1;
     ofParameter<bool> bSave;

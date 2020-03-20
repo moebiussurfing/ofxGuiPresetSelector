@@ -48,7 +48,8 @@ ofxGuiPresetSelector::ofxGuiPresetSelector()
 
     //-
 
-    myTTF = "assets/fonts/PragmataProR_0822.ttf";
+//    myTTF = "assets/fonts/PragmataProR_0822.ttf";
+    myTTF = "assets/fonts/telegrama_render.otf";
     sizeTTF = 10;
     myFont.load(myTTF, sizeTTF, true, true);
 
@@ -917,6 +918,9 @@ void ofxGuiPresetSelector::setup_Gui()
     //-
 
     group->setPosition(600, 550);
+
+    //TODO:
+    group->loadTheme("theme/theme_bleurgh.json");
 }
 
 void ofxGuiPresetSelector::set_GUI_position(int x, int y)
