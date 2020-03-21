@@ -48,7 +48,8 @@ ofxGuiPresetSelector::ofxGuiPresetSelector()
 
     //-
 
-    myTTF = "assets/fonts/PragmataProR_0822.ttf";
+//    myTTF = "assets/fonts/PragmataProR_0822.ttf";
+    myTTF = "assets/fonts/telegrama_render.otf";
     sizeTTF = 10;
     myFont.load(myTTF, sizeTTF, true, true);
 
@@ -865,34 +866,34 @@ void ofxGuiPresetSelector::setup_Gui()
 
     confCont = //container
             {
-                    {"direction", "vertical"},
-                    {"width", gui_w},
-                    {"padding", 0},
-                    {"margin", 0},
+//                    {"direction", "vertical"},
+//                    {"width", gui_w},
+//                    {"padding", 0},
+//                    {"margin", 0},
             };
 
     confItem_toggle = //toggle
             {
-                    {"height", gui_slider_h},
+//                    {"height", gui_slider_h},
             };
 
     confItem = //sliders & button
             {
-                    {"type", "fullsize"},
-                    {"height", gui_slider_h},
+//                    {"type", "fullsize"},
+//                    {"height", gui_slider_h},
             };
 
     confItem_Big = //big sliders
             {
-                    {"type", "fullsize"},
-                    {"height", gui_slider_big_h},
+//                    {"type", "fullsize"},
+//                    {"height", gui_slider_big_h},
             };
 
     confItem_Fat = //big buttons
             {
-                    {"type", "fullsize"},
-                    {"height", gui_button_h},
-                    {"text-align", "center"},
+//                    {"type", "fullsize"},
+//                    {"height", gui_button_h},
+//                    {"text-align", "center"},
             };
 
     //-
@@ -911,12 +912,15 @@ void ofxGuiPresetSelector::setup_Gui()
     group->add<ofxGuiIntSlider>(PRESET_selected, confItem_Big);
     group->add<ofxGuiButton>(bSave, confItem_toggle);
     group->add<ofxGuiToggle>(autoLoad, confItem_toggle);
-    //    group->add<ofxGuiToggle>(autoSave, confItem_toggle);
+        group->add<ofxGuiToggle>(autoSave, confItem_toggle);
     group->add<ofxGuiButton>(cloneRight, confItem_toggle);
 
     //-
 
     group->setPosition(600, 550);
+
+    //TODO:
+    group->loadTheme("theme/theme_bleurgh.json");
 }
 
 void ofxGuiPresetSelector::set_GUI_position(int x, int y)
