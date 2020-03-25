@@ -33,6 +33,8 @@ class ofxGuiPresetSelector {
 
 public:
 
+	bool DISABLE_CALLBACKS = false;
+
     ofxGuiPresetSelector();
     ~ofxGuiPresetSelector();
 
@@ -153,7 +155,7 @@ public:
 
     ofJson confCont, confItem, confItem_toggle, confItem_Big, confItem_Fat;
     void setup_Gui();
-    void Changed_Gui(ofAbstractParameter &e);
+    void Changed_Params(ofAbstractParameter &e);
 
     //-
 

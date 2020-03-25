@@ -1,4 +1,3 @@
-
 //ofxGuiPresetSelector.h
 //Nicola Pisanti, MIT License, 2016
 //
@@ -11,6 +10,8 @@ ofxGuiPresetSelector::ofxGuiPresetSelector()
 {
 	//ofSetLogLevel("ofxGuiPresetSelector")
 	ofSetLogLevel(OF_LOG_VERBOSE);
+
+	DISABLE_CALLBACKS = true;
 
 	modeKey = OF_KEY_CONTROL;
 	bKeys = false;
@@ -58,11 +59,17 @@ ofxGuiPresetSelector::ofxGuiPresetSelector()
 	params.add(bAutoSave);
 	params.add(bCloneToRight);
 
-	ofAddListener(params.parameterChangedE(), this, &ofxGuiPresetSelector::Changed_Gui);
+	ofAddListener(params.parameterChangedE(), this, &ofxGuiPresetSelector::Changed_Params);
 
-	//-
+	//----
+
+	//startup
 
 	PRESET_selected_PRE = -1;
+
+	DISABLE_CALLBACKS = false;
+
+	//----
 }
 
 //------------------------------------------------
@@ -70,13 +77,13 @@ ofxGuiPresetSelector::~ofxGuiPresetSelector()
 {
 	save_ControlSettings();
 
-	ofRemoveListener(params.parameterChangedE(), this, &ofxGuiPresetSelector::Changed_Gui);
+	ofRemoveListener(params.parameterChangedE(), this, &ofxGuiPresetSelector::Changed_Params);
 }
 
 //------------------------------------------------
 int ofxGuiPresetSelector::getGuiIndex(string name) const {
 
-	for (size_t i = 0; i < grids.size(); ++i) 
+	for (size_t i = 0; i < grids.size(); ++i)
 	{
 		string myName = grids[i]->getName();
 		if (myName == name) {
@@ -125,7 +132,7 @@ void ofxGuiPresetSelector::add(DataGrid & grid, initializer_list<int> keysList)
 
 	for (const int & key : keysList) keys[i].push_back(key);
 
-	if (keysNotActivated) 
+	if (keysNotActivated)
 		addKeysListeners();
 }
 
@@ -232,11 +239,11 @@ int ofxGuiPresetSelector::getPresetIndex(string guiName)const
 {
 	int guiIndex = getGuiIndex(guiName);
 
-	if (guiIndex > 0 && guiIndex < (int)grids.size()) 
+	if (guiIndex > 0 && guiIndex < (int)grids.size())
 	{
 		return lastIndices[guiIndex];
 	}
-	else 
+	else
 	{
 		return -1;
 	}
@@ -251,21 +258,21 @@ void ofxGuiPresetSelector::setModeKey(int key)
 //----------------------------------------------------------------
 void ofxGuiPresetSelector::keyPressed(ofKeyEventArgs& eventArgs)
 {
-	if (bKeys && ENABLE_shortcuts) 
+	if (bKeys && ENABLE_shortcuts)
 	{
 		const int & key = eventArgs.key;
 
-		if (key == modeKey) 
+		if (key == modeKey)
 		{
 			bKeySave = true;
 			return;
 		}
 
-		for (size_t i = 0; i < keys.size(); ++i) 
+		for (size_t i = 0; i < keys.size(); ++i)
 		{
 			for (size_t k = 0; k < keys[i].size(); ++k)
 			{
-				if (key == keys[i][k]) 
+				if (key == keys[i][k])
 				{
 					if (bKeySave)
 					{
@@ -492,80 +499,86 @@ void ofxGuiPresetSelector::toggleKeysControl(bool active)
 //PRESET GUI MANAGER
 
 //------------------------------------------------
-void ofxGuiPresetSelector::Changed_Gui(ofAbstractParameter &e)
+void ofxGuiPresetSelector::Changed_Params(ofAbstractParameter &e)
 {
-	string name = e.getName();
-
-	ofLogNotice("ofxGuiPresetSelector") << "Changed_Gui '" << name << "': " << e;
-
-	if (name == "SAVE" && (bSave)) {
-		ofLogNotice("ofxGuiPresetSelector") << "SAVE: " << e;
-		doSave(PRESET_selected - 1);
-	}
-
-	else if (name == "CLONE >" && (bCloneToRight))
+	if (!DISABLE_CALLBACKS)
 	{
-		ofLogNotice("ofxGuiPresetSelector") << "CLONE >: " << e;
-		doCloneRight(PRESET_selected - 1);
-	}
+		string name = e.getName();
 
-	else if (name == "PRESETS" && (PRESET_selected != PRESET_selected_PRE))
-	{
-		ofLogNotice("ofxGuiPresetSelector") << "Changed PRESET_selected: " << e;
+		ofLogNotice("ofxGuiPresetSelector") << "Changed_Params '" << name << "': " << e;
 
-		//load
-		if (bDelayedLoading)//TODO: not implemented
-		{
-			ofLogNotice("ofxGuiPresetSelector") << "bDelayedLoading: " << bDelayedLoading;
-
-			//byKey
-			//newIndices[i] = k;
-			//ofLogNotice("ofxGuiPresetSelector") << "newIndices[i] = k;" <<  k << ", " << i;
-
-			//byMousePressed
-			//ofLogNotice("ofxGuiPresetSelector") << "newIndices[yIndex] = xIndex:" <<  yIndex << " = " << xIndex;
+		if (name == "SAVE" && (bSave)) {
+			ofLogNotice("ofxGuiPresetSelector") << "SAVE: " << e;
+			doSave(PRESET_selected - 1);
 		}
 
-		else
+		else if (name == "CLONE >" && (bCloneToRight))
 		{
-			//byKey
-//           load( k, i );
-//           ofLogNotice("ofxGuiPresetSelector") << "load( k, i ):" <<  k << ", " << i;
+			ofLogNotice("ofxGuiPresetSelector") << "CLONE >: " << e;
+			doCloneRight(PRESET_selected - 1);
+		}
 
-			//byMousePressed
-//           load( xIndex, yIndex);
-//           ofLogNotice("ofxGuiPresetSelector") << "load( xIndex, yIndex):" <<  xIndex << ", " << yIndex;
+		else if (name == "PRESETS" && (PRESET_selected != PRESET_selected_PRE))
+		{
+			ofLogNotice("ofxGuiPresetSelector") << "Changed PRESET_selected: " << e;
 
-			//-
-
-////           if (bAutoSave)
-////           {
-//               DONE_save = true;//get sequencer state before saving in preset manager
-//               save( lastIndices[PRESET_selected_PRE], 0 );//save on back from ofxSEQlistener
-////           }
-
-			//-
-
-			PRESET_selected_PRE = PRESET_selected;
-			int xIndex = PRESET_selected - 1;
-			int yIndex = 0;
-			//this should handle when using multiple kits together
-			//yIndex = ?
-
-			//-
-
-			if (bAutoLoad)
+			//load
+			if (bDelayedLoading)//TODO: not implemented
 			{
-				load(xIndex, yIndex);
-				ofLogNotice("ofxGuiPresetSelector") << "load( xIndex, yIndex): " << xIndex << ", " << yIndex;
+				ofLogNotice("ofxGuiPresetSelector") << "bDelayedLoading: " << bDelayedLoading;
 
-				DONE_load = true;//TODO: to refresh in SEQ sequencer from grid..
+				//byKey
+				//newIndices[i] = k;
+				//ofLogNotice("ofxGuiPresetSelector") << "newIndices[i] = k;" <<  k << ", " << i;
+
+				//byMousePressed
+				//ofLogNotice("ofxGuiPresetSelector") << "newIndices[yIndex] = xIndex:" <<  yIndex << " = " << xIndex;
 			}
+
 			else
 			{
-				lastIndices[yIndex] = xIndex;//this is to move clicker selector
-				ofLogNotice("ofxGuiPresetSelector") << "lastIndices[yIndex]: " << xIndex;
-				ofLogNotice("ofxGuiPresetSelector") << "bAutoLoad: " << bAutoLoad;
+				//byKey
+	//           load( k, i );
+	//           ofLogNotice("ofxGuiPresetSelector") << "load( k, i ):" <<  k << ", " << i;
+
+				//byMousePressed
+	//           load( xIndex, yIndex);
+	//           ofLogNotice("ofxGuiPresetSelector") << "load( xIndex, yIndex):" <<  xIndex << ", " << yIndex;
+
+				//-
+
+				if (bAutoSave)
+				{
+					ofLogNotice("ofxGuiPresetSelector") << "AUTO SAVE: " << e;
+					doSave(PRESET_selected_PRE - 1);
+
+					//DONE_save = true;//get sequencer state before saving in preset manager
+					//save(lastIndices[PRESET_selected_PRE], 0);//save on back from ofxSEQlistener
+				}
+
+				//-
+
+				PRESET_selected_PRE = PRESET_selected;
+				int xIndex = PRESET_selected - 1;
+				int yIndex = 0;
+				//this should handle when using multiple kits together
+				//yIndex = ?
+
+				//-
+
+				if (bAutoLoad)
+				{
+					load(xIndex, yIndex);
+					ofLogNotice("ofxGuiPresetSelector") << "load( xIndex, yIndex): " << xIndex << ", " << yIndex;
+
+					DONE_load = true;//TODO: to refresh in SEQ sequencer from grid..
+				}
+				else
+				{
+					lastIndices[yIndex] = xIndex;//this is to move clicker selector
+					ofLogNotice("ofxGuiPresetSelector") << "lastIndices[yIndex]: " << xIndex;
+					ofLogNotice("ofxGuiPresetSelector") << "bAutoLoad: " << bAutoLoad;
+				}
 			}
 		}
 	}
