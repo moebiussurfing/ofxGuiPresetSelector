@@ -39,7 +39,7 @@ ofxGuiPresetSelector::ofxGuiPresetSelector()
 	//-
 
 	myTTF = path_Global + "/fonts/telegrama_render.otf";
-	sizeTTF = 10;
+	sizeTTF = 8;
 	myFont.load(myTTF, sizeTTF, true, true);
 
 	//-
@@ -317,7 +317,7 @@ void ofxGuiPresetSelector::addKeysListeners()
 }
 
 //------------------------------------------------
-void ofxGuiPresetSelector::setPosition_CLICKER(int x, int y, int cellSize)
+void ofxGuiPresetSelector::setPosition_ClickerPanel(int x, int y, int cellSize)
 {
 	this->x = x;
 	this->y = y;
@@ -327,7 +327,7 @@ void ofxGuiPresetSelector::setPosition_CLICKER(int x, int y, int cellSize)
 //------------------------------------------------
 void ofxGuiPresetSelector::draw(int x, int y, int cellSize)
 {
-	setPosition_CLICKER(x, y, cellSize);
+	setPosition_ClickerPanel(x, y, cellSize);
 	draw();
 }
 
@@ -344,6 +344,8 @@ void ofxGuiPresetSelector::draw()
 
 		ofPushMatrix();
 		ofPushStyle();
+
+		ofSetLineWidth(1.0f);
 		ofSetColor(ofColor::white);
 		ofNoFill();
 		ofTranslate(x, y);
@@ -372,11 +374,12 @@ void ofxGuiPresetSelector::draw()
 
 			//save button
 			ofDrawRectangle(cellSize * k, cellSize * i, cellSize, cellSize);
+
 			//label
 			if (!myFont.isLoaded())
 				ofDrawBitmapString("SAVE", cellSize*k + 10, cellSize*i + 18);
 			else
-				myFont.drawString("SAVE", cellSize * k + 4, cellSize * i + cellSize * 0.5f + 0.5 * sizeTTF);
+				myFont.drawString("SAVE", cellSize * k + sizeTTF - 2, cellSize * i + cellSize * 0.5f + 0.5 * sizeTTF);
 
 			k++;
 
@@ -387,6 +390,7 @@ void ofxGuiPresetSelector::draw()
 
 			//-
 		}
+
 		ofPopStyle();
 		ofPopMatrix();
 	}
@@ -404,8 +408,8 @@ void ofxGuiPresetSelector::mousePressed(int x, int y)
 	xIndex = (x > 0) ? xIndex : -1;
 	yIndex = (y > 0) ? yIndex : -1;
 
-	if (xIndex != -1 && yIndex != -1)
-		ofLogNotice("ofxGuiPresetSelector") << "mousePressed - xIndex, yIndex: " << xIndex << ", " << yIndex;
+	//if (xIndex != -1 && yIndex != -1)
+	//	ofLogNotice("ofxGuiPresetSelector") << "mousePressed - xIndex, yIndex: " << xIndex << ", " << yIndex;
 
 	//-
 
@@ -642,12 +646,12 @@ void ofxGuiPresetSelector::setup_Gui()
 	string name_Panel;
 	name_Panel = "SEQ PATTERNS";
 
-	group = gui.addGroup(name_Panel, confCont);
-	group->add<ofxGuiIntSlider>(PRESET_selected, confItem_Big);
-	group->add<ofxGuiButton>(bSave, confItem_toggle);
-	group->add<ofxGuiToggle>(bAutoLoad, confItem_toggle);
-	group->add<ofxGuiToggle>(bAutoSave, confItem_toggle);
-	group->add<ofxGuiButton>(bCloneToRight, confItem_toggle);
+	group = gui.addGroup(name_Panel);//, confCont);
+	group->add<ofxGuiIntSlider>(PRESET_selected);//, confItem_Big);
+	group->add<ofxGuiButton>(bSave);//, confItem_toggle);
+	group->add<ofxGuiToggle>(bAutoLoad);//, confItem_toggle);
+	group->add<ofxGuiToggle>(bAutoSave);//, confItem_toggle);
+	group->add<ofxGuiButton>(bCloneToRight);//, confItem_toggle);
 
 	//-
 
@@ -672,7 +676,7 @@ void ofxGuiPresetSelector::setVisible_Gui(bool visible)
 }
 
 //------------------------------------------------
-void ofxGuiPresetSelector::setVisible_ClickPanel(bool visible)
+void ofxGuiPresetSelector::setVisible_ClickerPanel(bool visible)
 {
 	SHOW_ClickPanel = visible;
 }

@@ -73,7 +73,7 @@ public:
 
     //set graphics position
     //cellsize is the size of each preset button
-    void setPosition_CLICKER( int x, int y, int cellSize );
+    void setPosition_ClickerPanel( int x, int y, int cellSize );
 
     //-
 
@@ -185,7 +185,7 @@ public:
 
     void set_GUI_position(int x, int y);
     void setVisible_Gui(bool visible);
-    void setVisible_ClickPanel(bool visible);
+    void setVisible_ClickerPanel(bool visible);
     void set_pathKit_Folder(string folder);
     string pathKitFolder = "myKit";//default kit folder to store patterns
 
