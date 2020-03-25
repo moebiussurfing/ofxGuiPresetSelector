@@ -1,60 +1,33 @@
 
-// ofxGuiPresetSelector.h
-// original addon by Nicola Pisanti, MIT License, 2016
+//ofxGuiPresetSelector.h
+//original addon by Nicola Pisanti, MIT License, 2016
 //
-// changes and customized by moebiussurfing:
+//changes and customized by moebiussurfing:
 //
-// LOG:
-// + switched from ofxGui to ofxGuiExtended
-// + switched preset management from ofxGuiPanel to ofParametersGroup
-// + added custom DATA class DataGrid
-// + integrated to ofxSEQ
-// + added control gui panel: slider selector, cloner, save
+//LOG:
+//+ switched from ofxGui to ofxGuiExtended
+//+ switched preset management from ofxGuiPanel to ofParametersGroup
+//+ added custom DATA class DataGrid
+//+ integrated to ofxSEQ
+//+ added control gui panel: slider selector, cloner, save
 //
-// TODO:
-// + could make tween when changing params
-// + save full kit of presets to avoid blocking main thread when switching presets
-// because json loadings
-// + use pointers between classes (ofxSequencer) to share the data struct
-// from DataGrid class,
-// ofxSEQ, or wherever is used ... almost done. but maybe should add listeners
-// re players when preset are loaded/saved..
+//TODO:
+//+ could make tween when changing params
+//+ save full kit of presets to avoid blocking main thread when switching presets
+//because json loadings
+//+ use pointers between classes (ofxSequencer) to share the data struct
+//from DataGrid class,
+//ofxSEQ, or wherever is used ... almost done. but maybe should add listeners
+//re players when preset are loaded/saved..
 
 #pragma once
 
 #include "ofMain.h"
 #include "ofxGuiExtended2.h"
 
-//-------------------------------
-
-// DEFINE MODE:
-
-// un-comment one of the two modes only! can't use both together:
-
-// A. ofParameterGroup
-//#define USE_OF_PARAMETER_GROUP
-
-//-
-
-// B. custom DataGrid class
-<<<<<<< HEAD
-//to use with ofxSEQ
-//#define USE_CUSTOM_DATAGRID
-=======
-#define USE_CUSTOM_DATAGRID
->>>>>>> 26a196037088b7f3ba0b48098beca2c8461d6643
-
-//-------------------------------
-
-#ifdef USE_CUSTOM_DATAGRID
 #include "DataGrid.h"
-#endif
-
-//-
 
 #define NUM_OF_PRESETS 8
-
-//-
 
 class ofxGuiPresetSelector {
 
@@ -63,82 +36,67 @@ public:
     ofxGuiPresetSelector();
     ~ofxGuiPresetSelector();
 
-    //-
+	//-
 
-    // A. ofParameterGroup
-
-#ifdef USE_OF_PARAMETER_GROUP
-    // add a gui for preset saving
-    void add( ofParameterGroup params, int numPresets=8 );
-    // adds and activate key switch
-    void add( ofParameterGroup params, initializer_list<int> keysList );
-#endif
+	string path_Global = "ofxSEQ";
+	string pathControl = "presetsControl.xml";
 
     //-
 
-    // B. custom DataGrid class
-
-#ifdef USE_CUSTOM_DATAGRID
-    //    // add a gui for preset saving
-//    void add( DataGrid grid, int numPresets=NUM_OF_PRESETS );
-//    // adds and activate key switch
-//    void add( DataGrid grid, initializer_list<int> keysList );
-
-    // add a gui for preset saving
+    //add a gui for preset saving
     void add( DataGrid & grid, int numPresets=8 );
-    // adds and activate key switch
+    //adds and activate key switch
     void add( DataGrid & grid, initializer_list<int> keysList );
-#endif
 
     //-
 
-    // save to a preset
+    //save to a preset
     void save( int presetIndex, int guiIndex=0 );
     void save( int presetIndex, string guiName );
 
-    // loads an already saved preset
+    //loads an already saved preset
     void load( int presetIndex, int guiIndex=0 );
     void load( int presetIndex, string guiName );
 
-    // get the last loaded preset
+    //get the last loaded preset
     int getPresetIndex( int guiIndex ) const;
     int getPresetIndex( string guiName ) const;
 
-    // set the key you have to hold for saving, default is OF_KEY_CONTROL
+    //set the key you have to hold for saving, default is OF_KEY_CONTROL
     void setModeKey( int key );
 
     //-
 
-    // API
+    //API
 
-    // set graphics position
-    // cellsize is the size of each preset button
+    //set graphics position
+    //cellsize is the size of each preset button
     void setPosition_CLICKER( int x, int y, int cellSize );
 
     //-
 
-    // draw some info, when the gui is drawn you can also click on the button to change / save presets
+    //draw some info, when the gui is drawn you can also click on the button to change / save presets
     void draw();
     void draw( int x, int y, int cellSize );
 
     //-
 
-    // DELAYED LOADING
+    //DELAYED LOADING
 
-    // if you set it to true the preset will be loaded only when you call (false is the default behavior)
+    //if you set it to true the preset will be loaded only when you call (false is the default behavior)
     void setDelayedLoading( bool active );
-    // make preset change effective when setDelayedLoading() is set to true
+    //make preset change effective when setDelayedLoading() is set to true
     void delayedUpdate();
-    // if setDelayedLoading() is set to true stages a load action
+    //if setDelayedLoading() is set to true stages a load action
     void delayedLoad( int presetIndex, int guiIndex=0 );
     void delayedLoad( int presetIndex, string guiName );
 
-    // switch on or off the control with the keys
+    //switch on or off the control with the keys
     void toggleKeysControl( bool active );
 
     //-
 
-    // TODO: easy listener temp solution for ofxSEQ integration
+    //TODO: easy listener temp solution for ofxSEQ integration
     ofParameter<bool> DONE_load;
     ofParameter<bool> DONE_save;
 
@@ -151,19 +109,10 @@ private:
 
     //-
 
-    // DATA
+    //DATA
 
-    // A. ofParameterGroup
-#ifdef USE_OF_PARAMETER_GROUP
-    vector<ofParameterGroup> groups;
-#endif
-
-    //-
-
-    // B. custom DataGrid class
-#ifdef USE_CUSTOM_DATAGRID
+    //B. custom DataGrid class
     vector<DataGrid*> grids;
-#endif
 
     //-
 
@@ -193,14 +142,14 @@ private:
     //-
 
     ofTrueTypeFont	myFont;
-    string myTTF;// gui font for all gui theme
+    string myTTF;//gui font for all gui theme
     int sizeTTF;
 
     //-
 
 public:
 
-    // GUI
+    //GUI
 
     ofJson confCont, confItem, confItem_toggle, confItem_Big, confItem_Fat;
     void setup_Gui();
@@ -208,7 +157,7 @@ public:
 
     //-
 
-    // control panel to selec presets, clone, save..
+    //control panel to selec presets, clone, save..
     ofxGui gui;
     ofParameterGroup params;
     ofxGuiGroup2 * group;
@@ -216,9 +165,9 @@ public:
     ofParameter<int> PRESET_selected;
     int PRESET_selected_PRE = -1;
     ofParameter<bool> bSave;
-    ofParameter<bool> autoSave;
-    ofParameter<bool> autoLoad;
-    ofParameter<bool> cloneRight;
+    ofParameter<bool> bAutoSave;
+    ofParameter<bool> bAutoLoad;
+    ofParameter<bool> bCloneToRight;
     void doCloneRight(int patternNum);
     void doSave(int patternNum);
     int num_presets;
@@ -227,11 +176,10 @@ public:
 
     void load_ControlSettings();
     void save_ControlSettings();
-    string pathControl = "assets/settings/PRESET_MANAGER_control.xml";
 
     //-
 
-    // API
+    //API
 
     void set_GUI_position(int x, int y);
     void setVisible_Gui(bool visible);
